@@ -4,11 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
+import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BasePresenter;
+import com.yskj.daishuguan.dialog.NoFinshDialog;
+import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.view.SignatureDialog;
 
 import butterknife.BindView;
@@ -27,8 +32,12 @@ public class AuthorizationActivity extends BaseActivity {
     @BindView(R.id.iv_signature)
     ImageView mIvSignature;
 
+  @BindView(R.id.tv_card)
+  TextView mCard;
+
 
     private SignatureDialog signatureDialog;
+    private NoFinshDialog finshDialog;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -48,6 +57,9 @@ public class AuthorizationActivity extends BaseActivity {
     @Override
     protected void initView() {
 
+//        mCard.setText(RxSPTool.getString(this, Constant.BEGINNING_RATE).substring(card.length()-4));
+
+        finshDialog = new NoFinshDialog();
         signatureDialog = new SignatureDialog();
 
         signatureDialog.setOnTypeClickLitener(new SignatureDialog.OnSignatureClickLitener() {
@@ -57,6 +69,14 @@ public class AuthorizationActivity extends BaseActivity {
                 signatureDialog.dismiss();
             }
         });
+
+        finshDialog.setOnTypeClickLitener(new NoFinshDialog.OnNoFinshClickLitener() {
+            @Override
+            public void onNoFinshClick() {
+
+                finish();
+            }
+        });
     }
 
     @Override
@@ -64,6 +84,10 @@ public class AuthorizationActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onLeftClick(View v) {
+        finshDialog.show(getSupportFragmentManager(),"set");
+    }
 
     @OnClick({R.id.rl_card, R.id.rl_agreement, R.id.iv_signature, R.id.rl_more_agreement, R.id.rl_signature, R.id.tv_sure})
     public void onClick(View view) {

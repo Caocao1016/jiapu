@@ -46,7 +46,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:src="@mipmap/ic_cer_next" />
+            android:src="@mipmap/ic_wither_next" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

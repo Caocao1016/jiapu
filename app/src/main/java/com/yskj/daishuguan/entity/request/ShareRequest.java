@@ -13,6 +13,7 @@ import com.yskj.daishuguan.base.MapParamsRequest;
 public class ShareRequest extends MapParamsRequest {
 
     public String userid;
+    public String token;
     public int page;
     public int limit;
     public String merchantCode;
@@ -21,6 +22,7 @@ public class ShareRequest extends MapParamsRequest {
     @Override
     protected void putParams() {
         params.put("userid", userid);
+        params.put("token", token);
         params.put("page", page);
         params.put("limit", limit);
         params.put("merchantCode", merchantCode);

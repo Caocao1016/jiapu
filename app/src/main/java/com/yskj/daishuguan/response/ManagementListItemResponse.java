@@ -49,6 +49,15 @@ public class ManagementListItemResponse {
 
     private String page;
     private String limit;
+    private boolean isSelect ;
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 
     public BigDecimal getAmount() {
         return amount;

@@ -22,6 +22,7 @@ import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
+import com.yskj.daishuguan.dialog.NoFinshDialog;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.modle.CertificationDataView;
 import com.yskj.daishuguan.presenter.CertificationPresenter;
@@ -81,6 +82,8 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     ImageView mIvCardRight;
     @BindView(R.id.tv_right_card)
     TextView mTvCardRight;
+    private NoFinshDialog finshDialog;
+
     private boolean REAL_AUTh = false;
     private boolean IDCARD_AUTH = false;
     private boolean FACE_AUTH = false;
@@ -90,6 +93,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     // 活体配置 默认值
     public String publicFilePath;
     SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+    private String what;
 
     @Override
     protected int getLayoutId() {
@@ -107,6 +111,18 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         mTvMoney.setText(maxMoney);
         mTvDayRate.setText("1千元用一天，每日仅需" + StringUtil.getActualNUmber(1000, RxSPTool.getString(this, Constant.DAY_RATE)) + "元");
         createFileDir();
+        mPresenter.operatorChannel(new BannerRequest());
+
+        finshDialog = new NoFinshDialog();
+
+
+        finshDialog.setOnTypeClickLitener(new NoFinshDialog.OnNoFinshClickLitener() {
+            @Override
+            public void onNoFinshClick() {
+
+                finish();
+            }
+        });
     }
 
     @Override
@@ -119,7 +135,10 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         mPresenter.authiteminfo(bannerRequest);
 
     }
-
+    @Override
+    public void onLeftClick(View v) {
+        finshDialog.show(getSupportFragmentManager(),"set");
+    }
     @Override
     protected CertificationPresenter createPresenter() {
         return new CertificationPresenter(this);
@@ -179,7 +198,13 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 //                    if (REAL_AUTh) {
 //
 //                        if (CONTACT_AUTH) {
-                            startActivity(CerNumberActivity.class);
+
+                if (what.equals("original")){
+                    startActivity(CerNumberActivity.class);
+                }else {
+
+                }
+
 //                        } else {
 //                            UIUtils.showToast("请先去完成联系信息认证");
 //                        }
@@ -454,6 +479,12 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
             }
 
         }
+    }
+
+    @Override
+    public void onSuccess(BaseResponse response) {
+
+        what = response.getData().toString();
     }
 
     @Override

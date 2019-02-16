@@ -87,6 +87,7 @@ public class MyShareListActivity extends BaseActivity<SharePresenter> implements
     protected void initData() {
         ShareRequest request = new ShareRequest();
         request.userid = RxSPTool.getString(this, Constant.USER_ID);
+        request.token = RxSPTool.getString(this, Constant.TOKEN);
         request.merchantCode = Constant.Merchant_Code;
         request.page = mPageNo;
         request.limit = 10;

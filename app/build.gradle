@@ -10,7 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a", "x86","x86 _64"
+        }
     }
     signingConfigs {
         release {
@@ -39,7 +41,9 @@ android {
     }
     productFlavors {
     }
-
+    repositories {
+        flatDir { dirs 'libs' }
+    }
 }
 
 dependencies {
@@ -48,6 +52,7 @@ dependencies {
 
     // 示例：添加一个 aar 包
 
+    api(name: 'moxie-client-2.3.5', ext: 'aar')
     //api(name: 'password_dialog', ext: 'aar')
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
@@ -116,7 +121,7 @@ dependencies {
 
     //    implementation "com.github.vondear.RxTool:RxFeature:v2.2.7"
     implementation 'com.github.yuzhiqiang1993:zxing:2.1.1'
-    compile 'com.luozm.captcha:captcha:1.1.2'
+    implementation 'com.luozm.captcha:captcha:1.1.2'
     implementation project(':common-idcard')
     implementation project(':common-motion')
     implementation 'me.jessyan:autosize:1.1.2'

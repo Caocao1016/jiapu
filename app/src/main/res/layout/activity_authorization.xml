@@ -160,14 +160,13 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tv_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="13dp"
                     android:layout_marginRight="13dp"
-                    android:drawablePadding="5dp"
-                    android:drawableRight="@mipmap/ic_signature_next"
                     android:text="7321的银行卡"
                     android:textColor="@color/cl_F34F03"
                     android:textSize="15sp" />

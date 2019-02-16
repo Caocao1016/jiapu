@@ -107,6 +107,12 @@ public interface ApiService {
     @POST("auth/myauth/authiteminfo")
     Observable<BaseResponse<CertificationResponse>> authiteminfo(@QueryMap Map<String, Object> params);
 
+    /**
+     * 运营商判断呢
+     */
+    @POST("promotion/operatorChannel")
+    Observable<BaseResponse> operatorChannel(@QueryMap Map<String, Object> params);
+
 
     /**
      * 身份证识别确认
@@ -184,6 +190,13 @@ public interface ApiService {
     @POST("credit/creditList")
     Observable<BaseResponse<BillResponse>> creditList(@QueryMap Map<String, Object> params);
 
+
+    /**
+     * 购买会员费
+     */
+    @POST("vyp/initiativeRepayment/member")
+    Observable<BaseResponse> member(@QueryMap Map<String, Object> params);
+
 //------------------------------------------------
 
     /**
@@ -198,8 +211,6 @@ public interface ApiService {
      */
     @POST("app/appVersion")
     Observable<BaseResponse<AppVersionResponse>> appVersion(@QueryMap Map<String, Object> params);
-
-
 
 
     /**

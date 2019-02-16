@@ -2,6 +2,7 @@ package com.yskj.daishuguan.base;
 
 import android.os.Build;
 
+import com.moxie.client.manager.MoxieSDK;
 import com.socks.library.KLog;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
@@ -30,7 +31,7 @@ public class MyApp extends BaseApp  {
         UMConfigure.setLogEnabled(true);
         UMConfigure.init(this,"5847ad2a07fe655886000b3d"
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
-
+        MoxieSDK.init(this);
     }
     //获取单例
     public static MyApp getInstance(){

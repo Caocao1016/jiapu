@@ -50,5 +50,28 @@ public class CertificationPresenter extends BasePresenter<CertificationDataView>
         });
     }
 
+    public void operatorChannel(BannerRequest request) {
+
+
+        addSubscription(mApiService.operatorChannel(BaseParams.getParams(request.params())), new SubscriberCallBack<BaseResponse>() {
+
+            @Override
+            protected void onSuccess(BaseResponse response) {
+
+                mView.onSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
+        });
+    }
+
 
 }

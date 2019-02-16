@@ -17,7 +17,7 @@ public interface CertificationDataView {
 
 
     void onAuthiteminfoSuccess(CertificationResponse response);
-
+    void onSuccess(BaseResponse response);
     void onError();
     void onFailure(BaseResponse response);
 }
