@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="cl_FB2F51">#FB2F51</color>
+
+    <color name="cl_FFB700">#FFB700</color>
+    <color name="theme_color">#FFB700</color>
+    <color name="cl_F34F03">#F34F03</color>
+    <color name="cl_B3B3B3">#B3B3B3</color>
+    <color name="cl_EA1616">#EA1616</color>
+    <color name="cl_F14407">#F14407</color>
+    <color name="cl_E03D1C">#E03D1C</color>
+    <color name="cl_404040">#404040</color>
+    <color name="cl_D1D1D1">#D1D1D1</color>
+
+    <color name="gray_font123">#7b7b7b</color>
+    <color name="cl_999999">#999999</color>
+    <color name="cl_9FA1A4">#9FA1A4</color>
+    <color name="cl_ff8200">#ff8200</color>
+    <color name="cl_f333333">#333333</color>
+    <color name="cl_666666">#666666</color>
+    <color name="cl_929191">#929191</color>
+    <color name="cl_737373">#737373</color>
+    <color name="cl_5881af">#5881af</color>
+    <color name="cl_4D4D4D">#4D4D4D</color>
+    <color name="cl_080808">#080808</color>
+    <color name="cloudwalk_bg">#151e32</color>
+    <color name="red_alpha_30">#30d8282a</color>
+
+
+</resources>

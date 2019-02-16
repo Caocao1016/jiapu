@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_face"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/tb_face_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:title="@string/face_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white10" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:src="@mipmap/ic_huoti_step" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="233dp"
+        android:layout_marginTop="47dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/img_toFace"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_rlsb" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:gravity="center"
+        android:text="识别前请确认光线良好,"
+        android:textColor="@color/cl_f333333"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="如果光线太暗或太亮都会影响识别结果"
+        android:textColor="@color/cl_f333333"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_face_toliving"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/shape_ocr_bg"
+            android:text="开始检测"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/tb_login_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_100"
+        app:color_right="#6B6B6B"
+        app:size_title="19sp"
+        app:title="请您登陆"
+        app:title_right="注册" />
+
+    <ImageView
+        android:id="@+id/iv_login_head"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_below="@+id/tb_login_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:src="@mipmap/ic_logo" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_login_head"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:text="贷属罐恭候您多时了"
+        android:textColor="#E2421A"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="22dp"
+        >
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_login_phone" />
+
+        <com.hjq.baselibrary.widget.ClearEditText
+            android:id="@+id/et_login_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入您的手机号"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:textColor="@color/cl_f333333"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_alpha"
+        style="@style/HorizontalLineStyle"
+        android:layout_below="@+id/ll_login"
+        android:layout_marginLeft="68dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="12dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_alpha"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="22dp"
+        >
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_login_number" />
+
+        <com.hjq.baselibrary.widget.ClearEditText
+            android:id="@+id/et_login_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入验证码"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:textColor="@color/cl_f333333"
+            android:textSize="15sp" />
+
+        <com.hjq.baselibrary.widget.CountdownView
+            android:id="@+id/cv_register_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_20"
+            android:text="获取验证码"
+            android:textColor="@color/cl_ff8200" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_password"
+        style="@style/HorizontalLineStyle"
+        android:layout_below="@+id/ll_number"
+        android:layout_marginLeft="68dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="12dp" />
+
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/view_password"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="60dp"
+        android:background="@color/cl_ff8200"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/login_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="26dp"
+        android:text="登录即代表您已同意 用户服务协议"
+        android:textColor="@color/cl_404040"
+        android:textSize="10sp"
+        />
+</RelativeLayout>

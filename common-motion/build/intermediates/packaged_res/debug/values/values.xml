@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="common_light_gray">#c8c8c8</color>
+    <declare-styleable name="CircleTimeView"><attr format="integer" name="circle_width"/><attr format="string" name="circle_color"/><attr format="integer" name="max_time"/><attr format="integer" name="text_size"/><attr format="string" name="text_color"/><attr format="string" name="redus_color"/><attr format="integer" name="text_redus"/></declare-styleable>
+    <dimen name="common_text_size_normal">20sp</dimen>
+    <integer name="common_animation_duration">500</integer>
+    <string name="common_blink">请眨眼</string>
+    <string name="common_covered_brow">眉毛</string>
+    <string name="common_covered_eye">眼部</string>
+    <string name="common_covered_mouth">嘴部</string>
+    <string name="common_covered_nose">鼻部</string>
+    <string name="common_detecting">"准备开始检测"</string>
+    <string name="common_face_covered">请正对手机，去除"%s"遮挡</string>
+    <string name="common_face_too_close">"请移动手机远离面部"</string>
+    <string name="common_face_too_far">"请移动手机靠近面部"</string>
+    <string name="common_mouth">请张嘴，随后合拢</string>
+    <string name="common_nod">请上下点头</string>
+    <string name="common_tracking_missed">"请将人脸移入框内"</string>
+    <string name="common_txt_back">"返回"</string>
+    <string name="common_yaw">请缓慢摇头</string>
+    <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+</resources>

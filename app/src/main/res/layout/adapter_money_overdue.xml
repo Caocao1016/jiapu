@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_coucop"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:layout_marginBottom="6dp"
+    android:background="@mipmap/ic_coupon_finsh"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textSize="50sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="19dp"
+        android:text="当期会员业务可使用"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:textSize="9sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="19dp"
+        android:text="￥"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_all"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/tv_number">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/c"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/view_one"
+            android:layout_width="180dp"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginTop="6dp"
+            android:background="@color/c" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@+id/view_one"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_coucop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_above="@+id/view"
+                android:layout_weight="1"
+                android:text="1、限手机号为：XXXXXXXXXXX的账号"
+                android:textColor="@color/c"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_above="@+id/view"
+                android:layout_weight="1"
+                android:text="2、可用于抵扣会员费用，红包可叠加"
+                android:textColor="@color/c"
+                android:textSize="10sp" />
+
+            <TextView
+            android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_above="@+id/view"
+                android:layout_weight="1"
+                android:textColor="@color/c"
+                android:textSize="10sp" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="15dp">
+
+        <ImageView
+            android:id="@+id/iv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_finsh_coupon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:text="已使用"
+            android:textColor="@color/c"
+            android:textSize="8sp" />
+    </RelativeLayout>
+</RelativeLayout>

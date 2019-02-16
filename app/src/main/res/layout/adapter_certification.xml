@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_certification_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/cl_f333333"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_certification_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/cl_f333333"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_certification_state"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/cl_f333333"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_certification_operation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/certification_operation"
+        android:visibility="gone"
+        android:textColor="@color/cl_ff8200"
+        android:textSize="13sp" />
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/tb_card_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:size_title="19sp"
+        app:title="" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="134dp"
+        android:background="@mipmap/ic_finsh_bg"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/ic_finsh_left"
+            android:drawablePadding="20dp"
+            android:text="申请已提交"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="23dp"
+        android:src="@mipmap/ic_finsh_tu" />
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="38dp"
+        android:lineSpacingExtra="4dp"
+        android:text="您的借款申请（申请编号：CA201708250001）已提交在线审核，预计30分钟完成（ 如遇节假日则安排至下一个负工作日审核"
+        android:textColor="@color/cl_B3B3B3"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="4dp"
+        android:text="您可以查看我的申请"
+        android:textColor="@color/cl_4D4D4D"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="18dp"
+        android:background="@mipmap/ic_cer_button"
+        android:gravity="center"
+        android:text="立即查看"
+        android:textColor="@color/white"
+        android:textSize="19sp" />
+</LinearLayout>
