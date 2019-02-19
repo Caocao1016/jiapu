@@ -15,9 +15,11 @@ import com.yskj.daishuguan.response.ManagementResponse;
 
 public interface MembersView {
 
-    void onSuccess(BaseResponse response);
+    void onSuccess(String response);
     void onNumberSuccess(ManagementResponse response);
     void onFailure(BaseResponse response);
+    void onSmsSuccess(BaseResponse response);
+    void onSendSuccess(BaseResponse response);
 
     void onError();
 }

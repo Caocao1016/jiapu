@@ -53,10 +53,10 @@ public class CertificationPresenter extends BasePresenter<CertificationDataView>
     public void operatorChannel(BannerRequest request) {
 
 
-        addSubscription(mApiService.operatorChannel(BaseParams.getParams(request.params())), new SubscriberCallBack<BaseResponse>() {
+        addSubscription(mApiService.operatorChannel(BaseParams.getParams(request.params())), new SubscriberCallBack<String>() {
 
             @Override
-            protected void onSuccess(BaseResponse response) {
+            protected void onSuccess(String response) {
 
                 mView.onSuccess(response);
             }

@@ -14,14 +14,16 @@ import com.yskj.daishuguan.util.StringUtil;
 public class MembersRequest extends MapParamsRequest {
 
     public String userId;
-    public String menberPrice;  // 借款金额
+    public int menberPrice;  // 借款金额
     public String menberRate;   //费率
+    public String token;   //费率
     public String couponIds;    //优惠劵  使用逗号拼接
 
     @Override
     protected void putParams() {
         params.put("userid", userId);
         params.put("menberRate", menberRate);
+        params.put("token", token);
         params.put("menberPrice", menberPrice);
         if (!StringUtil.isEmpty(couponIds)){
             params.put("couponIds", couponIds);

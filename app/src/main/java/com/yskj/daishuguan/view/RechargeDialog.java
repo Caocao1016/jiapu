@@ -32,12 +32,14 @@ public class RechargeDialog extends PopupWindow {
     private Context mContext;
     private Activity mActivity;
     private View mView;
+    private String mMoneyw;
 
-    public RechargeDialog(Context context, Activity activity, View view) {
+    public RechargeDialog(Context context, Activity activity, View view,String money) {
         super(context);
         mContext = context;
         mActivity = activity;
         mView = view;
+        mMoneyw = money;
     }
 
     public void showConnectPopup() {
@@ -58,14 +60,16 @@ public class RechargeDialog extends PopupWindow {
 
         ImageView mFInsh = dialogView.findViewById(R.id.iv_finsh);
         TextView mNUmber = dialogView.findViewById(R.id.tv_new_number);
-        mNUmber.setText(RxSPTool.getString(mActivity,"moneyNumber")+"");
+        mNUmber.setText(mMoneyw);
         mFInsh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UpdatePopup.dismiss();
             }
         });
-      final   PayPsdInputView passwordInputView = (PayPsdInputView) dialogView.findViewById(R.id.password);
+
+
+      final  PayPsdInputView passwordInputView = (PayPsdInputView) dialogView.findViewById(R.id.password);
 
 
         passwordInputView.setComparePassword( new PayPsdInputView.onPasswordListener() {
@@ -88,7 +92,7 @@ public class RechargeDialog extends PopupWindow {
                 // TODO: 2018/1/3 输完逻辑
                 passwordInputView.setComparePassword(inputPsd);
                 UpdatePopup.dismiss();
-                EventBus.getDefault().post(new FinshEvenbus());
+                EventBus.getDefault().post(new FinshEvenbus(inputPsd));
             }
         });
     }

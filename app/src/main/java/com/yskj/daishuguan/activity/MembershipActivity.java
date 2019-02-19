@@ -1,28 +1,31 @@
 package com.yskj.daishuguan.activity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.moxie.client.widget.wave.UiUtils;
 import com.vondear.rxtool.RxSPTool;
+import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BasePresenter;
+import com.yskj.daishuguan.base.BaseResponse;
+import com.yskj.daishuguan.entity.MemberSmsRequest;
 import com.yskj.daishuguan.entity.evbus.FinshEvenbus;
+import com.yskj.daishuguan.entity.request.BannerRequest;
+import com.yskj.daishuguan.modle.MembersView;
+import com.yskj.daishuguan.presenter.MembersPresenter;
+import com.yskj.daishuguan.response.ManagementResponse;
 import com.yskj.daishuguan.util.ProgressDialogUtils;
+import com.yskj.daishuguan.util.StringUtil;
+import com.yskj.daishuguan.util.UIUtils;
 import com.yskj.daishuguan.view.RechargeDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -34,16 +37,16 @@ import butterknife.BindView;
  * @Description:
  */
 
-public class MembershipActivity extends BaseActivity {
+public class MembershipActivity extends BaseActivity<MembersPresenter> implements MembersView {
 
     @BindView(R.id.tv_number)
-    TextView mNumber ;
+    TextView mNumber;
     @BindView(R.id.tv_new_number)
-    TextView mNewNumber ;
+    TextView mNewNumber;
     @BindView(R.id.tv_cz)
-    TextView mCZ ;
+    TextView mCZ;
     @BindView(R.id.tv_finsh)
-    TextView mFinsh ;
+    TextView mFinsh;
 
     private ImmersionBar mImmersionBar;
     private ProgressDialogUtils mDialog;
@@ -62,19 +65,22 @@ public class MembershipActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mDialogUtils =new ProgressDialogUtils();
+
+        mDialogUtils = new ProgressDialogUtils();
         EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initData() {
-        mNumber.setText(RxSPTool.getString(MembershipActivity.this, "moneyNumber"));
-        mNewNumber.setText(RxSPTool.getString(MembershipActivity.this, "moneyNumber"));
+        mNumber.setText(StringUtil.getValue(getIntent().getStringExtra("money")));
+        mNewNumber.setText(StringUtil.getValue(getIntent().getStringExtra("money")));
 
         mCZ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RechargeDialog(getApplicationContext(), MembershipActivity.this,mCZ).showConnectPopup();
+
+                BannerRequest bannerRequest = new BannerRequest();
+                mPresenter.memberPayment(bannerRequest);
 
             }
         });
@@ -87,35 +93,76 @@ public class MembershipActivity extends BaseActivity {
     }
 
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void FinshEvenbus(FinshEvenbus event) {
-        mDialogUtils.showDialogYuan(MembershipActivity.this,"请求中。。。");
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                /**
-                 *要执行的操作
-                 */
-                mDialogUtils.dismissDialog(MembershipActivity.this);
-                startActivity(new Intent(MembershipActivity.this, MembershipFinshActivity.class));
-                finish();
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(task, 3000);//3秒后执行TimeTask的run方法
+
+        rxDialogLoading.show();
+        MemberSmsRequest memberSmsRequest = new MemberSmsRequest();
+        memberSmsRequest.paramCode = event.password;
+        memberSmsRequest.token = RxSPTool.getString(MembershipActivity.this, Constant.TOKEN);
+        memberSmsRequest.userid = RxSPTool.getString(MembershipActivity.this, Constant.USER_ID);
+        mPresenter.memberConfirmRepayment(memberSmsRequest);
+
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                /**
+//                 *要执行的操作
+//                 */
+//                mDialogUtils.dismissDialog(MembershipActivity.this);
+//                startActivity(new Intent(MembershipActivity.this, MembershipFinshActivity.class));
+//                finish();
+//            }
+//        };
+//        Timer timer = new Timer();
+//        timer.schedule(task, 3000);//3秒后执行TimeTask的run方法
 
     }
 
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected MembersPresenter createPresenter() {
+        return new MembersPresenter(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onSuccess(String response) {
+
+    }
+
+    @Override
+    public void onNumberSuccess(ManagementResponse response) {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
+        rxDialogLoading.dismiss();
+    }
+
+    @Override
+    public void onSmsSuccess(BaseResponse response) {
+        rxDialogLoading.dismiss();
+        startActivity(MembershipFinshActivity.class);
+        finish();
+
+    }
+
+    @Override
+    public void onSendSuccess(BaseResponse response) {
+        UIUtils.showToast("验证码发送成功");
+        new RechargeDialog(getApplicationContext(), MembershipActivity.this, mCZ, StringUtil.getValue(getIntent().getStringExtra("money"))).showConnectPopup();
+
+    }
+
+    @Override
+    public void onError() {
+        rxDialogLoading.dismiss();
     }
 }

@@ -5,10 +5,8 @@ import android.graphics.Color;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yskj.daishuguan.R;
-import com.yskj.daishuguan.bean.PhoneBean;
-import com.yskj.daishuguan.response.AuthorizeResponse;
+import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
-import com.yskj.daishuguan.util.StringUtil;
 
 import java.util.List;
 
@@ -20,16 +18,16 @@ import java.util.List;
  * @Description:
  */
 
-public class BillAdapter extends BaseQuickAdapter<BillResponse.ListBean, BaseViewHolder> {
+public class BillHuankuanAdapter extends BaseQuickAdapter<BillHuankuanResponse.ListBean, BaseViewHolder> {
 
 
 
-    public BillAdapter(List<BillResponse.ListBean> data) {
-        super( R.layout.adapter_bill,data);
+    public BillHuankuanAdapter(List<BillHuankuanResponse.ListBean> data) {
+        super( R.layout.adapter_bill_huan,data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BillResponse.ListBean item) {
+    protected void convert(BaseViewHolder helper, BillHuankuanResponse.ListBean item) {
 //            0  审核中  3   未通过
 
          if (item.getStatus() == 0){
@@ -41,9 +39,10 @@ public class BillAdapter extends BaseQuickAdapter<BillResponse.ListBean, BaseVie
          }
 
 
-        helper.setText(R.id.tv_money,item.getAuditCreditLimit()+"");
-        helper.setText(R.id.tv_start,item.getStatusString()+"");
-        helper.setText(R.id.tv_time,"申请时间   "+item.getCreateTime());
+//        helper.setText(R.id.tv_money,item.getAuditCreditLimit()+"");
+//        helper.setText(R.id.tv_start,item.getStatusString()+"");
+        helper.setText(R.id.tv_time,"放款时间   "+item.getFinishTime());
+        helper.setText(R.id.tv_interest,"申请时间   "+item.getCreateTime());
 //        helper.setText(R.id.tv,"借款周期"+);
         helper.addOnClickListener(R.id.rl_all);
 

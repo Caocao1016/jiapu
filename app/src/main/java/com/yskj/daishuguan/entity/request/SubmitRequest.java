@@ -22,6 +22,7 @@ public class SubmitRequest extends MapParamsRequest {
     public String osType;
     public String locgps;
     public String locaddress;
+    public String loanPurpose;
 
 
     @Override
@@ -59,6 +60,10 @@ public class SubmitRequest extends MapParamsRequest {
 
         if (!StringUtil.isEmpty(locgps)) {
             params.put("locgps", locgps);
+        }
+
+        if (!StringUtil.isEmpty(loanPurpose)) {
+            params.put("loanPurpose", loanPurpose);
         }
 
 

@@ -23,6 +23,7 @@ import com.yskj.daishuguan.activity.SettingActivity;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.OutLoginEvbusBean;
+import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
 import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.UserInfoView;
 import com.yskj.daishuguan.presenter.UserInfoPresenter;
@@ -235,9 +236,16 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
 
         mLlName.setVisibility(View.VISIBLE);
         mTvLogin.setVisibility(View.GONE);
-//        String name = RxSPTool.getString(getContext(), Constant.USER_NAME);
-//        String phone = RxSPTool.getString(getContext(), Constant.USER_MOBILENO);
-//        mTvName.setText(StringUtil.isEmpty(name) ? StringUtil.getString(phone) : name);
+        initData();
+    }
+
+    /**
+     * 登录成功
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void QuanxianEvenbus(QuanxianEvenbus event) {
         initData();
     }
    /**

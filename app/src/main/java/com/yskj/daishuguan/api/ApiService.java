@@ -7,6 +7,7 @@ import com.yskj.daishuguan.response.AppVersionResponse;
 import com.yskj.daishuguan.response.AuthitemInfoResponse;
 import com.yskj.daishuguan.response.AuthorizeRecordResponse;
 import com.yskj.daishuguan.response.BannerResponse;
+import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
 import com.yskj.daishuguan.response.BlacklistResponse;
 import com.yskj.daishuguan.response.CaptchaCodeResponse;
@@ -111,7 +112,7 @@ public interface ApiService {
      * 运营商判断呢
      */
     @POST("promotion/operatorChannel")
-    Observable<BaseResponse> operatorChannel(@QueryMap Map<String, Object> params);
+    Observable<BaseResponse<String>> operatorChannel(@QueryMap Map<String, Object> params);
 
 
     /**
@@ -130,14 +131,14 @@ public interface ApiService {
     /**
      * 实名认证
      */
-    @POST("vyb/auth/realname/authrealnamerequeset")
+    @POST("vyb/auth/realname/authrealnameconfirm")
     Observable<BaseResponse> authrealnamerequeset(@QueryMap Map<String, Object> params);
 
 
     /**
      * 实名认证完获取短信验证码
      */
-    @POST("vfy/auth/realname/sendMessage")
+    @POST("vyb/auth/realname/authrealnamerequeset")
     Observable<BaseResponse<CardSmsResponse>> sendMessage(@QueryMap Map<String, Object> params);
 
 
@@ -190,12 +191,37 @@ public interface ApiService {
     @POST("credit/creditList")
     Observable<BaseResponse<BillResponse>> creditList(@QueryMap Map<String, Object> params);
 
+    /**
+     * 申请中
+     */
+    @POST("repayment/bills")
+    Observable<BaseResponse<BillHuankuanResponse>> bills(@QueryMap Map<String, Object> params);
+
 
     /**
      * 购买会员费
      */
     @POST("vyp/initiativeRepayment/member")
-    Observable<BaseResponse> member(@QueryMap Map<String, Object> params);
+    Observable<BaseResponse<String>> member(@QueryMap Map<String, Object> params);
+
+    /**
+     * 购买会员费发送验证码
+     */
+    @POST("vyp/initiativeRepayment/memberPayment")
+    Observable<BaseResponse> memberPayment(@QueryMap Map<String, Object> params);
+
+
+    /**
+     * 购买会员费
+     */
+    @POST("vyp/initiativeRepayment/memberConfirmRepayment")
+    Observable<BaseResponse> memberConfirmRepayment(@QueryMap Map<String, Object> params);
+
+    /**
+     * 授信
+     */
+    @POST("credit/start")
+    Observable<BaseResponse> creditStart(@QueryMap Map<String, Object> params);
 
 //------------------------------------------------
 

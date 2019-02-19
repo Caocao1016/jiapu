@@ -93,7 +93,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     // 活体配置 默认值
     public String publicFilePath;
     SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-    private String what;
+    private String what = "original";
 
     @Override
     protected int getLayoutId() {
@@ -119,7 +119,6 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         finshDialog.setOnTypeClickLitener(new NoFinshDialog.OnNoFinshClickLitener() {
             @Override
             public void onNoFinshClick() {
-
                 finish();
             }
         });
@@ -482,9 +481,8 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     }
 
     @Override
-    public void onSuccess(BaseResponse response) {
-
-        what = response.getData().toString();
+    public void onSuccess(String response) {
+        what = response;
     }
 
     @Override

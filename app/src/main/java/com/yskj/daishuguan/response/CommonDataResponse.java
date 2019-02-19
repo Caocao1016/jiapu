@@ -35,7 +35,7 @@ public class CommonDataResponse {
     private String  reg_protocol_html ;
     private String  authValidDay ;
     private String dayRate ;   //日利率
-    private String  beginningInterestRate ;
+    private String  beginningInterestRate ;  //利率
     private String  priceRange ;
     private int  isLogin ;  //用户是否登录。0：未登录；1：已登录
 

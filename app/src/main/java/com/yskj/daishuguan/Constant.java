@@ -9,6 +9,20 @@ package com.yskj.daishuguan;
  */
 
 public class Constant {
+
+
+    //商户所需参数
+//    public static String merchantcode = "d5jdIC";
+//    public static String appid = "20181019";
+//    public static String clienttype = "android";
+//    public static String appsecret = "WDQB@2017uy760918LK0K2D";
+
+  public static String merchantcode = "yxTOxX";
+    public static String appid = "20181019";
+    public static String clienttype = "android";
+    public static String appsecret = "WDQB@2017uy760918LK0K2D";
+
+
     public static final String CODED_CONTENT = "codedContent";
     public static final String INTENT_ZXING_CONFIG = "zxingConfig";
     public static final  int PAGE_SIZE = 10;
@@ -47,6 +61,9 @@ public class Constant {
 
     public static final String ACTIVITY_ID_CARE = "id_card";
 
+
+    public static final String CARD_NUMBER = "card_number";
+
     /**
      * 认证等
      */
@@ -54,6 +71,7 @@ public class Constant {
     public static String LOAN_JUAGE= "loanJudge";  ////可否借款
     public static String CREDIT_JUDGE= "creditJudge";  ////授信
     public static String AUTH_JUDGE= "authJudge";  ////授信
+    public static String AUDIT_CREDIT_LIMIT= " auditCreditLimit";  ////授信金额
 
     /**
      * 通用数据
@@ -74,6 +92,4 @@ public class Constant {
     public static String IS_LOGIN = "isLogin";  //用户是否登录。0：未登录；1：已登录
 
 
-
-    public static String Merchant_Code = "yxTOxX";
 }

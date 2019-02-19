@@ -1,5 +1,7 @@
 package com.yskj.daishuguan.activity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -81,7 +83,7 @@ public class EnvelopeActivity extends BaseActivity<ManagementMoneyPresenter> imp
                 List<ManagementListItemResponse> entity = adapter.getData();
 
                 for (ManagementListItemResponse mList : entity) {
-                    mList.setSelect(!mList.isSelect());
+                    mList.setSelect(!entity.get(position).isSelect());
                     mAdapter.notifyItemChanged(position);
                 }
             }
@@ -91,14 +93,19 @@ public class EnvelopeActivity extends BaseActivity<ManagementMoneyPresenter> imp
 
     @OnClick({R.id.tv_sure})
     public void onClick(View view){
-        if (view.getId() == R.id.tv_true){
+        if (view.getId() == R.id.tv_sure){
             List<ManagementListItemResponse> entity = mAdapter.getData();
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.reverse();
             for (ManagementListItemResponse mList :entity){
                 if (mList.isSelect()){
                     stringBuilder.append(mList.getId()+",");
                 }
             }
+            Intent intent = new Intent();
+            intent.putExtra("mListID",stringBuilder.toString());
+            setResult(2,intent);
+            finish();
         }
 
     }

@@ -3,6 +3,7 @@ package com.yskj.daishuguan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,22 +17,34 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
+import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.RxTextViewVerticalMore;
 import com.yskj.daishuguan.Constant;
+import com.yskj.daishuguan.MainActivity;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.AuthorizationActivity;
 import com.yskj.daishuguan.activity.CerFinshActivity;
 import com.yskj.daishuguan.activity.CerNumberActivity;
 import com.yskj.daishuguan.activity.CertificationActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
+import com.yskj.daishuguan.adapter.HomeViewPagerAdapter;
 import com.yskj.daishuguan.adapter.WindowAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
+import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.SubmitRequest;
 import com.yskj.daishuguan.modle.CommonDataView;
@@ -49,7 +62,10 @@ import com.yskj.daishuguan.view.SeekParams;
 import com.yskj.daishuguan.view.TickMarkType;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +114,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
     private boolean loanJudge;
     private int auditCreditLimit;
 
+
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -114,30 +131,11 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
+
         List<View> views = new ArrayList<>();
         setUPMarqueeView(views, 6);
         mUpview1.setViews(views);
-    }
-
-    @Override
-    protected void initData() {
-        BannerRequest bannerRequest = new BannerRequest();
-        bannerRequest.showType = "1";
-        bannerRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
-        bannerRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
-        mPresenter.getBanner(bannerRequest);
-
-        BannerRequest commonRequest = new BannerRequest();
-
-        commonRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
-        commonRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
-        mPresenter.getCommonData(commonRequest);
-
-        BannerRequest homeInfoRequest = new BannerRequest();
-        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
-        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
-        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
-        mPresenter.homeInfo(homeInfoRequest);
 
         mDefaultBanner.setAdapter(this);
         mDefaultBanner.setDelegate(this);
@@ -153,6 +151,40 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
         mWindow.add("生活消费");
     }
 
+    @Override
+    protected void initData() {
+        BannerRequest bannerRequest = new BannerRequest();
+        bannerRequest.showType = "1";
+        mPresenter.getBanner(bannerRequest);
+
+
+        BannerRequest commonRequest = new BannerRequest();
+        commonRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        commonRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+        mPresenter.getCommonData(commonRequest);
+
+
+        BannerRequest homeInfoRequest = new BannerRequest();
+        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+        mPresenter.homeInfo(homeInfoRequest);
+
+    }
+
+
+
+    /**
+     * 登录成功
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void QuanxianEvenbus(QuanxianEvenbus event) {
+        initData();
+    }
+
+
     @OnClick({R.id.tv_true, R.id.ll_window})
     public void submit(View view) {
         switch (view.getId()) {
@@ -165,12 +197,13 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
                     startActivity(LoginActivity.class);
                     return;
                 }
-
+                Intent intent1 = new Intent(getContext(), AuthorizationActivity.class);
+                intent1.putExtra("MONEY",mTvMoney.getText().toString());
+                startActivity(intent1);
                 if (StringUtil.isEmpty(mTvWindow.getText().toString())) {
                     UIUtils.showToast("请先选择借款用途");
                     return;
                 }
-
 
                 if (authJudge) {
                     if (creditJudge) {
@@ -182,7 +215,9 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
                             UIUtils.showToast("您还有未还订单,无法再次借款哦~");
                         }
                     } else {
-                        startActivity(AuthorizationActivity.class);
+                        Intent intent = new Intent(getContext(), AuthorizationActivity.class);
+                        intent.putExtra("MONEY",mTvMoney.getText().toString());
+                        startActivity(intent);
                     }
                 } else {
 
@@ -282,7 +317,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
                 public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
                     mTvMoney.setText(seekBar.getProgress() + "");
                     mTvTiemMoney.setText("贷款利息：" + StringUtil.getActualNUmber(seekBar.getProgress(), response.getDayRate()) + "元/天");
-                    mTvAllMoney.setText("到期应还：" + StringUtil.getALL(seekBar.getProgress(), StringUtil.getActualNUmber(min, response.getDayRate()), response.getAuthValidDay()) + "元");
+                    mTvAllMoney.setText("到期应还：" + StringUtil.getALL(seekBar.getProgress(), StringUtil.getActualNUmber(seekBar.getProgress(), response.getDayRate()), response.getAuthValidDay()) + "元");
 
                 }
             });
@@ -316,6 +351,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
         RxSPTool.putBoolean(getContext(), Constant.AUTH_JUDGE, authJudge);
         RxSPTool.putBoolean(getContext(), Constant.CREDIT_JUDGE, creditJudge);
         RxSPTool.putBoolean(getContext(), Constant.LOAN_JUAGE, loanJudge);
+        RxSPTool.putInt(getContext(), Constant.AUDIT_CREDIT_LIMIT, response.getAuditCreditLimit());
         RxSPTool.putString(getContext(), Constant.PRO_EXPLAIN, response.getProductintroduce());
     }
 
@@ -343,8 +379,9 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        EventBus.getDefault().unregister(this);
     }
+
 
     private void setUPMarqueeView(List<View> views, int size) {
         for (int i = 0; i < size; i++) {
@@ -446,9 +483,10 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
         submitRequest.cycle =  RxSPTool.getString(getContext(),Constant.AUTH_VALID_DAY);
         submitRequest.loanAmount =  auditCreditLimit ;
         submitRequest.productNo = Build.MODEL ;
+        submitRequest.loanPurpose =  mTvWindow.getText().toString();
         submitRequest.osType =  "ANDROID" ;
-        submitRequest.locgps = "";
-        submitRequest.locaddress = "";
+        submitRequest.locgps = RxSPTool.getContent(getContext(),Constant.GPS_LATITUDE);
+        submitRequest.locaddress = RxSPTool.getContent(getContext(),Constant.GPS_ADDRESS);
         mPresenter.getSubmit(submitRequest);
 
     }

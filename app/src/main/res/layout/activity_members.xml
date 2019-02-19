@@ -40,12 +40,11 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_original_price"
             android:layout_marginLeft="65dp"
-
-            android:text="200"
             android:textColor="@color/white"
             android:textSize="50sp" />
 
@@ -67,7 +66,6 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="36dp"
-            android:text="原价：￥300"
             android:textColor="@color/white"
             android:textSize="15sp" />
     </RelativeLayout>

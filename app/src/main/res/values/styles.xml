@@ -6,7 +6,8 @@
     </style>
     <!-- 解决启动页白屏的问题 -->
     <style name="LauncherTheme" parent="AppTheme">
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 

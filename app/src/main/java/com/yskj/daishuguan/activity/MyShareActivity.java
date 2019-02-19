@@ -93,7 +93,7 @@ public class MyShareActivity extends BaseActivity<SharePresenter> implements Sha
         OCRRequest ocrRequest = new OCRRequest();
         ocrRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
         ocrRequest.token = RxSPTool.getString(this, Constant.TOKEN);
-        ocrRequest.merchantCode = Constant.Merchant_Code;
+        ocrRequest.merchantCode = Constant.merchantcode;
         mPresenter.inviteHomePage(ocrRequest);
     }
 
@@ -136,7 +136,7 @@ public class MyShareActivity extends BaseActivity<SharePresenter> implements Sha
                             OCRRequest ocrRequest = new OCRRequest();
                             ocrRequest.userid = RxSPTool.getString(MyShareActivity.this, Constant.USER_ID);
                             ocrRequest.token = RxSPTool.getString(MyShareActivity.this, Constant.TOKEN);
-                            ocrRequest.merchantCode = Constant.Merchant_Code;
+                            ocrRequest.merchantCode = Constant.merchantcode;
                             mPresenter.share(ocrRequest);
 
                         } else {

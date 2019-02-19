@@ -82,7 +82,8 @@ public class SignatureDialog extends AppCompatDialogFragment {
                 signView.clear();
                 break;
             case R.id.tv_sure://我的信息
-                mOnTypeClickLitener.onSignatureClick(signView.getBitmap());
+                Bitmap bitmap = signView.getBitmap();
+                mOnTypeClickLitener.onSignatureClick(bitmap);
                 break;
         }
     }

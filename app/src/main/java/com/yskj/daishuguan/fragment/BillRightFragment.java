@@ -17,16 +17,23 @@ import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
+import com.yskj.daishuguan.activity.DeferMoneyActivity;
 import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.activity.PaymentDetailsActivity;
 import com.yskj.daishuguan.adapter.BillAdapter;
+import com.yskj.daishuguan.adapter.BillHuankuanAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.entity.request.AuthorRequest;
+import com.yskj.daishuguan.entity.request.HuanKuanRequest;
+import com.yskj.daishuguan.modle.BillView;
 import com.yskj.daishuguan.modle.SettingAuthorizaView;
+import com.yskj.daishuguan.presenter.BillPresenter;
 import com.yskj.daishuguan.presenter.SettingAuthorizationPresenter;
 import com.yskj.daishuguan.response.AuthorizeRecordResponse;
 import com.yskj.daishuguan.response.AuthorizeResponse;
+import com.yskj.daishuguan.response.BillHuankuanResponse;
+import com.yskj.daishuguan.response.BillResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,15 +48,15 @@ import butterknife.BindView;
  * @Description:
  */
 
-public class BillRightFragment extends CommonLazyFragment<SettingAuthorizationPresenter> implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener,SettingAuthorizaView {
+public class BillRightFragment extends CommonLazyFragment<BillPresenter> implements SwipeRefreshLayout.OnRefreshListener,
+        BaseQuickAdapter.RequestLoadMoreListener,BillView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe)
     SwipeRefreshLayout mSwipe;
 
-    private BillAdapter mAdapter;
+    private BillHuankuanAdapter mAdapter;
     private int mPageNo = 1;
     private boolean mIsLoadMore;
     private String mStart = "1";
@@ -62,8 +69,8 @@ public class BillRightFragment extends CommonLazyFragment<SettingAuthorizationPr
         initData();
     }
     @Override
-    protected SettingAuthorizationPresenter createPresenter() {
-        return new SettingAuthorizationPresenter(this);
+    protected BillPresenter createPresenter() {
+        return new BillPresenter(this);
     }
 
     @Override
@@ -84,7 +91,7 @@ public class BillRightFragment extends CommonLazyFragment<SettingAuthorizationPr
         mSwipe.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BillAdapter(null);
+        mAdapter = new BillHuankuanAdapter(null);
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mRecyclerView.setAdapter(mAdapter);
@@ -93,6 +100,9 @@ public class BillRightFragment extends CommonLazyFragment<SettingAuthorizationPr
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
+//                1.逾期  2.展期
+
+//                DeferMoneyActivity
                     startActivity(PaymentDetailsActivity.class);
             }
         });
@@ -100,19 +110,15 @@ public class BillRightFragment extends CommonLazyFragment<SettingAuthorizationPr
 
     @Override
     protected void initData() {
-//        mSwipe.setRefreshing(true);
-//        AuthorRequest request = new AuthorRequest();
-//        request.userId = RxSPTool.getString(getActivity(), Constant.USER_ID);
-//        request.status = mStart;
-//        request.page = mPageNo;
-//        request.limit = Constant.PAGE_SIZE;
-//        mPresenter.myAuthorizeRecord(request);
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("1");
-        strings.add("1");
-        strings.add("1");
-        strings.add("1");
-//        mAdapter.addData(strings);
+        mSwipe.setRefreshing(true);
+        HuanKuanRequest request = new HuanKuanRequest();
+        request.userid = RxSPTool.getString(getActivity(), Constant.USER_ID);
+        request.token = RxSPTool.getString(getActivity(), Constant.TOKEN);
+        request.type = "0";
+        request.page = mPageNo;
+        request.limit = Constant.PAGE_SIZE;
+        mPresenter.bills(request);
+
 
 
         final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
@@ -148,26 +154,17 @@ public class BillRightFragment extends CommonLazyFragment<SettingAuthorizationPr
         initData();
     }
 
+
     @Override
-    public void onSuccess(BaseResponse response) {
+    public void onSuccess(BillResponse response) {
 
     }
 
     @Override
-    public void onremoveSuccess(BaseResponse response) {
-
-    }
-
-    @Override
-    public void onListSuccess(AuthorizeRecordResponse response) {
+    public void onHuanKuanSuccess(BillHuankuanResponse response) {
         if (null != response){
             getList(response.getList());
         }
-    }
-
-    @Override
-    public void onRightSuccess(AuthorizeRecordResponse response) {
-
     }
 
     @Override
@@ -175,49 +172,34 @@ public class BillRightFragment extends CommonLazyFragment<SettingAuthorizationPr
 
     }
 
-    @Override
-    public void onSFailure(BaseResponse response) {
-
-    }
-
-    @Override
-    public void onremoveFailure(BaseResponse response) {
-
-    }
-
-    @Override
-    public void onAuthorFailure(BaseResponse response) {
-
-    }
 
     @Override
     public void onError() {
-
 
         mSwipe.setRefreshing(false);
     }
 
 
-    public void getList(List<AuthorizeResponse> entity) {
+    public void getList(List<BillHuankuanResponse.ListBean> entity) {
 
-//        if (mIsLoadMore) {
-//            mIsLoadMore = false;
-//            if (entity != null && entity.size() <= Constant.PAGE_SIZE && entity.size() > 0) {
-//                mAdapter.addData(entity);
-//                mPageNo++;
-//                mAdapter.loadMoreComplete();
-//            } else {
-//                mAdapter.loadMoreEnd(true);
-//            }
-//        } else {
-//            if (null != entity && entity.size()>0){
-//                mPageNo++;
-//                mAdapter.setNewData(entity);
-//            }else {
-//                mAdapter.setEmptyView(emptyView);
-//            }
-//        }
-//        mSwipe.setRefreshing(false);
+        if (mIsLoadMore) {
+            mIsLoadMore = false;
+            if (entity != null && entity.size() <= Constant.PAGE_SIZE && entity.size() > 0) {
+                mAdapter.addData(entity);
+                mPageNo++;
+                mAdapter.loadMoreComplete();
+            } else {
+                mAdapter.loadMoreEnd(true);
+            }
+        } else {
+            if (null != entity && entity.size()>0){
+                mPageNo++;
+                mAdapter.setNewData(entity);
+            }else {
+                mAdapter.setEmptyView(emptyView);
+            }
+        }
+        mSwipe.setRefreshing(false);
     }
 
 }

@@ -66,7 +66,6 @@ public class StringUtil {
 
         BigDecimal bigDecimal = new BigDecimal(money);
 
-
         return bigDecimal.multiply(new BigDecimal(StringUtil.isEmpty(dayRate)? "0" : dayRate).setScale(2,BigDecimal.ROUND_HALF_UP));
     }
 
@@ -75,6 +74,12 @@ public class StringUtil {
         BigDecimal bigDecimal = new BigDecimal(money);
         BigDecimal bigDecima = new BigDecimal(day);
         return bigDecimal.add(dayRateMoney.multiply(bigDecima));
+    }
+    public static BigDecimal getRateMoney(int money, String rate) {
+
+        BigDecimal bigDecimal = new BigDecimal(money);
+        BigDecimal bigDecima = new BigDecimal(rate);
+        return bigDecimal.multiply(bigDecima);
     }
 
     public static int getNUmber(String max, String min) {

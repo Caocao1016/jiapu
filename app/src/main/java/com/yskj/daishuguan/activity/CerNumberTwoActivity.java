@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.hjq.baselibrary.utils.KeyboardUtils;
 import com.hjq.baselibrary.widget.ClearEditText;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
@@ -64,6 +65,7 @@ public class CerNumberTwoActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        taskid=getIntent().getStringExtra("taskid");
         nextstage = getIntent().getStringExtra("nextstage");
         authcode = getIntent().getStringExtra("authcode");
         complete = getIntent().getStringExtra("complete");
@@ -80,9 +82,10 @@ public class CerNumberTwoActivity extends BaseActivity {
         String s = mCode.getText().toString();
 
         if (StringUtil.isEmpty(s)) {
-            UIUtils.showToast("请输入雁阵吗");
+            UIUtils.showToast("请输入验证码");
             return;
         }
+        KeyboardUtils.hideKeyboard(getCurrentFocus());
         getCrawLingreport(s);
     }
 
@@ -96,18 +99,18 @@ public class CerNumberTwoActivity extends BaseActivity {
         bMap.put("userid", RxSPTool.getString(this, Constant.USER_ID));
         bMap.put("mobileno", RxSPTool.getString(this, Constant.USER_MOBILENO));
         bMap.put("taskid", taskid);
-        bMap.put("authcode", authcode);
+//        bMap.put("authcode", authcode);
         bMap.put("smscode", etcode);
         bMap.put("nextstage", nextstage);
         bMap.put("code", code);
         bMap.put("complete", complete);
         bMap.put("base64img", "");
 
-        BaseParams.getParams(bMap);
+       BaseParams.getParams(bMap);
 
 
         for (String key : bMap.keySet()) {
-            params.addBodyParameter(key, bMap.get(key).toString());
+            params.addBodyParameter(key, bMap.get(key)+"");
         }
         x.http().post(params, new Callback.ProgressCallback<String>() {
             @Override

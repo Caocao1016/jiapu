@@ -28,6 +28,7 @@ import com.yskj.daishuguan.presenter.BillPresenter;
 import com.yskj.daishuguan.presenter.SettingAuthorizationPresenter;
 import com.yskj.daishuguan.response.AuthorizeRecordResponse;
 import com.yskj.daishuguan.response.AuthorizeResponse;
+import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
 import com.yskj.daishuguan.util.UIUtils;
 
@@ -91,12 +92,6 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(DeferMoneyActivity.class);
-            }
-        });
     }
 
     @Override
@@ -147,6 +142,11 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
             }
         }
         mSwipe.setRefreshing(false);
+    }
+
+    @Override
+    public void onHuanKuanSuccess(BillHuankuanResponse response) {
+
     }
 
     @Override

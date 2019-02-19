@@ -1,6 +1,7 @@
 package com.yskj.daishuguan.base;
 
 import com.vondear.rxtool.RxDeviceTool;
+import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.util.MD5Utils;
 import com.yskj.daishuguan.util.StringUtil;
 import java.io.UnsupportedEncodingException;
@@ -23,40 +24,38 @@ public class BaseParams {
 
     private static Map<String, String> paramMap = new HashMap<>();
     static{
-        paramMap.put("merchantcode","yxTOxX");//商户编号
-        paramMap.put("clienttype","android");
-        paramMap.put("appid","20181019");
-        paramMap.put("channelid","app");//应用市场编号
-        paramMap.put("deviceid", RxDeviceTool.getDeviceIdIMEI(BaseApp.getContext()));
-        paramMap.put("devicecode",RxDeviceTool.getBuildBrandModel().trim()); //操作系统编号
-        paramMap.put("appversion",RxDeviceTool.getAppVersionName(BaseApp.getContext()));
+
+
+
     }
 
     public static Map<String,Object> getParams(Map<String, Object> businessParamMap) {
+        paramMap.put("channelid","app");//应用市场编号
+        paramMap.put("merchantcode", Constant.merchantcode);//商户编号
+        paramMap.put("clienttype",Constant.clienttype);
+        paramMap.put("appid",Constant.appid);
+        paramMap.put("deviceid", RxDeviceTool.getDeviceIdIMEI(BaseApp.getContext()));
+        paramMap.put("devicecode",RxDeviceTool.getBuildBrandModel().trim()); //操作系统编号
+        paramMap.put("appversion",RxDeviceTool.getAppVersionName(BaseApp.getContext()));
+
         businessParamMap.putAll(paramMap);
         //排序
         List<String> keys = new ArrayList<>(businessParamMap.keySet());
         Collections.sort(keys);
         //拼字符
         StringBuffer sb = new StringBuffer();
-        sb.append("WDQB@2017uy760918LK0K2D");
+        sb.append(Constant.appsecret);
         for (String key : keys) {
-            if(key.equals("contacts"))
+            if(key.equals("contacts") || key.equals("autographPicture"))
               continue;
-            if (StringUtil.isEmpty(businessParamMap.get(key).toString())) {
+            if (StringUtil.isEmpty(businessParamMap.get(key)+"")) {
                 sb.append("");
             }else{
-                if (key.equals("locgps")){
-                    sb.append(key);
-                    sb.append(businessParamMap.get(key).toString().replaceAll("%7c","|"));
-                }else {
                     sb.append(key);
                     sb.append(businessParamMap.get(key));
-                }
-
             }
         }
-        sb.append("WDQB@2017uy760918LK0K2D");
+        sb.append(Constant.appsecret);
         //加密
         String paramString = null;
         try {

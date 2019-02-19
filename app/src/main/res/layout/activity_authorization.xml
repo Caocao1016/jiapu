@@ -200,7 +200,7 @@
                     android:layout_marginRight="13dp"
                     android:drawablePadding="5dp"
                     android:drawableRight="@mipmap/ic_signature_next"
-                    android:text="已授权"
+                    android:text="去查看"
                     android:textColor="@color/cl_F34F03"
                     android:textSize="15sp" />
 
@@ -233,7 +233,39 @@
                     android:layout_marginRight="13dp"
                     android:drawablePadding="5dp"
                     android:drawableRight="@mipmap/ic_signature_next"
-                    android:text="已授权"
+                    android:text="去查看"
+                    android:textColor="@color/cl_F34F03"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_money_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginLeft="21dp"
+                android:layout_marginRight="21dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_bg_white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="13dp"
+                    android:text="借款协议授权书"
+                    android:textColor="@color/cl_404040"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@mipmap/ic_signature_next"
+                    android:text="去查看"
                     android:textColor="@color/cl_F34F03"
                     android:textSize="15sp" />
 
@@ -271,6 +303,15 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="点击签名即默认同意以上授权书"
+                android:gravity="center_horizontal"
+                android:textSize="11sp"
+                android:textColor="@color/cl_F34F03"
+                android:layout_marginTop="10dp"
+                />
 
             <TextView
                 android:id="@+id/tv_sure"

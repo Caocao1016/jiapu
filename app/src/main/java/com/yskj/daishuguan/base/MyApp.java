@@ -1,6 +1,9 @@
 package com.yskj.daishuguan.base;
 
+import android.content.Context;
 import android.os.Build;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 
 import com.moxie.client.manager.MoxieSDK;
 import com.socks.library.KLog;
@@ -12,8 +15,8 @@ import me.jessyan.autosize.AutoSize;
 public class MyApp extends BaseApp  {
 
     public static MyApp app;
-    public static  String WEIXIN_APP_ID = "wx5129f0f46fc9ef4e";
-    public static    String WEIXIN_APP_SECRET = "111000440eb35cbc31bbf0a35cfaed21";
+    public static  String WEIXIN_APP_ID = "wx1bdba6acb5ccd3bf";
+    public static    String WEIXIN_APP_SECRET = "93a1ed048621eaa6012aa1c083e519d7";
     //分享
     static {
         //微信
@@ -31,7 +34,7 @@ public class MyApp extends BaseApp  {
         UMConfigure.setLogEnabled(true);
         UMConfigure.init(this,"5847ad2a07fe655886000b3d"
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
-        MoxieSDK.init(this);
+//        MoxieSDK.init(this);
     }
     //获取单例
     public static MyApp getInstance(){
@@ -40,13 +43,24 @@ public class MyApp extends BaseApp  {
         }
         return app;
     }
-    //设备编号系统
-    public String getBrand(){
-        String brand = Build.BRAND+" "+Build.MODEL;
-        if (brand.length()>31){
-            return brand.substring(0,31);
+    //deviceId：设备编号 IEMI
+    public String getIMEI() {
+        String devicedId = null;
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            devicedId = telephonyManager.getDeviceId();
+            if (null==devicedId){
+                devicedId= Settings.System.getString(getContentResolver(), Settings.System.ANDROID_ID);
+            }
+            //LogUtil.d("flag","IMEI:"+devicedId);
+            return devicedId;
+        }catch (Exception e){
+            e.printStackTrace();
+            if (null==devicedId){
+                devicedId= Settings.System.getString(getContentResolver(), Settings.System.DEVICE_PROVISIONED);
+            }
+            return devicedId;
         }
-        return brand;
     }
 }
 

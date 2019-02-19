@@ -9,7 +9,10 @@ import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BasePresenter;
+import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.util.ProgressDialogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -45,7 +48,7 @@ public class MembershipFinshActivity extends BaseActivity {
                     mTime.setText(recLen+"");
                     if (recLen ==0){
                         timer.cancel();
-                        RxSPTool.putString(MembershipFinshActivity.this,"isSHow","11111");
+                        EventBus.getDefault().post(new FinshMoneyEvenbus(1));
                         finish();
                     }
                 }
@@ -75,7 +78,7 @@ public class MembershipFinshActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 timer.cancel();
-                RxSPTool.putString(MembershipFinshActivity.this,"isSHow","111");
+                EventBus.getDefault().post(new FinshMoneyEvenbus(1));
                 finish();
             }
         });

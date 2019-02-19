@@ -9,4 +9,9 @@ package com.yskj.daishuguan.entity.evbus;
  */
 
 public class FinshEvenbus {
+
+    public String password ;
+    public FinshEvenbus(String password){
+        this.password = password;
+    }
 }

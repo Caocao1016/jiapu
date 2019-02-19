@@ -32,14 +32,15 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/shape_bg_white">
 
-                <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="67dp"
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@mipmap/ic_fish" />
-
+                    android:background="@color/cl_F34F03"
+                    android:gravity="center"
+                    android:text="11111"
+                    android:textSize="12sp"
+                    android:textColor="#FFBD41" />
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -256,17 +257,18 @@
                     android:textSize="15sp" />
 
             </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/ll_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view"
+                android:layout_marginBottom="52dp"
                 android:layout_marginLeft="34dp"
                 android:layout_marginTop="11dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="52dp"
-                android:visibility="gone"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:visibility="gone">
 
                 <CheckBox
                     android:id="@+id/checkbox"
@@ -290,13 +292,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
+                android:layout_marginBottom="9dp"
                 android:layout_marginLeft="23dp"
                 android:layout_marginRight="23dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/shape_payment_details"
                 android:gravity="center"
-                android:layout_marginBottom="9dp"
                 android:text="申请展期"
-                android:layout_marginTop="30dp"
 
                 android:textColor="@color/cl_F34F03"
                 android:textSize="19sp" />

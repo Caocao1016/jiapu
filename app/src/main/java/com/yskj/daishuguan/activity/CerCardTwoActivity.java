@@ -253,6 +253,7 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
     public void onSmsSuccess(CardSmsResponse response) {
         mchntssn = response .getMchntssn();
         requestno = response .getRequestno();
+
         UIUtils.showToast("验证码发送成功");
 
     }
@@ -264,6 +265,8 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
 
     @Override
     public void onCodeSuccess(BaseResponse response) {
+
+        RxSPTool.putString(this,Constant.CARD_NUMBER,mCardNumber.getText().toString());
         rxDialogLoading.dismiss();
         finish();
     }
