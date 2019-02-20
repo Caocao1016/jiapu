@@ -39,6 +39,7 @@ import com.yskj.daishuguan.activity.CerFinshActivity;
 import com.yskj.daishuguan.activity.CerNumberActivity;
 import com.yskj.daishuguan.activity.CertificationActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
+import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.adapter.HomeViewPagerAdapter;
 import com.yskj.daishuguan.adapter.WindowAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
@@ -112,6 +113,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
     private boolean authJudge;
     private boolean creditJudge;
     private boolean loanJudge;
+    private int member;
     private int auditCreditLimit;
 
 
@@ -173,7 +175,6 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
     }
 
 
-
     /**
      * 登录成功
      *
@@ -197,26 +198,27 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
                     startActivity(LoginActivity.class);
                     return;
                 }
-                Intent intent1 = new Intent(getContext(), AuthorizationActivity.class);
-                intent1.putExtra("MONEY",mTvMoney.getText().toString());
-                startActivity(intent1);
                 if (StringUtil.isEmpty(mTvWindow.getText().toString())) {
                     UIUtils.showToast("请先选择借款用途");
                     return;
                 }
-
                 if (authJudge) {
                     if (creditJudge) {
                         if (loanJudge) {
-
-                            getSubmit();
+                            if (member == 0) {
+                                getSubmit();
+                            } else {
+                                Intent intent = new Intent(getContext(), MembersActivity.class);
+                                intent.putExtra("moneyList", auditCreditLimit);
+                                startActivity(intent);
+                            }
 
                         } else {
                             UIUtils.showToast("您还有未还订单,无法再次借款哦~");
                         }
                     } else {
                         Intent intent = new Intent(getContext(), AuthorizationActivity.class);
-                        intent.putExtra("MONEY",mTvMoney.getText().toString());
+                        intent.putExtra("MONEY", mTvMoney.getText().toString());
                         startActivity(intent);
                     }
                 } else {
@@ -270,6 +272,14 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
         RxSPTool.putString(getActivity(), Constant.PRICE_RAGGE, response.getPriceRange());
         RxSPTool.putString(getActivity(), Constant.DAY_RATE, response.getDayRate() + "");
         RxSPTool.putString(getActivity(), Constant.IS_LOGIN, response.getIsLogin() + "");
+
+        RxSPTool.putString(getActivity(), Constant.CHARGE_PROTOCOL, response.getCharge_protocol());
+        RxSPTool.putString(getActivity(), Constant.REGISTER_PROTOCOL, response.getRegister_protocol());
+        RxSPTool.putString(getActivity(), Constant.DATA_QUERY_PROTOCOL, response.getData_query_protocol());
+        RxSPTool.putString(getActivity(), Constant.EXTEND_PROTOCOL, response.getExtend_protocol());
+        RxSPTool.putString(getActivity(), Constant.LOAN_PROTOCOL, response.getLoan_protocol());
+        RxSPTool.putString(getActivity(), Constant.MEMBER_PROTOCOL, response.getMember_protocol());
+        RxSPTool.putString(getActivity(), Constant.CREDIT_PROTOCOL, response.getCredit_protocol());
 
         mTvTime.setText("借款期限：" + response.getAuthValidDay() + "天");
         if (!StringUtil.isEmpty(response.getPriceRange()) && response.getPriceRange().contains("-")) {
@@ -346,6 +356,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
         creditJudge = response.isCreditJudge();
         //可否借款
         loanJudge = response.isLoanJudge();
+        member = response.getIsMember();
         auditCreditLimit = response.getAuditCreditLimit();
 
         RxSPTool.putBoolean(getContext(), Constant.AUTH_JUDGE, authJudge);
@@ -357,8 +368,9 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
 
     @Override
     public void onSubmitSuccess(BaseResponse response) {
+        rxDialogLoading.dismiss();
         Intent intent = new Intent(getContext(), CerFinshActivity.class);
-        intent.putExtra("what",2);
+        intent.putExtra("what", 2);
         startActivity(intent);
 
     }
@@ -366,8 +378,8 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
 
     @Override
     public void onFailure(BaseResponse response) {
-
-            UIUtils.showToast(response.getRetmsg());
+        rxDialogLoading.dismiss();
+        UIUtils.showToast(response.getRetmsg());
     }
 
     @Override
@@ -382,6 +394,19 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
         EventBus.getDefault().unregister(this);
     }
 
+
+    /**
+     * 查询认证等信息
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        BannerRequest homeInfoRequest = new BannerRequest();
+        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+        mPresenter.homeInfo(homeInfoRequest);
+    }
 
     private void setUPMarqueeView(List<View> views, int size) {
         for (int i = 0; i < size; i++) {
@@ -456,6 +481,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTvWindow.setText("");
                 window.dismiss();
             }
         });
@@ -468,26 +494,24 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
                 System.out.println("popWindow消失");
             }
         });
-
     }
 
     /**
      * 借款
      */
     public void getSubmit() {
-
+        rxDialogLoading.show();
         SubmitRequest submitRequest = new SubmitRequest();
-        submitRequest.userId =  RxSPTool.getString(getContext(),Constant.USER_ID);
-        submitRequest.token =  RxSPTool.getString(getContext(),Constant.TOKEN);
-        submitRequest.mobileno =  RxSPTool.getString(getContext(),Constant.USER_MOBILENO);
-        submitRequest.cycle =  RxSPTool.getString(getContext(),Constant.AUTH_VALID_DAY);
-        submitRequest.loanAmount =  auditCreditLimit ;
-        submitRequest.productNo = Build.MODEL ;
-        submitRequest.loanPurpose =  mTvWindow.getText().toString();
-        submitRequest.osType =  "ANDROID" ;
-        submitRequest.locgps = RxSPTool.getContent(getContext(),Constant.GPS_LATITUDE);
-        submitRequest.locaddress = RxSPTool.getContent(getContext(),Constant.GPS_ADDRESS);
+        submitRequest.userId = RxSPTool.getString(getContext(), Constant.USER_ID);
+        submitRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        submitRequest.mobileno = RxSPTool.getString(getContext(), Constant.USER_MOBILENO);
+        submitRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+        submitRequest.loanAmount = auditCreditLimit;
+        submitRequest.productNo = Build.MODEL;
+        submitRequest.loanPurpose = mTvWindow.getText().toString();
+        submitRequest.osType = "ANDROID";
+        submitRequest.locgps = RxSPTool.getContent(getContext(), Constant.GPS_LATITUDE);
+        submitRequest.locaddress = RxSPTool.getContent(getContext(), Constant.GPS_ADDRESS);
         mPresenter.getSubmit(submitRequest);
-
     }
 }

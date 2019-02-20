@@ -27,6 +27,7 @@ import com.yskj.daishuguan.presenter.ManagementMoneyPresenter;
 import com.yskj.daishuguan.response.ManagementListItemResponse;
 import com.yskj.daishuguan.response.ManagementListResponse;
 import com.yskj.daishuguan.response.ManagementResponse;
+import com.yskj.daishuguan.response.ShareContentResponse;
 import com.yskj.daishuguan.util.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -141,6 +142,11 @@ public class UnusedFragment extends CommonLazyFragment<ManagementMoneyPresenter>
             }
         }
         mSwipe.setRefreshing(false);
+    }
+
+    @Override
+    public void onShareSuccess(ShareContentResponse response) {
+
     }
 
     @Override

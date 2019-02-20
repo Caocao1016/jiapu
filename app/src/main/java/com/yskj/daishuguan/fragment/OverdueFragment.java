@@ -26,6 +26,7 @@ import com.yskj.daishuguan.presenter.ManagementMoneyPresenter;
 import com.yskj.daishuguan.response.ManagementListItemResponse;
 import com.yskj.daishuguan.response.ManagementListResponse;
 import com.yskj.daishuguan.response.ManagementResponse;
+import com.yskj.daishuguan.response.ShareContentResponse;
 import com.yskj.daishuguan.util.UIUtils;
 
 import java.util.ArrayList;
@@ -133,6 +134,11 @@ public class OverdueFragment extends CommonLazyFragment <ManagementMoneyPresente
             }
         }
         mSwipe.setRefreshing(false);
+    }
+
+    @Override
+    public void onShareSuccess(ShareContentResponse response) {
+
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.yskj.daishuguan.activity;
 
-import android.content.Intent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vondear.rxtool.RxLogTool;
@@ -13,8 +11,11 @@ import com.yskj.daishuguan.api.ApiConstant;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BasePresenter;
+import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.SmsDialog;
-import com.yskj.daishuguan.util.StringUtil;
+import com.yskj.daishuguan.entity.request.DetailRequest;
+import com.yskj.daishuguan.modle.DetailView;
+import com.yskj.daishuguan.presenter.DetailPresenter;
 import com.yskj.daishuguan.util.UIUtils;
 
 import org.json.JSONException;
@@ -23,7 +24,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,15 +34,16 @@ import butterknife.BindView;
  * CaoPengFei
  * 2019/2/12
  *
- * @ClassName: PaymentDetails
- * @Description: 还款详情
+ * @ClassName: DeferMoneyActivity
+ * @Description: 申请展期
  */
 
-public class PaymentDetailsActivity extends BaseActivity {
-
+public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implements DetailView {
 
     @BindView(R.id.tv_money)
     TextView mMoney;
+    @BindView(R.id.tv_content)
+    TextView mContent;
     @BindView(R.id.tv_borrowing)
     TextView mBorrowing;
     @BindView(R.id.tv_interest)
@@ -56,95 +58,69 @@ public class PaymentDetailsActivity extends BaseActivity {
     TextView mStartTime;
     @BindView(R.id.tv_end_time)
     TextView mEndTime;
-    @BindView(R.id.tv_code)
-    TextView mCode;
-    @BindView(R.id.tv)
-    TextView mTv;
-    @BindView(R.id.tv_top)
-    TextView mTop;
     @BindView(R.id.tv_sure)
     TextView mSure;
-    @BindView(R.id.ll_late_money)
-    LinearLayout mLLLateMoney;
-     @BindView(R.id.ll_penalty_interest)
-    LinearLayout mLLInterset;
-
     private String loanOrderNo;
     private String repayOrderNo;
     private String loanDate;
     private String interestRate;
-    private String paymentDay;
+    private String duedDay;
     private String currentStage;
     private String serialNo;
     private SmsDialog dialog;
-    private String duedDay;
+    private String endTime;
+    private String startTime;
+    private String extendOrderNo;
+    private String extendDays;
+    private String extendFees;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected DetailPresenter createPresenter() {
+        return new DetailPresenter(this);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.acttivity_payment_details;
+        return R.layout.acttivity_money_defer2;
     }
 
     @Override
     protected int getTitleBarId() {
-        return R.id.tb_payment_title;
+        return R.id.tb_defer_title;
     }
 
     @Override
     protected void initView() {
 
-        dialog = new SmsDialog();
 
-        boolean aFalse = getIntent().getBooleanExtra("false", false);
-        loanDate = getIntent().getStringExtra("loanDate");
-        interestRate = getIntent().getStringExtra("interestRate");
+        dialog = new SmsDialog();
         loanOrderNo = getIntent().getStringExtra("loanOrderNo");
         repayOrderNo = getIntent().getStringExtra("repayOrderNo");
-        paymentDay = getIntent().getStringExtra("paymentDay");
+        loanDate = getIntent().getStringExtra("loanDate");
+        interestRate = getIntent().getStringExtra("interestRate");
         duedDay = getIntent().getStringExtra("duedDay");
-        if (aFalse) {
-            mLLInterset.setVisibility(View.GONE);
-            mLLLateMoney.setVisibility(View.GONE);
-        } else {
-            mLLInterset.setVisibility(View.VISIBLE);
-            mLLLateMoney.setVisibility(View.VISIBLE);
-        }
-
-        mInterset.setText("应还利息：" +StringUtil.getValue(interestRate) );
-        mTime.setText("周期：" +StringUtil.getValue( loanDate));
-        String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
-        if (!StringUtil.isEmpty(cardNumber)) {
-            mCode.setText(cardNumber.substring(cardNumber.length() - 4) + "的银行卡");
-        }
-        mTv.setText("距离还款日还剩" + paymentDay + "天");
+        mCInterest.setText("应还利息：" + interestRate);
+        mTime.setText("周期：" + loanDate);
+        mInterset.setText("应还罚息：" + loanDate + "元");
+        mTime.setText("应还滞纳金：" + loanDate + "元");
+        mContent.setText(
+                "温馨提示：\n" +
+                        "1.申请展期后我平台将从您绑定的银行卡扣缴展期费，请确认你的银\n" +
+                        "行卡余额充足，以免申请展期失败。\n" +
+                        "2.我平台仅支持在应还款目前申请展期，请合理安排时间。\n");
         getData();
     }
 
     @Override
     protected void initData() {
-        mTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PaymentDetailsActivity.this, Defer2MoneyActivity.class);
-                intent.putExtra("interestRate", interestRate);
-                intent.putExtra("loanDate", loanDate);
-                intent.putExtra("paymentDay", paymentDay);
-                intent.putExtra("loanOrderNo", loanOrderNo);
-                intent.putExtra("repayOrderNo", repayOrderNo);
-                intent.putExtra("duedDay", duedDay);
-                startActivity(intent);
-            }
-        });
+
         mSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                huanKuan();
+                confirmRollover();
             }
         });
+
         dialog.setOnTypeClickLitener(new SmsDialog.OnNoFinshClickLitener() {
             @Override
             public void onNoFinshClick(String code, int id) {
@@ -155,9 +131,7 @@ public class PaymentDetailsActivity extends BaseActivity {
                 }
             }
         });
-
     }
-
 
     private void getCode() {
         RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL + ApiConstant.BMGetSMS);
@@ -284,78 +258,97 @@ public class PaymentDetailsActivity extends BaseActivity {
         });
     }
 
-    private void huanKuan() {
-
-        RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL + ApiConstant.PayJudge);
-        Map<String, Object> bMap = new HashMap<>();
-        bMap.put("token", RxSPTool.getString(this, Constant.TOKEN));
-        bMap.put("mobileno", RxSPTool.getString(this, Constant.USER_MOBILENO));
-        bMap.put("userid", RxSPTool.getString(this, Constant.USER_ID));
-        bMap.put("repaymentOrderNo", repayOrderNo);
-        bMap.put("stageNum", currentStage);
-        BaseParams.getParams(bMap);
-
-
-        for (String key : bMap.keySet()) {
-            params.addBodyParameter(key, bMap.get(key) + "");
-        }
-        x.http().post(params, new Callback.ProgressCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                RxLogTool.d("flag", "还款:" + result);
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    int recode = jsonObject.getInt("retcode");
-                    String retmsg = jsonObject.getString("retmsg");
-                    if (recode == 1000) {
-                        serialNo = jsonObject.getString("data");
-
-//                        pay(jsonObject.getString("data"));
-//                        Intent intent = new Intent(BMImmHuanActivity.this, BMImmHuan02Activity.class);
-//                        intent.putExtra("serialNo", );
-//                        startActivity(intent);
-
-                        dialog.show(getSupportFragmentManager(), "set");
-                    } else {
-                        UIUtils.showToast(retmsg);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onWaiting() {
-
-            }
-
-            @Override
-            public void onStarted() {
-
-            }
-
-            @Override
-            public void onLoading(long total, long current, boolean isDownloading) {
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                RxLogTool.d("flag", "还款1error");
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
+    private void confirmRollover() {
+        rxDialogLoading.show();
+        DetailRequest detailRequest = new DetailRequest();
+        detailRequest.token = RxSPTool.getString(this, Constant.TOKEN);
+        detailRequest.mobileno = RxSPTool.getString(this, Constant.USER_MOBILENO);
+        detailRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
+        detailRequest.repaymentOrderNo = repayOrderNo;
+        detailRequest.stageNum = currentStage;
+        detailRequest.extendFees = extendFees;
+        detailRequest.extendDays = extendDays;
+        detailRequest.extendOrderNo = extendOrderNo;
+        detailRequest.extendTimes = endTime;
+        mPresenter.initiativeExtend(detailRequest);
     }
+//
+//        RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL + ApiConstant.DelayToPay);
+//        Map<String, Object> bMap = new HashMap<>();
+//        bMap.put("token", RxSPTool.getString(this, Constant.TOKEN));
+//        bMap.put("mobileno", RxSPTool.getString(this, Constant.USER_MOBILENO));
+//        bMap.put("userid", RxSPTool.getString(this, Constant.USER_ID));
+//        bMap.put("repaymentOrderNo", repayOrderNo);
+//        bMap.put("stageNum", currentStage);
+//        bMap.put("extendFees", extendFees);
+//        bMap.put("extendDays", extendDays);
+//        bMap.put("extendOrderNo", extendOrderNo);
+//        bMap.put("extendTimes", endTime);
+//
+//        BaseParams.getParams(bMap);
+//
+//
+//        for (String key : bMap.keySet()) {
+//            params.addBodyParameter(key, bMap.get(key) + "");
+//        }
+//        x.http().post(params, new Callback.ProgressCallback<String>() {
+//            @Override
+//            public void onSuccess(String result) {
+//                RxLogTool.d("flag", "确认展期2:" + result);
+//                try {
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    int recode = jsonObject.getInt("retcode");
+//                    String retmsg = jsonObject.getString("retmsg");
+//                    if (recode == 1000) {
+////                        Intent intent = new Intent(BMExtendActivity.this, BMExtend02Activity.class);
+////                        intent.putExtra("extendOrderNo", extendOrderNo);
+////                        intent.putExtra("extendTimes", extendTimes);
+////                        intent.putExtra("extendDays", extendDays);
+////                        intent.putExtra("extendFees", extendFees);
+////                        intent.putExtra("serialNo", jsonObject.getString("data"));
+////                        startActivity(intent);
+////                        finish();
+////                        pay(jsonObject.getString("data"));
+//                    } else {
+//                        UIUtils.showToast(retmsg);
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onWaiting() {
+//
+//            }
+//
+//            @Override
+//            public void onStarted() {
+//
+//            }
+//
+//            @Override
+//            public void onLoading(long total, long current, boolean isDownloading) {
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable ex, boolean isOnCallback) {
+//                RxLogTool.d("flag", "确认展期2onError:" + ex.getMessage());
+//            }
+//
+//            @Override
+//            public void onCancelled(CancelledException cex) {
+//
+//            }
+//
+//            @Override
+//            public void onFinished() {
+//
+//            }
+//        });
+//    }
 
     private void getData() {
 
@@ -372,6 +365,8 @@ public class PaymentDetailsActivity extends BaseActivity {
             params.addBodyParameter(key, bMap.get(key) + "");
         }
         x.http().get(params, new Callback.ProgressCallback<String>() {
+
+
             @Override
             public void onSuccess(String result) {
                 RxLogTool.d("flag", "订单详情:" + result);
@@ -381,15 +376,23 @@ public class PaymentDetailsActivity extends BaseActivity {
                     if (1000 == retcode) {
                         String data = jsonObject.getString("data");
                         JSONObject json = new JSONObject(data);
+
+                        startTime = json.getString("startTime");
+                        endTime = json.getString("endTime");
+                        extendFees = json.getString("extendFees");
+                        extendDays = json.getString("extendDays");
+                        extendOrderNo = json.getString("extendOrderNo");
 //                        allMoney = ;
                         mMoney.setText("" + json.getString("total"));
                         mBorrowing.setText("借款金额" + json.getString("total"));
                         mStartTime.setText("借款时间" + json.getString("startTime") + "至" + json.getString("endTime"));
-                        mEndTime.setText("还款时间：" + json.getString("endTime"));
+                        mEndTime.setText("还款时间：" + endTime);
+                        currentStage = json.getString("currentStage");
+                        new BigDecimal(json.getString("total")).multiply(new BigDecimal(0.0005).multiply(new BigDecimal(duedDay)));
 //                        tv_backMoney.setText(json.getString("principal"));
 //                        tv_weiYueMoney.setText(json.getString("overdueInterest"));
 //                        tv_manageMoney.setText(json.getString("overdueItfee"));
-                        currentStage = json.getString("currentStage");
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -428,80 +431,19 @@ public class PaymentDetailsActivity extends BaseActivity {
         });
     }
 
-    //申请延期
-    private void appapplyRollover() {
-        rxDialogLoading.show();
 
-        RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL + ApiConstant.Delay);
-        Map<String, Object> bMap = new HashMap<>();
-        bMap.put("token", RxSPTool.getString(this, Constant.TOKEN));
-        bMap.put("mobileno", RxSPTool.getString(this, Constant.USER_MOBILENO));
-        bMap.put("userid", RxSPTool.getString(this, Constant.USER_ID));
-//        bMap.put("repaymentOrderNo", repayOrderNo);
-//        bMap.put("stageNum", currentStage);
-        BaseParams.getParams(bMap);
-
-
-        for (String key : bMap.keySet()) {
-            params.addBodyParameter(key, bMap.get(key) + "");
-        }
-        x.http().post(params, new Callback.ProgressCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                RxLogTool.e("flag", "申请展期:" + result);
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    int retcode = jsonObject.getInt("retcode");
-                    String retmsg = jsonObject.getString("retmsg");
-                    if (1000 == retcode) {
-                        String data = jsonObject.getString("data");
-                        JSONObject json = new JSONObject(data);
-//                        Intent intent = new Intent(OrderHuankuanActivity.this, BMExtendActivity.class);
-//                        intent.putExtra("extendOrderNo", json.getString("extendOrderNo"));
-//                        intent.putExtra("extendFees", json.getString("extendFees"));
-//                        intent.putExtra("extendDays", json.getInt("extendDays"));
-//                        intent.putExtra("extendTimes", json.getString("extendTimes"));
-//                        intent.putExtra("extendDaysString", json.getString("extendDaysString"));
-//                        intent.putExtra("currentStage", currentStage);
-//                        intent.putExtra("repayOrderNo", repayOrderNo);
-//                        startActivity(intent);
-                    } else {
-//                        ToastUtils.showToastLong(OrderHuankuanActivity.this, retmsg);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onWaiting() {
-
-            }
-
-            @Override
-            public void onStarted() {
-
-            }
-
-            @Override
-            public void onLoading(long total, long current, boolean isDownloading) {
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-                rxDialogLoading.dismiss();
-            }
-        });
+    @Override
+    public void onSuccess(BaseResponse response) {
+        rxDialogLoading.dismiss();
     }
 
+    @Override
+    public void onFailure(BaseResponse response) {
+        rxDialogLoading.dismiss();
+    }
+
+    @Override
+    public void onError() {
+        rxDialogLoading.dismiss();
+    }
 }

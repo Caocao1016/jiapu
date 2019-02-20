@@ -12,32 +12,70 @@ import java.math.BigDecimal;
 
 public class CommonDataResponse {
 
-    private String  servicecall ;  //平台客服联系方式
-    private String  servicecall_time ;  //客服热线工作时间
-    private String  servicecall_desc ;
-    private String  help_page_url ;  //帮助页面地址
-    private String  aboutme_page_url ;  //关于我们页面地址
-    private String  aboutme_page_url_ios ;  //关于我们页面地址
-    private String  register_protocol ;  //注册协议
-    private String  loan_protocol ;
-    private String  register_protocol_ios ;
-    private String  loan_protocol_ios ;
-    private String  author_protocol ;  //授权协议html
-    private String  credit_protocol ;
-    private String  author_protocol_ios ;
-    private String  loan_strategy ;
-    private String  loan_strategy_ios ;
-    private String  loan_service_protocol ;
-    private String  loan_service_protocol_ios ;
-    private String  author_protocol_pdf ;  //授权协议pdf
-    private String  author_protocol_html ;  //注册协议html
-    private String  reg_protocol_pdf ;  //注册协议pdf
-    private String  reg_protocol_html ;
-    private String  authValidDay ;
-    private String dayRate ;   //日利率
-    private String  beginningInterestRate ;  //利率
-    private String  priceRange ;
-    private int  isLogin ;  //用户是否登录。0：未登录；1：已登录
+    private String servicecall;  //平台客服联系方式
+    private String servicecall_time;  //客服热线工作时间
+    private String servicecall_desc;
+    private String help_page_url;  //帮助页面地址
+    private String aboutme_page_url;  //关于我们页面地址
+    private String aboutme_page_url_ios;  //关于我们页面地址
+    private String register_protocol_ios;
+    private String loan_protocol_ios;
+    private String author_protocol;  //授权协议html
+    private String author_protocol_ios;
+    private String loan_strategy;
+    private String loan_strategy_ios;
+    private String loan_service_protocol;
+    private String loan_service_protocol_ios;
+    private String author_protocol_pdf;  //授权协议pdf
+    private String author_protocol_html;  //注册协议html
+    private String reg_protocol_pdf;  //注册协议pdf
+    private String reg_protocol_html;
+    private String authValidDay;
+    private String dayRate;   //日利率
+    private String beginningInterestRate;  //利率
+    private String priceRange;
+
+    private String charge_protocol;  //委托扣款授权书
+    private String register_protocol;   //APP注册服务与隐私政策
+    private String data_query_protocol;  //第三方数据查询及报送授权书
+    private String extend_protocol;  //贷款展期合同
+    private String loan_protocol;  //贷款合同
+    private String member_protocol;  //会员卡服务协议
+    private String credit_protocol;  //征信查询及报送授权书
+
+    public String getCharge_protocol() {
+        return charge_protocol;
+    }
+
+    public void setCharge_protocol(String charge_protocol) {
+        this.charge_protocol = charge_protocol;
+    }
+
+    public String getData_query_protocol() {
+        return data_query_protocol;
+    }
+
+    public void setData_query_protocol(String data_query_protocol) {
+        this.data_query_protocol = data_query_protocol;
+    }
+
+    public String getExtend_protocol() {
+        return extend_protocol;
+    }
+
+    public void setExtend_protocol(String extend_protocol) {
+        this.extend_protocol = extend_protocol;
+    }
+
+    public String getMember_protocol() {
+        return member_protocol;
+    }
+
+    public void setMember_protocol(String member_protocol) {
+        this.member_protocol = member_protocol;
+    }
+
+    private int isLogin;  //用户是否登录。0：未登录；1：已登录
 
     public String getDayRate() {
         return dayRate;

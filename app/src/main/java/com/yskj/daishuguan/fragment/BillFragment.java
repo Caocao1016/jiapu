@@ -64,9 +64,8 @@ public class BillFragment extends CommonLazyFragment {
         //开启事务
         FragmentTransaction ft =
                 getChildFragmentManager().beginTransaction();
-
         //添加首页
-        ft.add(R.id.fl_all, liftFragment).commit();
+        ft.add(R.id.fl_all, liftFragment).commitAllowingStateLoss();
 
         //默认设置为第0个
         setIndexSelected(0);

@@ -134,10 +134,19 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         mPresenter.authiteminfo(bannerRequest);
 
     }
+
     @Override
     public void onLeftClick(View v) {
-        finshDialog.show(getSupportFragmentManager(),"set");
+
+        if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
+            finish();
+        } else {
+            finshDialog.show(getSupportFragmentManager(), "set");
+        }
+
+
     }
+
     @Override
     protected CertificationPresenter createPresenter() {
         return new CertificationPresenter(this);
@@ -173,55 +182,55 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
             case R.id.rl_cer_phone:
 
-//                if (CONTACT_AUTH) {
-//                    return;
-//                }
-//                if (IDCARD_AUTH && FACE_AUTH) {
-//                    if (REAL_AUTh) {
+                if (CONTACT_AUTH) {
+                    return;
+                }
+                if (IDCARD_AUTH && FACE_AUTH) {
+                    if (REAL_AUTh) {
                         startActivity(CerPhoneActivity.class);
-//                    } else {
-//                        UIUtils.showToast("请先去完成银行卡绑定");
-//                    }
-//                } else {
-//                    UIUtils.showToast("请先去完成身份信息认证");
-//                }
+                    } else {
+                        UIUtils.showToast("请先去完成银行卡绑定");
+                    }
+                } else {
+                    UIUtils.showToast("请先去完成身份信息认证");
+                }
 
                 break;
 
             case R.id.rl_cer_number:
-//                if (MNO_AUTH) {
-//                    return;
-//                }
-//
-//                if (IDCARD_AUTH && FACE_AUTH) {
-//                    if (REAL_AUTh) {
-//
-//                        if (CONTACT_AUTH) {
-
-                if (what.equals("original")){
-                    startActivity(CerNumberActivity.class);
-                }else {
-
+                if (MNO_AUTH) {
+                    return;
                 }
 
-//                        } else {
-//                            UIUtils.showToast("请先去完成联系信息认证");
-//                        }
-//
-//                    } else {
-//                        UIUtils.showToast("请先去完成银行卡绑定");
-//                    }
-//                } else {
-//                    UIUtils.showToast("请先去完成身份信息认证");
-//                }
+                if (IDCARD_AUTH && FACE_AUTH) {
+                    if (REAL_AUTh) {
+
+                        if (CONTACT_AUTH) {
+
+                            if (what.equals("original")) {
+                                startActivity(CerNumberActivity.class);
+                            } else {
+
+                            }
+
+                        } else {
+                            UIUtils.showToast("请先去完成联系信息认证");
+                        }
+
+                    } else {
+                        UIUtils.showToast("请先去完成银行卡绑定");
+                    }
+                } else {
+                    UIUtils.showToast("请先去完成身份信息认证");
+                }
 
 
                 break;
             case R.id.tv_sure:
 
-                if ( REAL_AUTh && IDCARD_AUTH && FACE_AUTH &&CONTACT_AUTH &&MNO_AUTH){
+                if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
 
-                }else {
+                } else {
                     UIUtils.showToast("请先去完成相关认证");
                 }
                 break;
@@ -372,8 +381,8 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     @Override
     public void onAuthiteminfoSuccess(CertificationResponse response) {
         List<CertificationResponse.CertificationListResponse> itemlist = response.getItemlist();
-        for (CertificationResponse.CertificationListResponse  mList : itemlist) {
-            String status = String.valueOf( mList.getStatus());
+        for (CertificationResponse.CertificationListResponse mList : itemlist) {
+            String status = String.valueOf(mList.getStatus());
             String itemcode = mList.getItemcode();
             if (itemcode.equals("TB")) {
                 if ("1".equals(status)) {
@@ -416,7 +425,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 //                    mIvIDRight.setImageResource(R.mipmap.ic_no_approve);
 //                } else {
 //                    mIvIDRight.setVisibility(View.INVISIBLE);
-//                    mTvIDRight.setVisibility(View.VISIBLE);
+//                    mTv   IDRight.setVisibility(View.VISIBLE);
 //                }
             } else if (itemcode.equals("FACE")) {
                 if ("1".equals(status)) {

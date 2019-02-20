@@ -82,10 +82,28 @@ public class BillResponse {
         private String statusString;
         private int auditCreditLimit;
         private String createTime;
+        private String loanDate;  // oanDate天数，interestRate利息
+        private String interestRate;
         private List<Bean> recoveryList;
         private String pictureUrl;//图片地址
         private String merchantRealname;//商户名称
         private String h5Url;//h5地址
+
+        public String getLoanDate() {
+            return loanDate;
+        }
+
+        public void setLoanDate(String loanDate) {
+            this.loanDate = loanDate;
+        }
+
+        public String getInterestRate() {
+            return interestRate;
+        }
+
+        public void setInterestRate(String interestRate) {
+            this.interestRate = interestRate;
+        }
 
         public static class Bean {
             private String pictureUrl;//图片地址

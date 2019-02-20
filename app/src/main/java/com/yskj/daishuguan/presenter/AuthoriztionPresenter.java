@@ -4,6 +4,7 @@ import com.yskj.daishuguan.api.SubscriberCallBack;
 import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
+import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.CreditStartRequest;
 import com.yskj.daishuguan.entity.request.OCRRequest;
 import com.yskj.daishuguan.entity.request.SendSmsRequest;
@@ -11,6 +12,7 @@ import com.yskj.daishuguan.modle.AuthoriztionView;
 import com.yskj.daishuguan.modle.CardView;
 import com.yskj.daishuguan.response.CardResponse;
 import com.yskj.daishuguan.response.CardSmsResponse;
+import com.yskj.daishuguan.response.HomeInfoResponse;
 
 /**
  * CaoPengFei
@@ -49,5 +51,26 @@ public class AuthoriztionPresenter extends BasePresenter<AuthoriztionView> {
 
 
     }
+    public void homeInfo(BannerRequest request) {
 
+        addSubscription(mApiService.homeInfo(BaseParams.getParams(request.params())), new SubscriberCallBack<HomeInfoResponse>() {
+
+            @Override
+            protected void onSuccess(HomeInfoResponse response) {
+
+                mView.onHomeInfoSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
+        });
+
+    }
 }

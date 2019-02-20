@@ -41,6 +41,7 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     TextView mMoney;
     private NoFinshDialog finshDialog;
     private String mListID;
+    private int anInt;
 
     @Override
     protected MembersPresenter createPresenter() {
@@ -59,7 +60,9 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
 
     @Override
     protected void initView() {
-        int anInt = RxSPTool.getInt(this, Constant.AUDIT_CREDIT_LIMIT);
+
+        anInt = getIntent().getIntExtra("moneyList",0);
+
         String rate = RxSPTool.getString(this, Constant.BEGINNING_RATE);
         mMoney.setText(StringUtil.getRateMoney(anInt, rate).toString());
         finshDialog = new NoFinshDialog();
@@ -97,7 +100,7 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
                 membersRequest.userId = RxSPTool.getString(this, Constant.USER_ID);
                 membersRequest.couponIds = mListID;
                 membersRequest.token = RxSPTool.getString(this, Constant.TOKEN);
-                membersRequest.menberPrice =  RxSPTool.getInt(this, Constant.AUDIT_CREDIT_LIMIT);
+                membersRequest.menberPrice =  anInt;
                 membersRequest.menberRate = RxSPTool.getString(this, Constant.BEGINNING_RATE);
                 mPresenter.creditList(membersRequest);
                 break;

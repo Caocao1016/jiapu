@@ -316,5 +316,4 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
     public void onFinshMoneyEvenbus(FinshMoneyEvenbus event) {
         mViewPager.setCurrentItem(event.number);
     }
-
 }

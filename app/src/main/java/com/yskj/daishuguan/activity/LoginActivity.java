@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void initView() {
         mETphone.setText(StringUtil.getValue(getIntent().getStringExtra("phone")));
-        mETphone.setText("15686141308");
+        mETphone.setText("15381097820");
 
     }
 

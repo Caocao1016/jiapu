@@ -13,6 +13,7 @@ import com.yskj.daishuguan.response.CardResponse;
 import com.yskj.daishuguan.response.CardSmsResponse;
 import com.yskj.daishuguan.response.ManagementListResponse;
 import com.yskj.daishuguan.response.ManagementResponse;
+import com.yskj.daishuguan.response.ShareContentResponse;
 
 /**
  * CaoPengFei
@@ -58,6 +59,28 @@ public class ManagementMoneyPresenter extends BasePresenter<ManagementMoneyView>
             protected void onSuccess(ManagementListResponse response) {
 
                 mView.onCouponUseSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
+        });
+    }
+    public void share(OCRRequest request) {
+
+
+        addSubscription(mApiService.share(BaseParams.getParams(request.params())), new SubscriberCallBack<ShareContentResponse>() {
+
+            @Override
+            protected void onSuccess(ShareContentResponse response) {
+
+                mView.onShareSuccess(response);
             }
 
             @Override

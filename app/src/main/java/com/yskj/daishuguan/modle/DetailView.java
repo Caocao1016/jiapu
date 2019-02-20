@@ -1,7 +1,6 @@
 package com.yskj.daishuguan.modle;
 
 import com.yskj.daishuguan.base.BaseResponse;
-import com.yskj.daishuguan.response.AppVersionResponse;
 import com.yskj.daishuguan.response.HomeInfoResponse;
 
 /**
@@ -12,10 +11,9 @@ import com.yskj.daishuguan.response.HomeInfoResponse;
  * @Description:
  */
 
-public interface AuthoriztionView {
+public interface DetailView {
 
     void onSuccess(BaseResponse response);
     void onFailure(BaseResponse response);
-    void onHomeInfoSuccess(HomeInfoResponse response);
     void onError();
 }

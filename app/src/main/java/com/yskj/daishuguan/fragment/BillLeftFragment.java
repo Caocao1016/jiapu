@@ -151,7 +151,7 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
 
     @Override
     public void onFailure(BaseResponse response) {
-
+        mSwipe.setRefreshing(false);
         UIUtils.showToast(response.getRetmsg());
     }
 

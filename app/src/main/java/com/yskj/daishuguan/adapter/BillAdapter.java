@@ -41,10 +41,11 @@ public class BillAdapter extends BaseQuickAdapter<BillResponse.ListBean, BaseVie
          }
 
 
-        helper.setText(R.id.tv_money,item.getAuditCreditLimit()+"");
+        helper.setText(R.id.tv_money,item.getAuditCreditLimit() == 0 ? "**":item.getAuditCreditLimit()+"");
+        helper.setText(R.id.tv_interest,"利息："+(StringUtil.isEmpty(item.getInterestRate()) ? "**元":item.getInterestRate()+"元"));
         helper.setText(R.id.tv_start,item.getStatusString()+"");
+        helper.setText(R.id.tv,"借款周期："+item.getLoanDate()+"天");
         helper.setText(R.id.tv_time,"申请时间   "+item.getCreateTime());
-//        helper.setText(R.id.tv,"借款周期"+);
         helper.addOnClickListener(R.id.rl_all);
 
 

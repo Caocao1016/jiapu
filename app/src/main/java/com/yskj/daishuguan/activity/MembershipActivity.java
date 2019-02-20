@@ -80,6 +80,9 @@ public class MembershipActivity extends BaseActivity<MembersPresenter> implement
             public void onClick(View v) {
 
                 BannerRequest bannerRequest = new BannerRequest();
+                bannerRequest.token = RxSPTool.getString(MembershipActivity.this, Constant.TOKEN);
+                bannerRequest.userid = RxSPTool.getString(MembershipActivity.this, Constant.USER_ID);
+                bannerRequest.mobileno = RxSPTool.getString(MembershipActivity.this, Constant.USER_MOBILENO);
                 mPresenter.memberPayment(bannerRequest);
 
             }

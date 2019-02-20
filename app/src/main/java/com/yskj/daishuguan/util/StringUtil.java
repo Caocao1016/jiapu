@@ -79,7 +79,7 @@ public class StringUtil {
 
         BigDecimal bigDecimal = new BigDecimal(money);
         BigDecimal bigDecima = new BigDecimal(rate);
-        return bigDecimal.multiply(bigDecima);
+        return bigDecimal.multiply(bigDecima.divide(new BigDecimal(100)));
     }
 
     public static int getNUmber(String max, String min) {

@@ -17,6 +17,15 @@ public class HomeInfoResponse {
     private boolean creditJudge ;
     private boolean loanJudge ;
     private boolean pwd ;
+    private int isMember ;
+
+    public int getIsMember() {
+        return isMember;
+    }
+
+    public void setIsMember(int isMember) {
+        this.isMember = isMember;
+    }
 
     public int getAssessValue() {
         return assessValue;

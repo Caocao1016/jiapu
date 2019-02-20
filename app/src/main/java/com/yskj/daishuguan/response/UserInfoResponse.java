@@ -10,7 +10,6 @@ package com.yskj.daishuguan.response;
 
 public class UserInfoResponse {
 
-
     private String name;
     private String mobile;
     private String idcard;

@@ -1,6 +1,7 @@
 package com.yskj.daishuguan.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Base64;
@@ -14,9 +15,12 @@ import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.NoFinshDialog;
+import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.CreditStartRequest;
+import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.AuthoriztionView;
 import com.yskj.daishuguan.presenter.AuthoriztionPresenter;
+import com.yskj.daishuguan.response.HomeInfoResponse;
 import com.yskj.daishuguan.util.Base64BitmapUtil;
 import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
@@ -85,7 +89,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
         String ALLdayRate = RxSPTool.getString(this, Constant.AUTH_VALID_DAY);
 
         if (!StringUtil.isEmpty(cardNumber)) {
-            mCard.setText(cardNumber.substring(cardNumber.length() - 4));
+            mCard.setText(cardNumber.substring(cardNumber.length() - 4)+"的银行卡");
         }
 
         mMoney.setText(moeny);
@@ -151,6 +155,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
                     UIUtils.showToast("请先点击签名");
                     return;
                 }
+                rxDialogLoading.show();
                 CreditStartRequest creditStartRequest = new CreditStartRequest();
                 creditStartRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
                 creditStartRequest.token = RxSPTool.getString(this, Constant.TOKEN);
@@ -232,13 +237,36 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
 
     @Override
     public void onSuccess(BaseResponse response) {
-        startActivity(MembersActivity.class);
+        rxDialogLoading.dismiss();
+        Intent intent = new Intent(this, CerFinshActivity.class);
+        intent.putExtra("what",1);
+        startActivity(intent);
+        finish();
+//        BannerRequest homeInfoRequest = new BannerRequest();
+//        homeInfoRequest.token = RxSPTool.getString(this, Constant.TOKEN);
+//        homeInfoRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
+//        homeInfoRequest.cycle = RxSPTool.getString(this, Constant.AUTH_VALID_DAY);
+//        mPresenter.homeInfo(homeInfoRequest);
     }
 
     @Override
     public void onFailure(BaseResponse response) {
-
+        rxDialogLoading.dismiss();
         UIUtils.showToast(response.getRetmsg());
+        if (response.getRetcode() == 2705){
+            Intent intent = new Intent(this, CerFinshActivity.class);
+            intent.putExtra("what",1);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    public void onHomeInfoSuccess(HomeInfoResponse response) {
+//        rxDialogLoading.dismiss();
+        Intent intent = new Intent(this, MembersActivity.class);
+        intent.putExtra("moneyList",response.getAuditCreditLimit());
+        startActivity(intent);
     }
 
     @Override

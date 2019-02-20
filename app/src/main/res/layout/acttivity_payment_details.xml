@@ -33,14 +33,14 @@
                 android:background="@drawable/shape_bg_white">
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:id="@+id/tv"
+                    android:layout_width="110dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
-                    android:background="@color/cl_F34F03"
+                    android:background="@mipmap/ic_cer_button"
                     android:gravity="center"
-                    android:text="11111"
                     android:textSize="12sp"
-                    android:textColor="#FFBD41" />
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -60,7 +60,6 @@
                     android:layout_below="@+id/tv_title"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="19dp"
-                    android:text="1,200.00"
                     android:textColor="@color/cl_F34F03"
                     android:textSize="52sp" />
 
@@ -84,7 +83,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
-                        android:text="借款金额：1303元"
                         android:textColor="@color/cl_404040"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -108,7 +106,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
-                        android:text="应还利息：3元"
                         android:textColor="@color/cl_404040"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -123,6 +120,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_left"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:background="@drawable/shape_acthorization_bg_blue" />
@@ -132,7 +130,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
-                        android:text="应还本金：1000元"
                         android:textColor="@color/cl_404040"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -147,6 +144,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:background="@drawable/shape_acthorization_bg_blue" />
@@ -156,7 +154,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
-                        android:text="应还本金：1000元"
                         android:textColor="@color/cl_404040"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -181,7 +178,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
-                        android:text="周期：7天"
                         android:textColor="@color/cl_404040"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -244,6 +240,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tv_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -251,8 +248,6 @@
                     android:layout_marginLeft="13dp"
                     android:layout_marginRight="13dp"
                     android:drawablePadding="5dp"
-                    android:drawableRight="@mipmap/ic_signature_next"
-                    android:text="7321的银行卡"
                     android:textColor="@color/cl_F34F03"
                     android:textSize="15sp" />
 
@@ -290,6 +285,7 @@
 
 
             <TextView
+                android:id="@+id/tv_top"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginBottom="9dp"
@@ -299,7 +295,6 @@
                 android:background="@drawable/shape_payment_details"
                 android:gravity="center"
                 android:text="申请展期"
-
                 android:textColor="@color/cl_F34F03"
                 android:textSize="19sp" />
 

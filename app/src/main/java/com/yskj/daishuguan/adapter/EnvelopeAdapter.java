@@ -36,6 +36,6 @@ public class EnvelopeAdapter extends BaseQuickAdapter<ManagementListItemResponse
             helper.setImageResource(R.id.iv_view, R.mipmap.ic_faslh);
         }
 
-        helper.addOnClickListener(R.id.rl_coucop);
+        helper.addOnClickListener(R.id.iv_view);
     }
 }

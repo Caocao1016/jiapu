@@ -75,15 +75,65 @@ public class BillHuankuanResponse {
          * createTime : 2018-02-07
          * status : 0
          * finishTime :
+         * 已放款：status=3   待还款status=0
+         待还款：
+         idDued=1代表逾期     DuedDay逾期天数
+         idDued=0代表未逾期   paymentDay剩余还款天数
+         finishTime 还款时间
          */
 
         private String repayOrderNo;
+        private String idDued;
+        private String DuedDay;
+        private String paymentDay;
         private String loanOrderNo;
         private String productName;
         private String repayTotal;
         private String createTime;
+        private String loanDate;  // oanDate天数，interestRate利息
+        private String interestRate;
         private int status;
         private String finishTime;
+
+        public String getIdDued() {
+            return idDued;
+        }
+
+        public void setIdDued(String idDued) {
+            this.idDued = idDued;
+        }
+
+        public String getDuedDay() {
+            return DuedDay;
+        }
+
+        public void setDuedDay(String duedDay) {
+            DuedDay = duedDay;
+        }
+
+        public String getPaymentDay() {
+            return paymentDay;
+        }
+
+        public void setPaymentDay(String paymentDay) {
+            this.paymentDay = paymentDay;
+        }
+
+        public String getLoanDate() {
+            return loanDate;
+        }
+
+        public void setLoanDate(String loanDate) {
+            this.loanDate = loanDate;
+        }
+
+        public String getInterestRate() {
+            return interestRate;
+        }
+
+        public void setInterestRate(String interestRate) {
+            this.interestRate = interestRate;
+        }
 
         public String getRepayOrderNo() {
             return repayOrderNo;

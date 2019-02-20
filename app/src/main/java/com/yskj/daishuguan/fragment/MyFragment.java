@@ -101,7 +101,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
 
     @Override
     public void onRightClick(View v) {
-    startActivity(MessageActivity.class);
+//    startActivity(MessageActivity.class);
 
     }
 

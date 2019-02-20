@@ -18,5 +18,10 @@ public class ApiConstant {
     public static String CREATEREPORT = "auth/commoperator/createreport";//运营商1-开始请求
     public static String CRAWLINGREPORT = "auth/commoperator/crawlingreport";//运营商1-重复请求
     public static String Delay = "extend/checkExtend";//初始展期
+    public static String repayTotal = "repayment/bills/total";////订单详情
+    public static String PayJudge = "vyp/initiativeRepayment/repayment";////订单详情
+    public static String BMGetSMS = "vyp/initiativeRepayment/reSendVerify";//主动还款 短信重发
+    public static String ConfirmPay = "vyp/initiativeRepayment/confirmRepayment";//确认还款还款
+    public static String DelayToPay = "vyp/initiativeRepayment/initiativeExtend";//提交展期到发送短信
 
 }

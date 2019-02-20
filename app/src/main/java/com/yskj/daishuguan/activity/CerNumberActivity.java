@@ -80,27 +80,25 @@ public class CerNumberActivity extends BaseActivity {
         String phone = mPhone.getText().toString();
         String password = mPassWord.getText().toString();
 
-        if (null!=password&&password.length()>0){
-          rxDialogLoading.show();
+        if (null != password && password.length() > 0) {
+            rxDialogLoading.show();
             //539158
-            getCreateReportInfo(phone,password);
-        }else {
+            getCreateReportInfo(phone, password);
+        } else {
             UIUtils.showToast("请输入运营商服务密码");
         }
     }
 
 
     private void getCreateReportInfo(String phone, String servicepwd) {
-        RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL +ApiConstant.CREATEREPORT);
-        params.setConnectTimeout(200*1000);
+        RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL + ApiConstant.CREATEREPORT);
+        params.setConnectTimeout(200 * 1000);
         Map<String, Object> bMap = new HashMap<>();
         bMap.put("token", RxSPTool.getString(this, Constant.TOKEN));
         bMap.put("userid", RxSPTool.getString(this, Constant.USER_ID));
-        bMap.put("mobileno",RxSPTool.getString(this, Constant.USER_MOBILENO));
+        bMap.put("mobileno", RxSPTool.getString(this, Constant.USER_MOBILENO));
         bMap.put("passwd", servicepwd);
-            BaseParams.getParams(bMap);
-
-
+        BaseParams.getParams(bMap);
         for (String key : bMap.keySet()) {
             params.addBodyParameter(key, bMap.get(key).toString());
         }
@@ -111,10 +109,10 @@ public class CerNumberActivity extends BaseActivity {
                 RxLogTool.e(result);
                 CreateReportInfo info = new Gson().fromJson(result, CreateReportInfo.class);
                 String retmsg = info.getRetmsg();
-                if (1000==info.getRetcode()) {
+                if (1000 == info.getRetcode()) {
                     if (info.getData().isComplete()) {
                         Intent intent = new Intent(CerNumberActivity.this, CerFinshActivity.class);
-                        intent.putExtra("what",0);
+                        intent.putExtra("what", 0);
                         startActivity(intent);
                         finish();
                     } else {
@@ -122,13 +120,13 @@ public class CerNumberActivity extends BaseActivity {
                         if (info.getData().isSmscode()) {
                             CreateReportInfo.DataBean data = info.getData();
                             Intent intent = new Intent(CerNumberActivity.this, CerNumberTwoActivity.class);
-                            intent.putExtra("taskid",data.getTaskid());
-                            intent.putExtra("code",data.getCode());
-                            intent.putExtra("nextstage",data.getNextstage());
-                            intent.putExtra("complete",""+data.isComplete());
+                            intent.putExtra("taskid", data.getTaskid());
+                            intent.putExtra("code", data.getCode());
+                            intent.putExtra("nextstage", data.getNextstage());
+                            intent.putExtra("complete", "" + data.isComplete());
                             startActivity(intent);
                             finish();
-                        }else {
+                        } else {
                             UIUtils.showToast(retmsg);
                         }
                     }
@@ -136,10 +134,12 @@ public class CerNumberActivity extends BaseActivity {
                     UIUtils.showToast(retmsg);
                 }
             }
+
             @Override
             public void onFinished() {
-             rxDialogLoading.dismiss();
+                rxDialogLoading.dismiss();
             }
+
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 ex.printStackTrace();
@@ -150,7 +150,6 @@ public class CerNumberActivity extends BaseActivity {
             public void onCancelled(CancelledException cex) {
                 cex.printStackTrace();
             }
-
 
 
             @Override
@@ -168,6 +167,7 @@ public class CerNumberActivity extends BaseActivity {
             }
         });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

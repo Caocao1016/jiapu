@@ -20,6 +20,7 @@ import com.yskj.daishuguan.modle.ManagementMoneyView;
 import com.yskj.daishuguan.presenter.ManagementMoneyPresenter;
 import com.yskj.daishuguan.response.ManagementListResponse;
 import com.yskj.daishuguan.response.ManagementResponse;
+import com.yskj.daishuguan.response.ShareContentResponse;
 
 import java.util.ArrayList;
 
@@ -88,6 +89,11 @@ public class ManagementMoneyActivity extends BaseActivity<ManagementMoneyPresent
 
     @Override
     public void onCouponUseSuccess(ManagementListResponse response) {
+
+    }
+
+    @Override
+    public void onShareSuccess(ShareContentResponse response) {
 
     }
 

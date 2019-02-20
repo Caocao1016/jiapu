@@ -109,7 +109,7 @@ public class CerPhoneActivity extends BaseActivity {
         if (view.getId() == R.id.ll_phone) {
             XXPermissions.with(this)
                     .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                    //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
+                    .permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
                     .permission(Permission.READ_CONTACTS, Permission.WRITE_CONTACTS, Permission.GET_ACCOUNTS)
                     .request(new OnPermission() {
 

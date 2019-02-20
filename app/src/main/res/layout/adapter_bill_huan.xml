@@ -53,7 +53,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/iv_head"
-            android:text="1000.00"
             android:textColor="@color/cl_F34F03"
             android:textSize="16sp" />
 
@@ -79,14 +78,13 @@
 
         <TextView
             android:id="@+id/tv_start"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="21dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="11dp"
             android:layout_marginTop="22dp"
             android:gravity="center"
-            android:text="后台审批中"
-            android:textColor="@color/cl_4D4D4D"
+            android:textColor="@color/white"
             android:textSize="11sp" />
 
         <TextView
@@ -107,7 +105,6 @@
             android:layout_below="@+id/tv_money"
             android:layout_marginRight="11dp"
             android:layout_marginTop="10dp"
-            android:text="借款周期：7天"
             android:textColor="@color/cl_4D4D4D"
             android:textSize="11sp" />
 
@@ -138,7 +135,6 @@
             android:layout_below="@+id/view_two"
             android:layout_marginRight="12dp"
             android:gravity="center_vertical"
-            android:text="申请时间   2017.08.25  12:00:00"
             android:textSize="9sp" />
     </RelativeLayout>
 </RelativeLayout>

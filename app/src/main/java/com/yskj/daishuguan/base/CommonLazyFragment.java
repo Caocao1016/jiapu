@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.vondear.rxui.view.dialog.RxDialogLoading;
+import com.yskj.daishuguan.R;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
@@ -27,10 +30,12 @@ public abstract class CommonLazyFragment<T extends BasePresenter> extends UILazy
     private View rootView;
 //    protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     protected Activity mActivity;
-
+    public RxDialogLoading rxDialogLoading;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rxDialogLoading = new RxDialogLoading(getContext());
+        rxDialogLoading.setLoadingColor(R.color.cl_F34F03);
         mPresenter = createPresenter();
     }
 

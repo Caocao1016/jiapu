@@ -89,6 +89,17 @@ public class Constant {
     public static String REGISTER_HTML = "registerProtocolHtml";  //注册协议html
     public static String AUTHOR_PDF = "authorProtocolPdf";  //授权协议pdf
     public static String AUTHOR_HTML = "authorProtocolHtml";  //授权协议html
+
+
+    public static String CHARGE_PROTOCOL = "charge_protocol";  //授权协议html
+    public static String REGISTER_PROTOCOL = "register_protocol";  //APP注册服务与隐私政策
+    public static String DATA_QUERY_PROTOCOL = "data_query_protocol";  //第三方数据查询及报送授权书
+    public static String EXTEND_PROTOCOL = "extend_protocol";  //贷款展期合同
+    public static String LOAN_PROTOCOL = "loan_protocol";  //贷款合同
+    public static String MEMBER_PROTOCOL = "member_protocol";  //会员卡服务协议
+    public static String CREDIT_PROTOCOL = "credit_protocol";  //征信查询及报送授权书
+
+
     public static String IS_LOGIN = "isLogin";  //用户是否登录。0：未登录；1：已登录
 
 

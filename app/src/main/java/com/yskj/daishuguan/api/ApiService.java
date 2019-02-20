@@ -221,7 +221,11 @@ public interface ApiService {
      * 授信
      */
     @POST("credit/start")
-    Observable<BaseResponse> creditStart(@QueryMap Map<String, Object> params);
+    Observable<BaseResponse> creditStart(@QueryMap Map<String, Object> params);  /**
+     * 授信
+     */
+    @GET("vyp/initiativeRepayment/initiativeExtend")
+    Observable<BaseResponse> initiativeExtend(@QueryMap Map<String, Object> params);
 
 //------------------------------------------------
 

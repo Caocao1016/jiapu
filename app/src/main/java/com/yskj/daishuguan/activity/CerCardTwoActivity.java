@@ -160,15 +160,8 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
                 sendSmsRequest.token = RxSPTool.getString(this, Constant.TOKEN);
                 sendSmsRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
                 sendSmsRequest.mobileno = RxSPTool.getString(this, Constant.USER_MOBILENO);
-                sendSmsRequest.realname = name;
-                sendSmsRequest.idcardno = mIDcard;
-                sendSmsRequest.validatecode = name;
-                sendSmsRequest.validatecode = name;
+                sendSmsRequest.validatecode = number1;
                 sendSmsRequest.requestno = requestno;
-                sendSmsRequest.mchntssn = mchntssn;
-                sendSmsRequest.cardno = number1;
-                sendSmsRequest.bankname = type1;
-                sendSmsRequest.bankcode = code;
                 mPresenter.getAuthrealnamerequeset(sendSmsRequest);
                 break;
             case R.id.ll_type:

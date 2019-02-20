@@ -49,7 +49,7 @@ import butterknife.BindView;
  */
 
 public class BillRightFragment extends CommonLazyFragment<BillPresenter> implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener,BillView {
+        BaseQuickAdapter.RequestLoadMoreListener, BillView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -60,7 +60,7 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
     private int mPageNo = 1;
     private boolean mIsLoadMore;
     private String mStart = "1";
-    private     View   emptyView ;
+    private View emptyView;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -68,6 +68,7 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         initView();
         initData();
     }
+
     @Override
     protected BillPresenter createPresenter() {
         return new BillPresenter(this);
@@ -100,10 +101,44 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
+                List<BillHuankuanResponse.ListBean> data = adapter.getData();
+
+                if (data.get(position).getStatus() == 0) {
+
+                    if (data.get(position).getIdDued().equals("1")) {  //逾期
+                        Intent intent = new Intent(getContext(), DeferMoneyActivity.class);
+                        intent.putExtra("false", true);
+                        intent.putExtra("interestRate", data.get(position).getInterestRate());
+                        intent.putExtra("loanDate", data.get(position).getLoanDate());
+                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
+                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
+                        startActivity(intent);
+                    } else {  //代还款
+                        Intent intent = new Intent(getContext(), PaymentDetailsActivity.class);
+                        intent.putExtra("false", true);
+                        intent.putExtra("interestRate", data.get(position).getInterestRate());
+                        intent.putExtra("loanDate", data.get(position).getLoanDate());
+                        intent.putExtra("paymentDay", data.get(position).getPaymentDay());
+                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
+                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
+                        intent.putExtra("duedDay", data.get(position).getDuedDay());
+                        startActivity(intent);
+                    }
+
+                } else {
+                    Intent intent = new Intent(getContext(), DeferMoneyActivity.class);
+                    intent.putExtra("false", false);
+                    intent.putExtra("interestRate", data.get(position).getInterestRate());
+                    intent.putExtra("loanDate", data.get(position).getLoanDate());
+                    intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
+                    intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
+                    startActivity(intent);
+                }
+
 //                1.逾期  2.展期
 
-//                DeferMoneyActivity
-                    startActivity(PaymentDetailsActivity.class);
+//
+
             }
         });
     }
@@ -118,7 +153,6 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         request.page = mPageNo;
         request.limit = Constant.PAGE_SIZE;
         mPresenter.bills(request);
-
 
 
         final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
@@ -162,7 +196,7 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
 
     @Override
     public void onHuanKuanSuccess(BillHuankuanResponse response) {
-        if (null != response){
+        if (null != response) {
             getList(response.getList());
         }
     }
@@ -182,6 +216,8 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
 
     public void getList(List<BillHuankuanResponse.ListBean> entity) {
 
+//            if (entity.get(0).getStatus())
+
         if (mIsLoadMore) {
             mIsLoadMore = false;
             if (entity != null && entity.size() <= Constant.PAGE_SIZE && entity.size() > 0) {
@@ -192,10 +228,10 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
                 mAdapter.loadMoreEnd(true);
             }
         } else {
-            if (null != entity && entity.size()>0){
+            if (null != entity && entity.size() > 0) {
                 mPageNo++;
                 mAdapter.setNewData(entity);
-            }else {
+            } else {
                 mAdapter.setEmptyView(emptyView);
             }
         }
