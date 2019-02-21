@@ -101,7 +101,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     /**
      * {@link View.OnClickListener}
      */
-    @OnClick({R.id.tv_register, R.id.cv_register_countdown, R.id.img_code})
+    @OnClick({R.id.tv_register, R.id.cv_register_countdown, R.id.login_forget_password, R.id.img_code})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -118,7 +118,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                     UIUtils.showToast("请检查手机号码");
                     return;
                 }
-                if (mRcode.length()<4) {
+                if (mRcode.length() < 4) {
                     // 重置验证码倒计时控件
                     mRcountdown.resetState();
                     UIUtils.showToast("请输入正确的图形验证码");
@@ -127,9 +127,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
                 SmsCaptchaRequest smsCaptchaRequest = new SmsCaptchaRequest();
                 smsCaptchaRequest.captcha = mRcode.getText().toString().trim();
-                smsCaptchaRequest.mobileno = mRPhone.getText().toString().trim() ;
+                smsCaptchaRequest.mobileno = mRPhone.getText().toString().trim();
                 smsCaptchaRequest.reqType = "register";
-                smsCaptchaRequest.token = RxSPTool.getString(this,Constant.TOKEN);
+                smsCaptchaRequest.token = RxSPTool.getString(this, Constant.TOKEN);
                 mPresenter.getQuestSmsCaptcha(smsCaptchaRequest);
                 break;
 
@@ -153,17 +153,23 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                     return;
                 }
                 LoginRequest loginRequest = new LoginRequest();
-                loginRequest.reqtype = "register" ;
+                loginRequest.reqtype = "register";
                 loginRequest.locaddress = "";
-                loginRequest.locgps = "" ;
-                loginRequest.invitationcode = "" ;
-                loginRequest.mobileno = mRPhone.getText().toString().trim() ;
-                loginRequest.verifycode = mRPassWord.getText().toString().trim() ;
+                loginRequest.locgps = "";
+                loginRequest.invitationcode = "";
+                loginRequest.mobileno = mRPhone.getText().toString().trim();
+                loginRequest.verifycode = mRPassWord.getText().toString().trim();
                 mPresenter.getRegister(loginRequest);
                 break;
             case R.id.img_code:
                 mRcode.setText("");
                 initData();
+                break;
+            case R.id.login_forget_password:
+                Intent intent2 = new Intent(RegisterActivity.this, WebViewActivity.class);
+                intent2.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this,Constant.REGISTER_PROTOCOL));
+                intent2.putExtra(Constant.WEBVIEW_URL_TITLE,"用户服务协议");
+                startActivity(intent2);
                 break;
             default:
                 break;
@@ -202,11 +208,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     public void onFailure(BaseResponse response) {
         UIUtils.showToast(response.getRetmsg());
-        if (1007==response.getRetcode() || 1006==response.getRetcode()){
+        if (1007 == response.getRetcode() || 1006 == response.getRetcode()) {
             mRcountdown.resetState();
             mRcode.setText("");
             initData();
-        }else if (1501 == response.getRetcode()) {
+        } else if (1501 == response.getRetcode()) {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             intent.putExtra("phone", mRPhone.getText().toString());
             startActivity(intent);
@@ -217,7 +223,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     public void onImgCodeSuccess(CaptchaCodeResponse response) {
         String imgBase64 = response.getImgBase64();
-        RxSPTool.putString(this,Constant.TOKEN,response.getToken());
+        RxSPTool.putString(this, Constant.TOKEN, response.getToken());
         if (!imgBase64.isEmpty()) {
             byte[] bytes = Base64.decode(imgBase64, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

@@ -42,6 +42,7 @@ public class Constant {
 
 
     public static String WEBVIEW_URL = "webview_url";
+    public static String WEBVIEW_URL_TITLE = "webview_url_title";
 
     public static String GPS_LATITUDE = "gps_latitude";
     public static String GPS_LONGITUDE = "gps_longitude";
@@ -63,6 +64,7 @@ public class Constant {
 
 
     public static final String CARD_NUMBER = "card_number";
+    public static final String IDCARD_NUMBER = "id_card_number";
 
     /**
      * 认证等
@@ -91,7 +93,7 @@ public class Constant {
     public static String AUTHOR_HTML = "authorProtocolHtml";  //授权协议html
 
 
-    public static String CHARGE_PROTOCOL = "charge_protocol";  //授权协议html
+    public static String CHARGE_PROTOCOL = "charge_protocol";  //委托扣款授权书
     public static String REGISTER_PROTOCOL = "register_protocol";  //APP注册服务与隐私政策
     public static String DATA_QUERY_PROTOCOL = "data_query_protocol";  //第三方数据查询及报送授权书
     public static String EXTEND_PROTOCOL = "extend_protocol";  //贷款展期合同

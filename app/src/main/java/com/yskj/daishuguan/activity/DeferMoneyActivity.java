@@ -1,10 +1,8 @@
 package com.yskj.daishuguan.activity;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.moxie.client.widget.wave.UiUtils;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
@@ -360,10 +358,6 @@ public class DeferMoneyActivity extends BaseActivity {
                     int retcode = jsonObject.getInt("retcode");
                         UIUtils.showToast(retmsg);
                     if (1000==retcode){
-//                        Intent intent =new Intent(BMImmHuan02Activity.this, HomeActivity.class);
-//                        intent.putExtra("finishAC","finishAC");
-//                        startActivity(intent);
-//                        closeKebord();
                         finish();
                     }else {
                         finish();

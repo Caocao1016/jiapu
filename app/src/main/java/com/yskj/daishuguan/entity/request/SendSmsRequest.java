@@ -24,12 +24,15 @@ public class SendSmsRequest extends MapParamsRequest {
     public String validatecode;
     public String requestno;
     public String mchntssn;
+    public String bankCardMobile;
 
 
     @Override
     protected void putParams() {
         if (!StringUtil.isEmpty(token)) {
             params.put("token", token);
+        } if (!StringUtil.isEmpty(bankCardMobile)) {
+            params.put("bankCardMobile", bankCardMobile);
         }
         if (!StringUtil.isEmpty(validatecode)) {
             params.put("validatecode", validatecode);

@@ -17,6 +17,7 @@ public interface CertificationDataView {
 
 
     void onAuthiteminfoSuccess(CertificationResponse response);
+    void onMOxieSuccess(BaseResponse response);
     void onSuccess(String response);
     void onError();
     void onFailure(BaseResponse response);

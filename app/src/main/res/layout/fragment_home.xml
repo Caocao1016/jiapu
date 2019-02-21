@@ -147,6 +147,7 @@
                 android:textColor="@color/cl_F34F03" />
 
             <TextView
+                android:id="@+id/tv_left"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

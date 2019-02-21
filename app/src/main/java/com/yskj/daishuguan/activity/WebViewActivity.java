@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.vondear.rxtool.RxBarTool;
 import com.vondear.rxtool.RxImageTool;
 import com.vondear.rxtool.RxKeyboardTool;
@@ -59,12 +60,12 @@ public class WebViewActivity extends ActivityBase {
     }
 
     private void initView() {
-        this.mRxTextAutoZoom = (RxTextAutoZoom)this.findViewById(com.vondear.rxui.R.id.afet_tv_title);
-        this.llIncludeTitle = (LinearLayout)this.findViewById(com.vondear.rxui.R.id.ll_include_title);
-        this.tvTitle = (TextView)this.findViewById(com.vondear.rxui.R.id.tv_title);
-        this.pbWebBase = (ProgressBar)this.findViewById(com.vondear.rxui.R.id.pb_web_base);
-        this.webBase = (WebView)this.findViewById(com.vondear.rxui.R.id.web_base);
-        this.ivFinish = (ImageView)this.findViewById(com.vondear.rxui.R.id.iv_finish);
+        this.mRxTextAutoZoom = (RxTextAutoZoom) this.findViewById(com.vondear.rxui.R.id.afet_tv_title);
+        this.llIncludeTitle = (LinearLayout) this.findViewById(com.vondear.rxui.R.id.ll_include_title);
+        this.tvTitle = (TextView) this.findViewById(com.vondear.rxui.R.id.tv_title);
+        this.pbWebBase = (ProgressBar) this.findViewById(com.vondear.rxui.R.id.pb_web_base);
+        this.webBase = (WebView) this.findViewById(com.vondear.rxui.R.id.web_base);
+        this.ivFinish = (ImageView) this.findViewById(com.vondear.rxui.R.id.iv_finish);
         this.ivFinish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (WebViewActivity.this.webBase.canGoBack()) {
@@ -84,7 +85,7 @@ public class WebViewActivity extends ActivityBase {
         this.mRxTextAutoZoom.setFocusableInTouchMode(false);
         this.mRxTextAutoZoom.setFocusable(false);
         this.mRxTextAutoZoom.setEnableSizeCache(false);
-        this.mRxTextAutoZoom.setMovementMethod((MovementMethod)null);
+        this.mRxTextAutoZoom.setMovementMethod((MovementMethod) null);
         this.mRxTextAutoZoom.setMaxHeight(RxImageTool.dip2px(55.0F));
         this.mRxTextAutoZoom.setMinTextSize(37.0F);
         RxTextAutoZoom.setNormalization(this, this.llIncludeTitle, this.mRxTextAutoZoom);
@@ -94,9 +95,10 @@ public class WebViewActivity extends ActivityBase {
     private void initData() {
         this.pbWebBase.setMax(100);
         this.webPath = getIntent().getStringExtra(Constant.WEBVIEW_URL);
+        this.mRxTextAutoZoom.setText(getIntent().getStringExtra(Constant.WEBVIEW_URL_TITLE));
         WebSettings webSettings = this.webBase.getSettings();
         if (Build.VERSION.SDK_INT >= 19) {
-                webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
 
         if (Build.VERSION.SDK_INT >= 19) {
@@ -106,10 +108,10 @@ public class WebViewActivity extends ActivityBase {
         }
 
         if (Build.VERSION.SDK_INT >= 11) {
-            this.webBase.setLayerType(1, (Paint)null);
+            this.webBase.setLayerType(1, (Paint) null);
         }
 
-        this.webBase.setLayerType(2, (Paint)null);
+        this.webBase.setLayerType(2, (Paint) null);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
@@ -125,7 +127,6 @@ public class WebViewActivity extends ActivityBase {
         this.webBase.setWebChromeClient(new WebChromeClient() {
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                WebViewActivity.this.mRxTextAutoZoom.setText(title);
             }
 
             public void onProgressChanged(WebView view, int newProgress) {

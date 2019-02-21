@@ -25,7 +25,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="340dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="21dp"
                 android:layout_marginRight="21dp"
@@ -39,6 +39,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@mipmap/ic_cer_button"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:textSize="12sp"
                     android:textColor="@color/white" />
 
@@ -117,7 +118,6 @@
                     android:layout_below="@+id/ll_interest"
                     android:layout_marginLeft="26dp"
                     android:layout_marginTop="11dp"
-                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <TextView
@@ -142,7 +142,6 @@
                     android:layout_below="@+id/ll_penalty_interest"
                     android:layout_marginLeft="26dp"
                     android:layout_marginTop="11dp"
-                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <TextView
@@ -294,6 +293,7 @@
                 android:layout_marginLeft="23dp"
                 android:layout_marginRight="23dp"
                 android:layout_marginTop="30dp"
+                android:visibility="gone"
                 android:background="@drawable/shape_payment_details"
                 android:gravity="center"
                 android:text="申请展期"
@@ -308,7 +308,8 @@
                 android:layout_marginRight="23dp"
                 android:background="@mipmap/ic_cer_button"
                 android:gravity="center"
-                android:text="确定"
+                android:layout_marginTop="30dp"
+                android:text="还款"
                 android:textColor="@color/white"
                 android:textSize="19sp" />
 
@@ -318,7 +319,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
-                android:text="展期后不影响征信"
+                android:text="本期：您的征信已被上报，请立即还款"
                 android:textColor="@color/cl_F34F03"
                 android:textSize="12sp" />
         </LinearLayout>

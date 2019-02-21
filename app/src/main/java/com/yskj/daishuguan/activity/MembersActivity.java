@@ -92,7 +92,7 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     }
 
 
-    @OnClick({R.id.tv_sure, R.id.rl_envelope})
+    @OnClick({R.id.tv_sure, R.id.rl_envelope,R.id.tv_xieyi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_sure:
@@ -106,6 +106,11 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
                 break;
             case R.id.rl_envelope:
                 startActivityForResult(new Intent(MembersActivity.this, EnvelopeActivity.class), 100);
+                break;   case R.id.tv_xieyi:
+                Intent intent2 = new Intent(MembersActivity.this, WebViewActivity.class);
+                intent2.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this,Constant.MEMBER_PROTOCOL));
+                intent2.putExtra(Constant.WEBVIEW_URL_TITLE, "会员卡协议");
+                startActivity(intent2);
                 break;
             default:
                 break;

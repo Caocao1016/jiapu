@@ -2,6 +2,7 @@ package com.yskj.daishuguan.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -184,6 +185,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 mPresenter.getLogin(loginRequest);
                 break;
             case R.id.login_forget_password:
+
+                Intent intent2 = new Intent(LoginActivity.this, WebViewActivity.class);
+                intent2.putExtra(Constant.WEBVIEW_URL,RxSPTool.getString(this,Constant.REGISTER_PROTOCOL));
+                intent2.putExtra(Constant.WEBVIEW_URL_TITLE,"用户服务协议");
+                startActivity(intent2);
                 break;
             default:
                 break;

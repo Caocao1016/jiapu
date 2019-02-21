@@ -141,13 +141,16 @@
                 android:textSize="13sp"
 
                 />
-
-            <TextView
-                android:id="@+id/tv_phone"
-                android:layout_width="wrap_content"
+            <com.hjq.baselibrary.widget.ClearEditText
+                android:id="@+id/cl_phone"
+                android:layout_width="0dp"
+                android:layout_marginLeft="45dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="45dp"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:background="@null"
+                android:hint="请输入银行预留号"
                 android:textColor="@color/cl_4D4D4D"
                 android:textSize="13sp"
 
@@ -209,6 +212,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <CheckBox
@@ -222,6 +226,7 @@
             android:checked="true" />
 
         <TextView
+            android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="11dp"

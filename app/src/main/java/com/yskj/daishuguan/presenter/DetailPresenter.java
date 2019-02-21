@@ -28,10 +28,10 @@ public class DetailPresenter extends BasePresenter<DetailView> {
 
     public void initiativeExtend(DetailRequest request) {
 
-        addSubscription(mApiService.initiativeExtend(BaseParams.getParams(request.params())), new SubscriberCallBack<BaseResponse>() {
+        addSubscription(mApiService.initiativeExtend(BaseParams.getParams(request.params())), new SubscriberCallBack<String>() {
 
             @Override
-            protected void onSuccess(BaseResponse response) {
+            protected void onSuccess(String response) {
 
                 mView.onSuccess(response);
             }
@@ -43,7 +43,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
 
             @Override
             protected void onFailure(BaseResponse response) {
-                mView.onFailure(response);
+                mView.onSMsFailure(response);
             }
         });
     }

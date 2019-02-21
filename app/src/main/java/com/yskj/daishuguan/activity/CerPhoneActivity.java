@@ -94,7 +94,7 @@ public class CerPhoneActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mName.setEnabled(false);
+
     }
 
     @Override
@@ -165,7 +165,7 @@ public class CerPhoneActivity extends BaseActivity {
         bMap.put("userid", RxSPTool.getString(this, Constant.USER_ID));
         bMap.put("mobileno", RxSPTool.getString(this, Constant.USER_MOBILENO));
         bMap.put("contacts", mContacts);
-        bMap.put("emergencyname", emergeName);
+        bMap.put("emergencyname", name);
         bMap.put("linkmanRelationship", relation);
 //        bMap.put("usualName", name);
         bMap.put("emergencymobile", emergeMobile);

@@ -25,7 +25,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="345dp"
+                android:layout_height="325dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="21dp"
                 android:layout_marginRight="21dp"
@@ -110,6 +110,7 @@
                     android:layout_below="@+id/ll_interest"
                     android:layout_marginLeft="26dp"
                     android:layout_marginTop="11dp"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <TextView

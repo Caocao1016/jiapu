@@ -252,6 +252,7 @@ public class IDConfirmActivity extends BaseActivity<OCRPresenter> implements OCR
                     int retcode = jsonObject.getInt("retcode");
                     String retmsg = jsonObject.getString("retmsg");
                     if (1000 == retcode) {
+                        RxSPTool.putString(IDConfirmActivity.this,Constant.IDCARD_NUMBER,mIDCard.getText().toString());
                         finish();
                     } else {
                         UIUtils.showToast(retmsg);

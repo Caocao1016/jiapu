@@ -225,7 +225,13 @@ public interface ApiService {
      * 授信
      */
     @GET("vyp/initiativeRepayment/initiativeExtend")
-    Observable<BaseResponse> initiativeExtend(@QueryMap Map<String, Object> params);
+    Observable<BaseResponse<String>> initiativeExtend(@QueryMap Map<String, Object> params);
+
+    /**
+     * 获取魔蝎数据
+     */
+    @GET("auth/commoperator/taskSave")
+    Observable<BaseResponse> taskSave(@QueryMap Map<String, Object> params);
 
 //------------------------------------------------
 

@@ -97,6 +97,8 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
     TextView mTvMoneyRight;
     @BindView(R.id.tv_time)
     TextView mTvTime;
+    @BindView(R.id.tv_left)
+    TextView mLeft;
     @BindView(R.id.tv_time_money)
     TextView mTvTiemMoney;
     @BindView(R.id.tv_money_all)
@@ -134,7 +136,6 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
     @Override
     protected void initView() {
         EventBus.getDefault().register(this);
-
         List<View> views = new ArrayList<>();
         setUPMarqueeView(views, 6);
         mUpview1.setViews(views);
@@ -222,7 +223,6 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
                         startActivity(intent);
                     }
                 } else {
-
                     Intent intent = new Intent(getContext(), CertificationActivity.class);
                     intent.putExtra("maxMoney", mTvMoneyRight.getText().toString());
                     startActivity(intent);
@@ -473,6 +473,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 List<String> mList = adapter.getData();
                 mTvWindow.setText(mList.get(position));
+                mLeft.setVisibility(View.INVISIBLE);
                 window.dismiss();
             }
         });
@@ -482,6 +483,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
             @Override
             public void onClick(View v) {
                 mTvWindow.setText("");
+                mLeft.setVisibility(View.VISIBLE);
                 window.dismiss();
             }
         });

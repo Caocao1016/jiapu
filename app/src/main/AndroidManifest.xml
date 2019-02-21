@@ -99,6 +99,9 @@
             android:name=".activity.MyShareActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.OverdueDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.MyShareListActivity"
             android:screenOrientation="portrait" />
 

@@ -20,6 +20,7 @@ import com.yskj.daishuguan.activity.PaymentDetailsActivity;
 import com.yskj.daishuguan.adapter.BillAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
+import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.request.AuthorRequest;
 import com.yskj.daishuguan.entity.request.ManagementListRequest;
 import com.yskj.daishuguan.modle.BillView;
@@ -31,6 +32,10 @@ import com.yskj.daishuguan.response.AuthorizeResponse;
 import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
 import com.yskj.daishuguan.util.UIUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +66,7 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        EventBus.getDefault().register(this);
         initView();
         initData();
     }
@@ -92,6 +98,23 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    /**
+     * 登录成功
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void LoginEvbusBean(LoginEvbusBean event) {
+        mPageNo = 1 ;
+        initData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

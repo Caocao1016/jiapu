@@ -13,7 +13,8 @@ import com.yskj.daishuguan.response.HomeInfoResponse;
 
 public interface DetailView {
 
-    void onSuccess(BaseResponse response);
+    void onSuccess(String response);
     void onFailure(BaseResponse response);
+    void onSMsFailure(BaseResponse response);
     void onError();
 }

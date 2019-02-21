@@ -1,6 +1,7 @@
 package com.yskj.daishuguan.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,8 +69,8 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
     TextView mType;
     @BindView(R.id.cl_card_number)
     ClearEditText mCardNumber;
-    @BindView(R.id.tv_phone)
-    TextView mPhone;
+    @BindView(R.id.cl_phone)
+    ClearEditText mPhone;
     @BindView(R.id.ll_type)
     LinearLayout mLlType;
     @BindView(R.id.cl_number)
@@ -115,7 +116,7 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
     }
 
 
-    @OnClick({R.id.tv_next, R.id.ll_type,R.id.cv_register_countdown})
+    @OnClick({R.id.tv_next, R.id.ll_type,R.id.cv_register_countdown,R.id.tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cv_register_countdown:
@@ -144,17 +145,17 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
                 break;
             case R.id.tv_next:
                 String number1 = mClNumber.getText().toString();
-                String type1 = mType.getText().toString();
+                String phone = mPhone.getText().toString();
 
 
                 if (StringUtil.isEmpty(number1)) {
                     UIUtils.showToast("请输入验证码");
                     return;
                 }
-                if (!mCheckbox.isChecked()) {
-                    UIUtils.showToast("请阅读绑卡协议并勾选");
-                    return;
-                }
+//                if (!mCheckbox.isChecked()) {
+//                    UIUtils.showToast("请阅读绑卡协议并勾选");
+//                    return;
+//                }
                 rxDialogLoading.show();
                 SendSmsRequest sendSmsRequest = new SendSmsRequest();
                 sendSmsRequest.token = RxSPTool.getString(this, Constant.TOKEN);
@@ -162,10 +163,17 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
                 sendSmsRequest.mobileno = RxSPTool.getString(this, Constant.USER_MOBILENO);
                 sendSmsRequest.validatecode = number1;
                 sendSmsRequest.requestno = requestno;
+                sendSmsRequest.bankCardMobile = phone.indexOf("****") != -1 ?phone :RxSPTool.getString(this, Constant.USER_MOBILENO) ;
                 mPresenter.getAuthrealnamerequeset(sendSmsRequest);
                 break;
             case R.id.ll_type:
                 showPopwindow();
+                break;
+                case R.id.tv:
+                    Intent intent2 = new Intent(CerCardTwoActivity.this, WebViewActivity.class);
+                    intent2.putExtra(Constant.WEBVIEW_URL,RxSPTool.getString(this,Constant.REGISTER_PROTOCOL));
+                    intent2.putExtra(Constant.WEBVIEW_URL_TITLE,"用户服务协议");
+                    startActivity(intent2);
                 break;
         }
     }

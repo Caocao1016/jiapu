@@ -17,13 +17,16 @@ import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
+import com.yskj.daishuguan.activity.Defer2MoneyActivity;
 import com.yskj.daishuguan.activity.DeferMoneyActivity;
 import com.yskj.daishuguan.activity.MembersActivity;
+import com.yskj.daishuguan.activity.OverdueDetailsActivity;
 import com.yskj.daishuguan.activity.PaymentDetailsActivity;
 import com.yskj.daishuguan.adapter.BillAdapter;
 import com.yskj.daishuguan.adapter.BillHuankuanAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
+import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.request.AuthorRequest;
 import com.yskj.daishuguan.entity.request.HuanKuanRequest;
 import com.yskj.daishuguan.modle.BillView;
@@ -34,6 +37,10 @@ import com.yskj.daishuguan.response.AuthorizeRecordResponse;
 import com.yskj.daishuguan.response.AuthorizeResponse;
 import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +72,8 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        EventBus.getDefault().register(this);
         initView();
         initData();
     }
@@ -82,6 +91,23 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
     @Override
     protected int getTitleBarId() {
         return 0;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 登录成功
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void LoginEvbusBean(LoginEvbusBean event) {
+        mPageNo = 1;
+        initData();
     }
 
     @Override
@@ -106,16 +132,16 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
                 if (data.get(position).getStatus() == 0) {
 
                     if (data.get(position).getIdDued().equals("1")) {  //逾期
-                        Intent intent = new Intent(getContext(), DeferMoneyActivity.class);
+                        Intent intent = new Intent(getContext(), OverdueDetailsActivity.class);
                         intent.putExtra("false", true);
                         intent.putExtra("interestRate", data.get(position).getInterestRate());
                         intent.putExtra("loanDate", data.get(position).getLoanDate());
                         intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
                         intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
+                        intent.putExtra("duedDay", data.get(position).getDuedDay());;
                         startActivity(intent);
                     } else {  //代还款
                         Intent intent = new Intent(getContext(), PaymentDetailsActivity.class);
-                        intent.putExtra("false", true);
                         intent.putExtra("interestRate", data.get(position).getInterestRate());
                         intent.putExtra("loanDate", data.get(position).getLoanDate());
                         intent.putExtra("paymentDay", data.get(position).getPaymentDay());
@@ -154,26 +180,6 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         request.limit = Constant.PAGE_SIZE;
         mPresenter.bills(request);
 
-
-        final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
-        rxDialogSureCancel.getTitleView().setVisibility(View.GONE);
-        rxDialogSureCancel.getSureView().setTextColor(Color.parseColor("#007AFF"));
-        rxDialogSureCancel.getCancelView().setTextColor(Color.parseColor("#007AFF"));
-
-        rxDialogSureCancel.getContentView().setText("您有一笔贷款即将到达还款\n日可以选择申请展期延后还款！？");
-        rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rxDialogSureCancel.cancel();
-            }
-        });
-        rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rxDialogSureCancel.cancel();
-            }
-        });
-//        rxDialogSureCancel.show();
     }
 
     @Override
@@ -188,6 +194,12 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         initData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPageNo = 1;
+        initData();
+    }
 
     @Override
     public void onSuccess(BillResponse response) {
@@ -213,11 +225,45 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         mSwipe.setRefreshing(false);
     }
 
+    public void showDialog(BillHuankuanResponse.ListBean entity) {
+        final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
+        rxDialogSureCancel.getTitleView().setVisibility(View.GONE);
+        rxDialogSureCancel.getSureView().setTextColor(Color.parseColor("#007AFF"));
+        rxDialogSureCancel.getCancelView().setTextColor(Color.parseColor("#007AFF"));
+
+        rxDialogSureCancel.getContentView().setText("您有一笔贷款即将到达还款\n日可以选择申请展期延后还款！");
+        rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Defer2MoneyActivity.class);
+                intent.putExtra("interestRate", entity.getInterestRate());
+                intent.putExtra("loanDate", entity.getLoanDate());
+                intent.putExtra("paymentDay", entity.getPaymentDay());
+                intent.putExtra("loanOrderNo", entity.getLoanOrderNo());
+                intent.putExtra("repayOrderNo", entity.getRepayOrderNo());
+                intent.putExtra("duedDay", entity.getDuedDay());
+                startActivity(intent);
+                rxDialogSureCancel.cancel();
+            }
+        });
+        rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rxDialogSureCancel.cancel();
+            }
+        });
+        rxDialogSureCancel.show();
+    }
+
 
     public void getList(List<BillHuankuanResponse.ListBean> entity) {
 
-//            if (entity.get(0).getStatus())
+        if (entity != null && entity.size() > 0) {
+            if (entity.get(0).getStatus() == 0 && !entity.get(0).getIdDued().equals("1") && entity.get(0).getPaymentDay().equals("1")) {
+                showDialog(entity.get(0));
+            }
 
+        }
         if (mIsLoadMore) {
             mIsLoadMore = false;
             if (entity != null && entity.size() <= Constant.PAGE_SIZE && entity.size() > 0) {
@@ -236,6 +282,6 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
             }
         }
         mSwipe.setRefreshing(false);
-    }
 
+}
 }

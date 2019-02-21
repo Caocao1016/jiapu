@@ -5,6 +5,7 @@ import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.entity.request.BannerRequest;
+import com.yskj.daishuguan.entity.request.MoxieRequest;
 import com.yskj.daishuguan.modle.CertificationDataView;
 import com.yskj.daishuguan.modle.CommonDataView;
 import com.yskj.daishuguan.response.BannerResponse;
@@ -59,6 +60,29 @@ public class CertificationPresenter extends BasePresenter<CertificationDataView>
             protected void onSuccess(String response) {
 
                 mView.onSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
+        });
+    }
+
+    public void taskSave(MoxieRequest request) {
+
+
+        addSubscription(mApiService.taskSave(BaseParams.getParams(request.params())), new SubscriberCallBack<BaseResponse>() {
+
+            @Override
+            protected void onSuccess(BaseResponse response) {
+
+                mView.onMOxieSuccess(response);
             }
 
             @Override

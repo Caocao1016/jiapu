@@ -64,6 +64,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     private NoFinshDialog finshDialog;
     private boolean isSet;
     private Bitmap isSetBitmap;
+    private String moeny;
 
     @Override
     protected AuthoriztionPresenter createPresenter() {
@@ -82,7 +83,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
 
     @Override
     protected void initView() {
-        String moeny = getIntent().getStringExtra("MONEY");
+        moeny = getIntent().getStringExtra("MONEY");
 
         String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
         String dayRate = RxSPTool.getString(this, Constant.DAY_RATE);
@@ -134,7 +135,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
         finshDialog.show(getSupportFragmentManager(), "set");
     }
 
-    @OnClick({R.id.rl_card, R.id.rl_agreement, R.id.iv_signature, R.id.rl_more_agreement, R.id.rl_signature, R.id.tv_sure})
+    @OnClick({R.id.rl_card, R.id.rl_agreement,R.id.rl_money_agreement, R.id.iv_signature, R.id.rl_more_agreement, R.id.rl_signature, R.id.tv_sure})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_signature:
@@ -144,11 +145,26 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
             case R.id.rl_card:
                 break;
             case R.id.rl_agreement:
-                startActivity(AgreementActivity.class);
+                Intent intent = new Intent(AuthorizationActivity.this, WebViewActivity.class);
+                intent.putExtra(Constant.WEBVIEW_URL,RxSPTool.getString(this,Constant.CREDIT_PROTOCOL));
+                intent.putExtra(Constant.WEBVIEW_URL_TITLE,"人行征信授权书");
+                startActivity(intent);
                 break;
             case R.id.rl_more_agreement:
+                Intent intent1 = new Intent(AuthorizationActivity.this, WebViewActivity.class);
+                intent1.putExtra(Constant.WEBVIEW_URL,RxSPTool.getString(this,Constant.DATA_QUERY_PROTOCOL));
+                intent1.putExtra(Constant.WEBVIEW_URL_TITLE,"三方数据使用授权书");
+                startActivity(intent1);
+                break;
+                case R.id.rl_money_agreement:
+                Intent intent2 = new Intent(AuthorizationActivity.this, WebViewActivity.class);
+                    intent2.putExtra(Constant.WEBVIEW_URL_TITLE,"借款协议授权书");
+                intent2.putExtra(Constant.WEBVIEW_URL,RxSPTool.getString(this,Constant.LOAN_PROTOCOL));
+                startActivity(intent2);
                 break;
             case R.id.rl_signature:
+                signatureDialog.show(getSupportFragmentManager(), "set");
+                mIvSignature.setImageResource(R.mipmap.ic_qianming);
                 break;
             case R.id.tv_sure:
                 if (!isSet) {
@@ -162,6 +178,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
                 creditStartRequest.locaddress = RxSPTool.getContent(this, Constant.GPS_ADDRESS);
                 creditStartRequest.locgps = RxSPTool.getContent(this, Constant.GPS_LATITUDE);
                 creditStartRequest.productNo = Build.MODEL;
+                creditStartRequest.customerCreditLimit = moeny;
                 creditStartRequest.autographPicture = bitmapToBase64(isSetBitmap);
                 mPresenter.creditStart(creditStartRequest);
 //                final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(this);

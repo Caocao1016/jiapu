@@ -191,5 +191,30 @@
         android:text="@string/login_registered"
         android:textColor="@color/white"
         android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="26dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册即代表您已同意"
+            android:textColor="@color/cl_404040"
+            android:textSize="10sp"
+            />
+        <TextView
+            android:id="@+id/login_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 用户服务协议"
+            android:textColor="@color/cl_F14407"
+            android:textSize="10sp"
+            />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -10,7 +10,7 @@ package com.yskj.daishuguan.response;
 
 public class HomeInfoResponse {
 
-    private int assessValue ;
+    private String assessValue ;
     private int auditCreditLimit ;
     private String productintroduce ;
     private boolean authJudge ;
@@ -27,11 +27,11 @@ public class HomeInfoResponse {
         this.isMember = isMember;
     }
 
-    public int getAssessValue() {
+    public String getAssessValue() {
         return assessValue;
     }
 
-    public void setAssessValue(int assessValue) {
+    public void setAssessValue(String assessValue) {
         this.assessValue = assessValue;
     }
 
