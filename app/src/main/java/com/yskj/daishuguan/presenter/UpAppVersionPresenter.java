@@ -23,22 +23,4 @@ public class UpAppVersionPresenter extends BasePresenter<AppVersionView> {
     public UpAppVersionPresenter(AppVersionView view) {
         super(view);
     }
-
-    public void getLogin(BannerRequest request) {
-
-        addSubscription(mApiService.appVersion(BaseParams.getParams(request.params())), new SubscriberCallBack<AppVersionResponse>() {
-
-            @Override
-            protected void onSuccess(AppVersionResponse response) {
-
-                mView.onSuccess(response);
-            }
-
-            @Override
-            protected void onError() {
-                mView.onError();
-            }
-        });
-    }
-
 }

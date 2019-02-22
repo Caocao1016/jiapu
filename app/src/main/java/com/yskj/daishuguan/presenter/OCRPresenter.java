@@ -63,24 +63,4 @@ public class OCRPresenter extends BasePresenter<OCRView> {
 
     }
 
-    public void postFaceCard(FaceRequest request,String fileFace) {
-
-        addSubscription(mApiService.faceRecognise(BaseParams.getParams(request.params()),fileFace), new SubscriberCallBack<BaseRequest>() {
-
-            @Override
-            protected void onSuccess(BaseRequest response) {
-
-                mView.onFanceSuccess(response);
-            }
-
-            @Override
-            protected void onError() {
-                mView.onError();
-            }
-        });
-
-
-    }
-
-
 }

@@ -207,6 +207,25 @@
 
 
         <TextView
+            android:id="@+id/tv_help"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawablePadding="18dp"
+            android:drawableTop="@mipmap/ic_help"
+            android:gravity="center"
+            android:text="帮助中心"
+            android:textColor="@color/cl_404040"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="wrap_content"
+            android:background="@color/c"
+             />
+        <TextView
+            android:id="@+id/tv_more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -219,23 +238,6 @@
             android:textSize="15sp"
             />
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="wrap_content"
-            android:background="@color/c"
-             />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawablePadding="18dp"
-            android:drawableTop="@mipmap/ic_help"
-            android:gravity="center"
-            android:text="帮助中心"
-            android:textColor="@color/cl_404040"
-            android:textSize="15sp" />
 
         <View
             android:layout_width="0.5dp"

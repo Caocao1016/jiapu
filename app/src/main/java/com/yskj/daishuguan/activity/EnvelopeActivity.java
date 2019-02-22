@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,19 +95,20 @@ public class EnvelopeActivity extends BaseActivity<ManagementMoneyPresenter> imp
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                List<ManagementListItemResponse> entity = adapter.getData();
-                for (ManagementListItemResponse mList : entity) {
-                    mList.setSelect(!entity.get(position).isSelect());
-                    mAdapter.notifyItemChanged(position);
-                }
-            }
-        });
+                                                 @Override
+                                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                                     ManagementListItemResponse response = (ManagementListItemResponse) adapter.getData().get(position);
+                                                     response.setSelect(!response.isSelect());
+                                                     mAdapter.notifyItemChanged(position);
+                                                 }
+                                             }
+
+
+        );
     }
 
 
-    @OnClick({R.id.tv_sure,R.id.rl_share})
+    @OnClick({R.id.tv_sure, R.id.rl_share})
     public void onClick(View view) {
         if (view.getId() == R.id.tv_sure) {
             List<ManagementListItemResponse> entity = mAdapter.getData();
@@ -121,13 +123,14 @@ public class EnvelopeActivity extends BaseActivity<ManagementMoneyPresenter> imp
             intent.putExtra("mListID", stringBuilder.toString());
             setResult(2, intent);
             finish();
-        }else if (view.getId() == R.id.rl_share){
+        } else if (view.getId() == R.id.rl_share) {
 
             initAdress();
         }
 
 
     }
+
     private void initAdress() {
 
         XXPermissions.with(this)
@@ -202,6 +205,7 @@ public class EnvelopeActivity extends BaseActivity<ManagementMoneyPresenter> imp
             UIUtils.showToast("分享取消！");
         }
     };
+
     @Override
     protected void initData() {
         ManagementListRequest request = new ManagementListRequest();
@@ -211,6 +215,7 @@ public class EnvelopeActivity extends BaseActivity<ManagementMoneyPresenter> imp
         request.page = mPageNo;
         request.limit = 10;
         mPresenter.couponUse(request);
+
     }
 
     @Override
@@ -227,6 +232,11 @@ public class EnvelopeActivity extends BaseActivity<ManagementMoneyPresenter> imp
     @Override
     public void onCouponUseSuccess(ManagementListResponse response) {
         List<ManagementListItemResponse> entity = response.getList();
+        if (entity != null && entity.size() > 0) {
+            for (ManagementListItemResponse mList : entity) {
+                mList.setSelect(false);
+            }
+        }
         if (mIsLoadMore) {
             mIsLoadMore = false;
             if (entity != null && entity.size() <= Constant.PAGE_SIZE && entity.size() > 0) {

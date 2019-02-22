@@ -130,7 +130,6 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
                 List<BillHuankuanResponse.ListBean> data = adapter.getData();
 
                 if (data.get(position).getStatus() == 0) {
-
                     if (data.get(position).getIdDued().equals("1")) {  //逾期
                         Intent intent = new Intent(getContext(), OverdueDetailsActivity.class);
                         intent.putExtra("false", true);
@@ -194,12 +193,7 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         initData();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPageNo = 1;
-        initData();
-    }
+
 
     @Override
     public void onSuccess(BillResponse response) {

@@ -43,7 +43,7 @@ import butterknife.BindView;
  * @Description: 申请展期
  */
 
-public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implements DetailView {
+public class Defer2MoneyActivity extends BaseActivity<DetailPresenter> implements DetailView {
 
     @BindView(R.id.tv_money)
     TextView mMoney;
@@ -105,9 +105,9 @@ public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implemen
         loanDate = getIntent().getStringExtra("loanDate");
         interestRate = getIntent().getStringExtra("interestRate");
         duedDay = getIntent().getStringExtra("duedDay");
-        mInterset.setText("应还利息：" +(StringUtil.isEmpty(interestRate)? "0元": interestRate+"元"));
-        mCInterest.setText("应还利息：" + interestRate+"元");
-        mTime.setText("周期：" + loanDate+"天");
+        mInterset.setText("应还利息：" + (StringUtil.isEmpty(interestRate) ? "0元" : interestRate + "元"));
+        mCInterest.setText("应还利息：" + interestRate + "元");
+        mTime.setText("周期：" + loanDate + "天");
         mInterset.setText("应还罚息：" + loanDate + "元");
         mContent.setText(
                 "温馨提示：\n" +
@@ -130,9 +130,9 @@ public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implemen
         dialog.setOnTypeClickLitener(new SmsDialog.OnNoFinshClickLitener() {
             @Override
             public void onNoFinshClick(String code, int id) {
-                if (id == R.id.cv_register_countdown){
+                if (id == R.id.cv_register_countdown) {
                     getCode();
-                }else if (id == R.id.tv_rig){
+                } else if (id == R.id.tv_rig) {
                     pay(code);
                 }
             }
@@ -195,6 +195,7 @@ public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implemen
             }
         });
     }
+
     private void pay(String code) {
         rxDialogLoading.show();
         RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL + ApiConstant.ConfirmPay);
@@ -212,7 +213,7 @@ public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implemen
         x.http().post(params, new Callback.ProgressCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                 RxLogTool.d("flag", "还款2:" + result);
+                RxLogTool.d("flag", "还款2:" + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String retmsg = jsonObject.getString("retmsg");
@@ -224,8 +225,8 @@ public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implemen
 //                        startActivity(intent);
 //                        closeKebord();
 
-        EventBus.getDefault().post(new DeferFinshEvenbus());
-        EventBus.getDefault().post(new FinshMoneyEvenbus(1));
+                        EventBus.getDefault().post(new DeferFinshEvenbus());
+                        EventBus.getDefault().post(new FinshMoneyEvenbus(1));
 //        finish();
                         finish();
                     } else {
@@ -399,7 +400,7 @@ public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implemen
                         mBorrowing.setText("借款金额" + json.getString("total"));
                         mStartTime.setText("借款时间" + json.getString("startTime") + "至" + json.getString("endTime"));
                         mEndTime.setText("还款时间：" + endTime);
-                        mLateMoney.setText("展期会员费：" + extendFees+"元");
+                        mLateMoney.setText("展期会员费：" + extendFees + "元");
                         currentStage = json.getString("currentStage");
 //                        new BigDecimal(json.getString("total")).multiply(new BigDecimal(0.0005).multiply(new BigDecimal(duedDay)));
 //                        tv_backMoney.setText(json.getString("principal"));
@@ -447,12 +448,12 @@ public class Defer2MoneyActivity extends BaseActivity<DetailPresenter>  implemen
 
     @Override
     public void onSuccess(String response) {
-        serialNo = response ;
-        if (!StringUtil.isEmpty(response)){
+        serialNo = response;
+        if (!StringUtil.isEmpty(response)) {
             UIUtils.showToast("验证码已发送");
-            dialog.show(getSupportFragmentManager(),"set");
+            dialog.show(getSupportFragmentManager(), "set");
 
-        }else {
+        } else {
             UIUtils.showToast("审核已提交，请等待");
         }
 

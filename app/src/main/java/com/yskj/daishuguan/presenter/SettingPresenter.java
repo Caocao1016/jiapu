@@ -42,22 +42,6 @@ public class SettingPresenter extends BasePresenter<SettingfView> {
     }
 
 
-    public void changeLoginPasswd(SettingPwRequest request) {
-
-        addSubscription(mApiService.changeLoginPasswd(BaseParams.getParams(request.params())), new SubscriberCallBack<BaseResponse>() {
-
-            @Override
-            protected void onSuccess(BaseResponse response) {
-
-                mView.onPassWordSuccess(response);
-            }
-
-            @Override
-            protected void onError() {
-                mView.onError();
-            }
-        });
-    }
 
 
 

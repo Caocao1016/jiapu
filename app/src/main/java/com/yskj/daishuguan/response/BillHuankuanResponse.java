@@ -80,6 +80,18 @@ public class BillHuankuanResponse {
          idDued=1代表逾期     DuedDay逾期天数
          idDued=0代表未逾期   paymentDay剩余还款天数
          finishTime 还款时间
+         repayment/bills
+         已放款：status=3 待还款status=0
+         待还款：
+         idDued=1代表逾期 DuedDay逾期天数
+         idDued=0代表未逾期
+         未逾期：
+         extension ：1表示展期
+         ascription=‘A’代表君正 extensionType：1成功 2失败 3待君正风控审核 4过风 控待缴费
+         ascription=‘B’代表亿数 extensionType：1成功 2失败 5待缴费
+         extension ：0表示没有展期 paymentDay剩余还款天数
+
+         finishTime 还款时间
          */
 
         private String repayOrderNo;
@@ -89,11 +101,38 @@ public class BillHuankuanResponse {
         private String loanOrderNo;
         private String productName;
         private String repayTotal;
+        private int extension;
+        private String ascription;
+        private int  extensionType;
         private String createTime;
         private String loanDate;  // oanDate天数，interestRate利息
         private String interestRate;
         private int status;
         private String finishTime;
+
+        public int getExtension() {
+            return extension;
+        }
+
+        public void setExtension(int extension) {
+            this.extension = extension;
+        }
+
+        public String getAscription() {
+            return ascription;
+        }
+
+        public void setAscription(String ascription) {
+            this.ascription = ascription;
+        }
+
+        public int getExtensionType() {
+            return extensionType;
+        }
+
+        public void setExtensionType(int extensionType) {
+            this.extensionType = extensionType;
+        }
 
         public String getIdDued() {
             return idDued;

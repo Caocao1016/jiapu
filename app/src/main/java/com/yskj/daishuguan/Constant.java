@@ -11,13 +11,7 @@ package com.yskj.daishuguan;
 public class Constant {
 
 
-    //商户所需参数
-//    public static String merchantcode = "d5jdIC";
-//    public static String appid = "20181019";
-//    public static String clienttype = "android";
-//    public static String appsecret = "WDQB@2017uy760918LK0K2D";
-
-  public static String merchantcode = "yxTOxX";
+    public static String merchantcode = "PZxkSS";
     public static String appid = "20181019";
     public static String clienttype = "android";
     public static String appsecret = "WDQB@2017uy760918LK0K2D";

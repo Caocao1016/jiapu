@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.moxie.client.widget.wave.UiUtils;
 import com.vondear.rxtool.RxDeviceTool;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
@@ -20,6 +21,7 @@ import com.yskj.daishuguan.activity.MyCardActivity;
 import com.yskj.daishuguan.activity.MyShareActivity;
 import com.yskj.daishuguan.activity.RegisterActivity;
 import com.yskj.daishuguan.activity.SettingActivity;
+import com.yskj.daishuguan.activity.WebViewActivity;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.OutLoginEvbusBean;
@@ -31,6 +33,7 @@ import com.yskj.daishuguan.response.CommonDataResponse;
 import com.yskj.daishuguan.response.UserInfoResponse;
 import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -96,7 +99,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
             mTvLogin.setVisibility(View.VISIBLE);
         }
 
-        mTime.setText(RxSPTool.getString(getContext(),Constant.CONTACT_TIME)+" "+RxSPTool.getString(getContext(),Constant.CONTACT_WAY)+"|");
+        mTime.setText(RxSPTool.getString(getContext(), Constant.CONTACT_TIME) + " " + RxSPTool.getString(getContext(), Constant.CONTACT_WAY) + "|");
     }
 
     @Override
@@ -121,7 +124,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     }
 
 
-    @OnClick({R.id.tv_money_management, R.id.tv_login, R.id.tv_call_phone,R.id.tv_share, R.id.tv_card, R.id.tv_my_certification})
+    @OnClick({R.id.tv_money_management, R.id.tv_login, R.id.tv_help, R.id.tv_call_phone, R.id.tv_share, R.id.tv_card, R.id.tv_my_certification})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_money_management:  //红包管理
@@ -160,8 +163,16 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
             case R.id.tv_login:  //登录
                 startActivity(LoginActivity.class);
                 break;
+            case R.id.tv_more:  //登录
+                UIUtils.showToast("该功能正在完善中");
+                break;
+            case R.id.tv_help:  //登录
+                Intent intent2 = new Intent(getContext(), WebViewActivity.class);
+                intent2.putExtra(Constant.WEBVIEW_URL, "http://47.99.151.209:8181/p/help/help.html");
+                intent2.putExtra(Constant.WEBVIEW_URL_TITLE, "帮助中心");
+                startActivity(intent2);
+                break;
             case R.id.tv_share:  //登录
-
                 if (RxSPTool.getString(getContext(), Constant.IS_LOGIN).equals("0")) {
                     UIUtils.showToast("您当前还未登录，请先去登录");
                     startActivity(LoginActivity.class);
@@ -248,7 +259,8 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     public void QuanxianEvenbus(QuanxianEvenbus event) {
         initData();
     }
-   /**
+
+    /**
      * 登录成功
      *
      * @param event

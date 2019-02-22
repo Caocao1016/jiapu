@@ -184,5 +184,4 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
         mSwipe.setRefreshing(false);
     }
 
-
 }
