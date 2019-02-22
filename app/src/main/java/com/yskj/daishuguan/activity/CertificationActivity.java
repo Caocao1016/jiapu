@@ -27,14 +27,12 @@ import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.api.ApiConstant;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseParams;
-import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.NoFinshDialog;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.MoxieRequest;
 import com.yskj.daishuguan.modle.CertificationDataView;
 import com.yskj.daishuguan.presenter.CertificationPresenter;
-import com.yskj.daishuguan.response.BannerResponse;
 import com.yskj.daishuguan.response.CertificationResponse;
 import com.yskj.daishuguan.util.FileUtil;
 import com.yskj.daishuguan.util.ImageUtil;
@@ -207,31 +205,31 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                 break;
 
             case R.id.rl_cer_number:
-                if (MNO_AUTH) {
-                    return;
-                }
-
-                if (IDCARD_AUTH && FACE_AUTH) {
-                    if (REAL_AUTh) {
-
-                        if (CONTACT_AUTH) {
-
-                            if (what.equals("original")) {
-                                startActivity(CerNumberActivity.class);
-                            } else {
+//                if (MNO_AUTH) {
+//                    return;
+//                }
+//
+//                if (IDCARD_AUTH && FACE_AUTH) {
+//                    if (REAL_AUTh) {
+//
+//                        if (CONTACT_AUTH) {
+//
+//                            if (what.equals("original")) {
+//                                startActivity(CerNumberActivity.class);
+//                            } else {
                                 startMoxie();
-                            }
-
-                        } else {
-                            UIUtils.showToast("请先去完成联系信息认证");
-                        }
-
-                    } else {
-                        UIUtils.showToast("请先去完成银行卡绑定");
-                    }
-                } else {
-                    UIUtils.showToast("请先去完成身份信息认证");
-                }
+//                            }
+//
+//                        } else {
+//                            UIUtils.showToast("请先去完成联系信息认证");
+//                        }
+//
+//                    } else {
+//                        UIUtils.showToast("请先去完成银行卡绑定");
+//                    }
+//                } else {
+//                    UIUtils.showToast("请先去完成身份信息认证");
+//                }
 
 
                 break;
@@ -307,7 +305,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                  *
                  */
                 if (moxieCallBackData != null) {
-                    Log.d("BigdataFragment", "MoxieSDK Callback Data : " + moxieCallBackData.toString());
+                    Log.e("-------MoxieSDK---", "MoxieSDK Callback Data : " + moxieCallBackData.toString());
                     switch (moxieCallBackData.getCode()) {
                         /**
                          * 账单导入中
@@ -320,10 +318,10 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                         case MxParam.ResultCode.IMPORTING:
                             if (moxieCallBackData.isLoginDone()) {
                                 //状态为IMPORTING, 且loginDone为true，说明这个时候已经在采集中，已经登录成功
-                                Log.d("flag", "任务已经登录成功，正在采集中，SDK退出后不会再回调任务状态，任务最终状态会从服务端回调，建议轮询APP服务端接口查询任务/业务最新状态");
+                                Log.e("------MoxieSDK----", "任务已经登录成功，正在采集中，SDK退出后不会再回调任务状态，任务最终状态会从服务端回调，建议轮询APP服务端接口查询任务/业务最新状态");
                             } else {
                                 //状态为IMPORTING, 且loginDone为false，说明这个时候正在登录中
-                                Log.d("flag", "任务正在登录中，SDK退出后不会再回调任务状态，任务最终状态会从服务端回调，建议轮询APP服务端接口查询任务/业务最新状态");
+                                Log.e("------MoxieSDK----", "任务正在登录中，SDK退出后不会再回调任务状态，任务最终状态会从服务端回调，建议轮询APP服务端接口查询任务/业务最新状态");
                             }
                             break;
                         /**
@@ -337,30 +335,33 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                          *      return true;
                          * */
                         case MxParam.ResultCode.IMPORT_UNSTART:
-                            Log.d("flag", "任务未开始");
+                            Log.e("-----MoxieSDK-----", "任务未开始");
                             break;
                         case MxParam.ResultCode.THIRD_PARTY_SERVER_ERROR:
                             UIUtils.showToast("导入失败(1)");
-
+                            Log.e("-----MoxieSDK-----","导入失败(1)");
                             break;
                         case MxParam.ResultCode.MOXIE_SERVER_ERROR:
                             UIUtils.showToast("导入失败(魔蝎数据服务异常)");
+                            Log.e("-----MoxieSDK-----","魔蝎数据服务异常");
                             break;
                         case MxParam.ResultCode.USER_INPUT_ERROR:
+                            Log.e("-----MoxieSDK-----","导入失败");
                             UIUtils.showToast("导入失败(" + moxieCallBackData.getMessage() + ")");
                             break;
                         case MxParam.ResultCode.IMPORT_FAIL:
                             UIUtils.showToast("导入失败)");
-
+                            Log.e("-----MoxieSDK-----","导入失败)");
                             break;
                         case MxParam.ResultCode.IMPORT_SUCCESS:
-                            Log.d("flag", "任务采集成功，任务最终状态会从服务端回调，建议轮询APP服务端接口查询任务/业务最新状态");
+                            Log.e("-----MoxieSDK-----", "任务采集成功，任务最终状态会从服务端回调，建议轮询APP服务端接口查询任务/业务最新状态");
                             //根据taskType进行对应的处理
                             switch (moxieCallBackData.getTaskType()) {
                                 case MxParam.PARAM_TASK_CARRIER:
-
+                                    Log.e("-----MoxieSDK-----","导入失败)");
                                     MoxieRequest request = new MoxieRequest();
                                     request.taskId = moxieCallBackData.getTaskId();
+                                    request.token = RxSPTool.getString(CertificationActivity.this, Constant.TOKEN);
                                     request.userid = RxSPTool.getString(CertificationActivity.this, Constant.USER_ID);
                                     mPresenter.taskSave(request);
                                     break;

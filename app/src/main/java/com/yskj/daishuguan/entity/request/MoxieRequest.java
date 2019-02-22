@@ -14,6 +14,7 @@ public class MoxieRequest extends MapParamsRequest {
 
     public String taskId;
     public String userid;
+    public String token;
 
 
 
@@ -21,6 +22,7 @@ public class MoxieRequest extends MapParamsRequest {
     protected void putParams() {
         params.put("taskId", taskId);
         params.put("userid", userid);
+        params.put("token", token);
 
     }
 }

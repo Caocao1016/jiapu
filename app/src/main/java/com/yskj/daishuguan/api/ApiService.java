@@ -217,7 +217,7 @@ public interface ApiService {
     /**
      * 获取魔蝎数据
      */
-    @GET("auth/commoperator/taskSave")
+    @POST("auth/commoperator/taskSave")
     Observable<BaseResponse> taskSave(@QueryMap Map<String, Object> params);
 
 }
