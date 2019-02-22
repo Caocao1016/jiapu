@@ -2,14 +2,9 @@ package com.yskj.daishuguan.api;
 
 
 import com.yskj.daishuguan.base.BaseResponse;
-import com.yskj.daishuguan.modle.CardView;
-import com.yskj.daishuguan.response.AppVersionResponse;
-import com.yskj.daishuguan.response.AuthitemInfoResponse;
-import com.yskj.daishuguan.response.AuthorizeRecordResponse;
 import com.yskj.daishuguan.response.BannerResponse;
 import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
-import com.yskj.daishuguan.response.BlacklistResponse;
 import com.yskj.daishuguan.response.CaptchaCodeResponse;
 import com.yskj.daishuguan.response.CardResponse;
 import com.yskj.daishuguan.response.CardSmsResponse;
@@ -19,7 +14,6 @@ import com.yskj.daishuguan.response.HomeInfoResponse;
 import com.yskj.daishuguan.response.LoginResponse;
 import com.yskj.daishuguan.response.ManagementListResponse;
 import com.yskj.daishuguan.response.ManagementResponse;
-import com.yskj.daishuguan.response.OCRResponse;
 import com.yskj.daishuguan.response.RegisterResponse;
 import com.yskj.daishuguan.response.ShareContentResponse;
 import com.yskj.daishuguan.response.ShareListResponse;
@@ -29,15 +23,8 @@ import com.yskj.daishuguan.response.UserInfoResponse;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.PartMap;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 

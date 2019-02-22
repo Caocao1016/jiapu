@@ -12,6 +12,7 @@
         android:layout_marginRight="11dp"
         android:background="@color/c"
         android:layout_height="1dp"/>
+
     <TextView
         android:id="@+id/tv_cancel"
         android:layout_width="match_parent"

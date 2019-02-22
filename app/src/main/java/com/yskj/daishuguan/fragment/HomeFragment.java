@@ -17,18 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hjq.permissions.OnPermission;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
-import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.RxTextViewVerticalMore;
 import com.yskj.daishuguan.Constant;
@@ -444,15 +435,15 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
 
         PopupWindow window = new PopupWindow(view,
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT);
+                WindowManager.LayoutParams.WRAP_CONTENT);
 
         // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
         window.setFocusable(true);
 
 
-        // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(0x33000000);
-        window.setBackgroundDrawable(dw);
+//        // 实例化一个ColorDrawable颜色为半透明
+//        ColorDrawable dw = new ColorDrawable(0x33000000);
+//        window.setBackgroundDrawable(dw);
 
 
         // 设置popWindow的显示和消失动画

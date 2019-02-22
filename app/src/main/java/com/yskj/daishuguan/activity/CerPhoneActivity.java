@@ -324,22 +324,12 @@ public class CerPhoneActivity extends BaseActivity {
         // 利用layoutInflater获得View
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.popwindow_layout, null);
-
         // 下面是两种方法得到宽度和高度 getWindow().getDecorView().getWidth()
-
         PopupWindow window = new PopupWindow(view,
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT);
-
+                WindowManager.LayoutParams.WRAP_CONTENT);
         // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
         window.setFocusable(true);
-
-
-        // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(0x33000000);
-        window.setBackgroundDrawable(dw);
-
-
         // 设置popWindow的显示和消失动画
         window.setAnimationStyle(R.style.mypopwindow_anim_style);
         // 在底部显示
