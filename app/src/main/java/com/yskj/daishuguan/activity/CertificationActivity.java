@@ -205,31 +205,31 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                 break;
 
             case R.id.rl_cer_number:
-//                if (MNO_AUTH) {
-//                    return;
-//                }
-//
-//                if (IDCARD_AUTH && FACE_AUTH) {
-//                    if (REAL_AUTh) {
-//
-//                        if (CONTACT_AUTH) {
-//
-//                            if (what.equals("original")) {
-//                                startActivity(CerNumberActivity.class);
-//                            } else {
+                if (MNO_AUTH) {
+                    return;
+                }
+
+                if (IDCARD_AUTH && FACE_AUTH) {
+                    if (REAL_AUTh) {
+
+                        if (CONTACT_AUTH) {
+
+                                if (what.equals("B")) {
+                                startActivity(CerNumberActivity.class);
+                            } else {
                                 startMoxie();
-//                            }
-//
-//                        } else {
-//                            UIUtils.showToast("请先去完成联系信息认证");
-//                        }
-//
-//                    } else {
-//                        UIUtils.showToast("请先去完成银行卡绑定");
-//                    }
-//                } else {
-//                    UIUtils.showToast("请先去完成身份信息认证");
-//                }
+                            }
+
+                        } else {
+                            UIUtils.showToast("请先去完成联系信息认证");
+                        }
+
+                    } else {
+                        UIUtils.showToast("请先去完成银行卡绑定");
+                    }
+                } else {
+                    UIUtils.showToast("请先去完成身份信息认证");
+                }
 
 
                 break;
