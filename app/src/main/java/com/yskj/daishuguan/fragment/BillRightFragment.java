@@ -252,12 +252,12 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
 
     public void getList(List<BillHuankuanResponse.ListBean> entity) {
 
-        if (entity != null && entity.size() > 0) {
-            if (entity.get(0).getStatus() == 0 && !entity.get(0).getIdDued().equals("1") && entity.get(0).getPaymentDay().equals("1")) {
-                showDialog(entity.get(0));
-            }
-
-        }
+//        if (entity != null && entity.size() > 0) {
+//            if (entity.get(0).getStatus() == 0 && !entity.get(0).getIdDued().equals("1") && entity.get(0).getPaymentDay().equals("1")) {
+//                showDialog(entity.get(0));
+//            }
+//
+//        }
         if (mIsLoadMore) {
             mIsLoadMore = false;
             if (entity != null && entity.size() <= Constant.PAGE_SIZE && entity.size() > 0) {

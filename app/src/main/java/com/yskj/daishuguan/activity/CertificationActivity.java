@@ -208,7 +208,6 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                 if (MNO_AUTH) {
                     return;
                 }
-
                 if (IDCARD_AUTH && FACE_AUTH) {
                     if (REAL_AUTh) {
 
