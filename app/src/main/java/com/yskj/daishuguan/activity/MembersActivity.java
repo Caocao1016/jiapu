@@ -67,12 +67,11 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
         mMoney.setText(StringUtil.getRateMoney(anInt, rate).toString());
         finshDialog = new NoFinshDialog();
         mContent.setText(
-                "卡介绍：\n" + "1、专属审批通道，极速下款，审核不通过，3-5个工作日可申请退款。\n" + "2、借款1000元，每日利息低至0.66元。\n" +
-                        "3、按时履约还款，可获得提额机会。\n" +
-                        "购买须知：\n" +
-                        "1、卡每日可售数量有限，售完即止。\n" +
-                        "2、有效期：自购买之日起7天有效，每张会员卡限使用一次，过期自动" +
-                        "作废且不可退卡。");
+                        "1.本次授信（有效期：2年）流程中的信息中介\n" +
+                        "2.本次授信及本次放款中的信息服务\n" +
+                        "3.授信期限内账户安全监管服务（有效期：2年）\n" +
+                        "4.授信期限内借款账户状态变更通知（有效期：2年）\n" +
+                        "5.代收本次放款的资金支付通道费用（本次）\n");
 
         finshDialog.setOnTypeClickLitener(new NoFinshDialog.OnNoFinshClickLitener() {
             @Override

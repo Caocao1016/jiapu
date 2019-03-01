@@ -7,6 +7,7 @@ import com.hjq.baselibrary.base.BaseFragmentPagerAdapter;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.fragment.BillFragment;
 import com.yskj.daishuguan.fragment.HomeFragment;
+import com.yskj.daishuguan.fragment.HomeNewFragment;
 import com.yskj.daishuguan.fragment.MyFragment;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public final class HomeViewPagerAdapter extends BaseFragmentPagerAdapter<CommonL
 
     @Override
     protected void init(FragmentManager fm, List<CommonLazyFragment> list) {
-        list.add(HomeFragment.newInstance());
+        list.add(HomeNewFragment.newInstance());
         list.add(BillFragment.newInstance());
         list.add(MyFragment.newInstance());
     }

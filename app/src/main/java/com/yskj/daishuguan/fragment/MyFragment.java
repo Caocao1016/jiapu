@@ -60,7 +60,8 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     @BindView(R.id.tv_time)
     TextView mTime;
     @BindView(R.id.tv_certification)
-    TextView mTvCertification;
+    TextView mTvCertification;@BindView(R.id.tv_two_certification)
+    TextView mTvtwoCertification;
     @BindView(R.id.tv_login)
     TextView mTvLogin;
     @BindView(R.id.iv_head)
@@ -91,8 +92,10 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
 
             if (RxSPTool.getBoolean(getContext(), Constant.AUTH_JUDGE)) {
                 mTvCertification.setText("已认证");
+                mTvtwoCertification.setText("已认证");
             } else {
                 mTvCertification.setText("未认证");
+                mTvtwoCertification.setText("未认证");
             }
         } else {
             mLlName.setVisibility(View.GONE);
@@ -124,7 +127,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     }
 
 
-    @OnClick({R.id.tv_money_management, R.id.tv_login, R.id.tv_help, R.id.tv_call_phone, R.id.tv_share, R.id.tv_card, R.id.tv_my_certification})
+    @OnClick({R.id.tv_money_management, R.id.tv_login,R.id.rl_certification,R.id.rl_card,R.id.rl_help,R.id.tv_help, R.id.tv_call_phone, R.id.tv_share, R.id.tv_card, R.id.tv_my_certification})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_money_management:  //红包管理
@@ -151,6 +154,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
                 }).create().show();
                 break;
             case R.id.tv_my_certification:  //认证
+            case R.id.rl_certification:  //认证
                 if (RxSPTool.getString(getContext(), Constant.IS_LOGIN).equals("0")) {
                     UIUtils.showToast("您当前还未登录，请先去登录");
                     startActivity(LoginActivity.class);
@@ -167,6 +171,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
                 UIUtils.showToast("该功能正在完善中");
                 break;
             case R.id.tv_help:  //登录
+            case R.id.rl_help:  //登录
                 Intent intent2 = new Intent(getContext(), WebViewActivity.class);
                 intent2.putExtra(Constant.WEBVIEW_URL, "http://47.99.151.209:8181/p/help/help.html");
                 intent2.putExtra(Constant.WEBVIEW_URL_TITLE, "帮助中心");
@@ -182,6 +187,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
                 startActivity(MyShareActivity.class);
                 break;
             case R.id.tv_card:
+            case R.id.rl_card:
                 if (RxSPTool.getString(getContext(), Constant.IS_LOGIN).equals("0")) {
                     UIUtils.showToast("您当前还未登录，请先去登录");
                     startActivity(LoginActivity.class);

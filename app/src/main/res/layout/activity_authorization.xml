@@ -24,7 +24,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="264dp"
+                android:layout_height="303dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="21dp"
                 android:layout_marginRight="21dp"
@@ -139,6 +139,38 @@
                         android:textColor="@color/cl_404040"
                         android:textSize="12sp" />
                 </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@color/c" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="11dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/shape_acthorization_bg_purple" />
+
+                    <TextView
+                        android:id="@+id/tv_members_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:text=""
+                        android:textColor="@color/cl_404040"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
             </LinearLayout>
 
 
@@ -187,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="13dp"
-                    android:text="人行征信授权书"
+                    android:text="个人征信授权书"
                     android:textColor="@color/cl_404040"
                     android:textSize="15sp" />
 
@@ -220,7 +252,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="13dp"
-                    android:text="三方数据使用授权书"
+                    android:text="第三方数据查询与报送授权"
                     android:textColor="@color/cl_404040"
                     android:textSize="15sp" />
 
@@ -238,6 +270,59 @@
                     android:textSize="15sp" />
 
             </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="21dp"
+                android:layout_marginRight="21dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《授信合同》、"
+                    android:textColor="@color/cl_F34F03"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/tv_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《贷款合同》、"
+                    android:textColor="@color/cl_F34F03"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/tv_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《委托扣款授权书》、"
+                    android:textColor="@color/cl_F34F03"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/tv_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《居间服务协议》"
+                    android:textColor="@color/cl_F34F03"
+                    android:textSize="9sp" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:text="点击签名即默认同意以上授权书"
+                android:textColor="@color/cl_4D4D4D"
+                android:textSize="11sp" />
+
             <RelativeLayout
                 android:id="@+id/rl_money_agreement"
                 android:layout_width="match_parent"
@@ -245,7 +330,8 @@
                 android:layout_marginLeft="21dp"
                 android:layout_marginRight="21dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/shape_bg_white">
+                android:background="@drawable/shape_bg_white"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -275,10 +361,10 @@
                 android:id="@+id/rl_signature"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/shape_bg_white"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_bg_white">
 
                 <ImageView
                     android:id="@+id/iv_signature"
@@ -293,25 +379,16 @@
                     android:layout_height="28dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginRight="8dp"
                     android:background="@drawable/shape_again"
                     android:gravity="center"
                     android:text="重写"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginRight="8dp"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="点击签名即默认同意以上授权书"
-                android:gravity="center_horizontal"
-                android:textSize="11sp"
-                android:textColor="@color/cl_F34F03"
-                android:layout_marginTop="10dp"
-                />
 
             <TextView
                 android:id="@+id/tv_sure"

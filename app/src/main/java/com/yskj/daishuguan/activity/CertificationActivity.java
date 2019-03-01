@@ -118,7 +118,9 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         mTvMoney.setText(maxMoney);
         mTvDayRate.setText("1千元用一天，每日仅需" + StringUtil.getActualNUmber(1000, RxSPTool.getString(this, Constant.DAY_RATE)) + "元");
         createFileDir();
-        mPresenter.operatorChannel(new BannerRequest());
+        BannerRequest bannerRequest = new BannerRequest();
+        bannerRequest.userid =RxSPTool.getContent(this,Constant.USER_ID);
+        mPresenter.operatorChannel(bannerRequest);
 
         finshDialog = new NoFinshDialog();
 
