@@ -30,7 +30,7 @@ public class BillHuankuanAdapter extends BaseQuickAdapter<BillHuankuanResponse.L
     protected void convert(BaseViewHolder helper, BillHuankuanResponse.ListBean item) {
 
 //            0  代还款  3   已还款
-        if (item.getStatus() == 0) {
+        if (   item.getStatus() == 0) {
             if (item.getIdDued() == 1) {
                 helper.setGone(R.id.rl_one, true);
                 helper.setText(R.id.tv_start, "已逾期：" + item.getDuedDay() + "天");

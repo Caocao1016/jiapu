@@ -55,7 +55,8 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     @BindView(R.id.tv_one)
     TextView mOne;
     @BindView(R.id.tv_four)
-    TextView mFour;
+    TextView mFour; @BindView(R.id.tv_three)
+    TextView mThree;
 
     @BindView(R.id.tv_interest)
     TextView mInterest;
@@ -106,6 +107,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
         if (isreloan) {
             mMemberMoney.setText("本次应付费用： 0元");
             mOne.setVisibility(View.GONE);
+            mThree.setText("委托扣款授权书");
             mFour.setVisibility(View.GONE);
         } else {
             mMemberMoney.setText("本次应付费用： 300元");

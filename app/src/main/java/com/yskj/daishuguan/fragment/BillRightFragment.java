@@ -133,20 +133,20 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
                     if (data.get(position).getIdDued()== 1) {  //逾期
                         Intent intent = new Intent(getContext(), OverdueDetailsActivity.class);
                         intent.putExtra("false", true);
-                        intent.putExtra("interestRate", data.get(position).getInterestRate());
-                        intent.putExtra("loanDate", data.get(position).getLoanDate());
-                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
-                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
-                        intent.putExtra("duedDay", data.get(position).getDuedDay());;
+                        intent.putExtra("interestRate", data.get(position).getInterestRate()+"");
+                        intent.putExtra("loanDate", data.get(position).getLoanDate()+"");
+                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo()+"");
+                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo()+"");
+                        intent.putExtra("duedDay", data.get(position).getDuedDay()+"");;
                         startActivity(intent);
                     } else {  //代还款
                         Intent intent = new Intent(getContext(), PaymentDetailsActivity.class);
-                        intent.putExtra("interestRate", data.get(position).getInterestRate());
-                        intent.putExtra("loanDate", data.get(position).getLoanDate());
-                        intent.putExtra("paymentDay", data.get(position).getPaymentDay());
-                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
-                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
-                        intent.putExtra("duedDay", data.get(position).getDuedDay());
+                        intent.putExtra("interestRate", data.get(position).getInterestRate()+"");
+                        intent.putExtra("loanDate", data.get(position).getLoanDate()+"");
+                        intent.putExtra("paymentDay", data.get(position).getPaymentDay()+"");
+                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo()+"");
+                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo()+"");
+                        intent.putExtra("duedDay", data.get(position).getDuedDay()+"");
                         startActivity(intent);
                     }
 

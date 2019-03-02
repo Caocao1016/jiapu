@@ -319,6 +319,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
+                android:visibility="gone"
                 android:gravity="center_horizontal"
                 android:text="展期后不影响征信"
                 android:textColor="@color/cl_F34F03"

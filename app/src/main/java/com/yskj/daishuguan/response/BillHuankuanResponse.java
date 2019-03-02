@@ -76,22 +76,22 @@ public class BillHuankuanResponse {
          * status : 0
          * finishTime :
          * 已放款：status=3   待还款status=0
-         待还款：
-         idDued=1代表逾期     DuedDay逾期天数
-         idDued=0代表未逾期   paymentDay剩余还款天数
-         finishTime 还款时间
-         repayment/bills
-         已放款：status=3 待还款status=0
-         待还款：
-         idDued=1代表逾期 DuedDay逾期天数
-         idDued=0代表未逾期
-         未逾期：
-         extension ：1表示展期
-         ascription=‘A’代表君正 extensionType：1成功 2失败 3待君正风控审核 4过风 控待缴费
-         ascription=‘B’代表亿数 extensionType：1成功 2失败 5待缴费
-         extension ：0表示没有展期 paymentDay剩余还款天数
-
-         finishTime 还款时间
+         * 待还款：
+         * idDued=1代表逾期     DuedDay逾期天数
+         * idDued=0代表未逾期   paymentDay剩余还款天数
+         * finishTime 还款时间
+         * repayment/bills
+         * 已放款：status=3 待还款status=0
+         * 待还款：
+         * idDued=1代表逾期 DuedDay逾期天数
+         * idDued=0代表未逾期
+         * 未逾期：
+         * extension ：1表示展期
+         * ascription=‘A’代表君正 extensionType：1成功 2失败 3待君正风控审核 4过风 控待缴费
+         * ascription=‘B’代表亿数 extensionType：1成功 2失败 5待缴费
+         * extension ：0表示没有展期 paymentDay剩余还款天数
+         * <p>
+         * finishTime 还款时间
          */
 
 
@@ -110,88 +110,8 @@ public class BillHuankuanResponse {
         private int interestRate;
         private int isExtension;
         private int extensionType;
+
         private String ascription;
-
-
-        public int getDuedDay() {
-            return duedDay;
-        }
-
-        public void setDuedDay(int duedDay) {
-            this.duedDay = duedDay;
-        }
-
-        public int getPaymentDay() {
-            return paymentDay;
-        }
-
-        public void setPaymentDay(int paymentDay) {
-            this.paymentDay = paymentDay;
-        }
-
-        public int getExtensionType() {
-            return extensionType;
-        }
-
-        public void setExtensionType(int extensionType) {
-            this.extensionType = extensionType;
-        }
-
-        public String getRepayDate() {
-            return repayDate;
-        }
-
-        public void setRepayDate(String repayDate) {
-            this.repayDate = repayDate;
-        }
-
-
-
-        public int getIsExtension() {
-            return isExtension;
-        }
-
-        public void setIsExtension(int isExtension) {
-            this.isExtension = isExtension;
-        }
-
-
-
-        public String getAscription() {
-            return ascription;
-        }
-
-        public void setAscription(String ascription) {
-            this.ascription = ascription;
-        }
-
-
-        public int getIdDued() {
-            return idDued;
-        }
-
-        public void setIdDued(int idDued) {
-            this.idDued = idDued;
-        }
-
-
-
-
-        public int getLoanDate() {
-            return loanDate;
-        }
-
-        public void setLoanDate(int loanDate) {
-            this.loanDate = loanDate;
-        }
-
-        public int getInterestRate() {
-            return interestRate;
-        }
-
-        public void setInterestRate(int interestRate) {
-            this.interestRate = interestRate;
-        }
 
         public String getRepayOrderNo() {
             return repayOrderNo;
@@ -233,6 +153,14 @@ public class BillHuankuanResponse {
             this.createTime = createTime;
         }
 
+        public String getRepayDate() {
+            return repayDate;
+        }
+
+        public void setRepayDate(String repayDate) {
+            this.repayDate = repayDate;
+        }
+
         public int getStatus() {
             return status;
         }
@@ -247,6 +175,70 @@ public class BillHuankuanResponse {
 
         public void setFinishTime(String finishTime) {
             this.finishTime = finishTime;
+        }
+
+        public int getDuedDay() {
+            return duedDay;
+        }
+
+        public void setDuedDay(int duedDay) {
+            this.duedDay = duedDay;
+        }
+
+        public int getIdDued() {
+            return idDued;
+        }
+
+        public void setIdDued(int idDued) {
+            this.idDued = idDued;
+        }
+
+        public int getPaymentDay() {
+            return paymentDay;
+        }
+
+        public void setPaymentDay(int paymentDay) {
+            this.paymentDay = paymentDay;
+        }
+
+        public int getLoanDate() {
+            return loanDate;
+        }
+
+        public void setLoanDate(int loanDate) {
+            this.loanDate = loanDate;
+        }
+
+        public int getInterestRate() {
+            return interestRate;
+        }
+
+        public void setInterestRate(int interestRate) {
+            this.interestRate = interestRate;
+        }
+
+        public int getIsExtension() {
+            return isExtension;
+        }
+
+        public void setIsExtension(int isExtension) {
+            this.isExtension = isExtension;
+        }
+
+        public int getExtensionType() {
+            return extensionType;
+        }
+
+        public void setExtensionType(int extensionType) {
+            this.extensionType = extensionType;
+        }
+
+        public String getAscription() {
+            return ascription;
+        }
+
+        public void setAscription(String ascription) {
+            this.ascription = ascription;
         }
     }
 }
