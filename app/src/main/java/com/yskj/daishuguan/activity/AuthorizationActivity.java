@@ -16,6 +16,7 @@ import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.NoFinshDialog;
 import com.yskj.daishuguan.entity.request.CreditStartRequest;
+import com.yskj.daishuguan.entity.request.SubmitRequest;
 import com.yskj.daishuguan.modle.AuthoriztionView;
 import com.yskj.daishuguan.presenter.AuthoriztionPresenter;
 import com.yskj.daishuguan.response.HomeInfoResponse;
@@ -51,6 +52,10 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     TextView mAllMoney;
     @BindView(R.id.tv_money_start)
     TextView mStartMoney;
+    @BindView(R.id.tv_one)
+    TextView mOne;
+    @BindView(R.id.tv_four)
+    TextView mFour;
 
     @BindView(R.id.tv_interest)
     TextView mInterest;
@@ -65,6 +70,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     private boolean isSet;
     private Bitmap isSetBitmap;
     private String moeny;
+    private boolean isreloan;
     private String window;
 
     @Override
@@ -85,6 +91,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     @Override
     protected void initView() {
         moeny = getIntent().getStringExtra("MONEY");
+         isreloan = getIntent().getBooleanExtra("isreloan", false);
         window = getIntent().getStringExtra("window");
 
         String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
@@ -96,11 +103,22 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
             mCard.setText(cardNumber.substring(cardNumber.length() - 4) + "的银行卡");
         }
 
+        if (isreloan) {
+            mMemberMoney.setText("本次应付费用： 0元");
+            mOne.setVisibility(View.GONE);
+            mFour.setVisibility(View.GONE);
+        } else {
+            mMemberMoney.setText("本次应付费用： 300元");
+            mOne.setVisibility(View.VISIBLE);
+            mFour.setVisibility(View.VISIBLE);
+        }
+
+
         mMoney.setText(moeny);
         mStartMoney.setText("应还本金：" + moeny + "元");
         mInterest.setText("应还利息：" + StringUtil.getActualNUmber(Integer.parseInt(moeny), dayRate).multiply(new BigDecimal(ALLdayRate)) + "元");
 //        mMemberMoney.setText("本次应付费用：" + StringUtil.getRateMoney(Integer.parseInt(moeny), beginPate) + "元");
-        mMemberMoney.setText("本次应付费用： 300元");
+
         mDay.setText("周期：" + RxSPTool.getString(this, Constant.AUTH_VALID_DAY) + "天");
         mAllMoney.setText("应还总额：" + StringUtil.getALL(Integer.parseInt(moeny), StringUtil.getActualNUmber(Integer.parseInt(moeny), dayRate), ALLdayRate) + "元");
 
@@ -201,17 +219,22 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
                     UIUtils.showToast("请先点击签名");
                     return;
                 }
-                rxDialogLoading.show();
-                CreditStartRequest creditStartRequest = new CreditStartRequest();
-                creditStartRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
-                creditStartRequest.token = RxSPTool.getString(this, Constant.TOKEN);
-                creditStartRequest.locaddress = RxSPTool.getContent(this, Constant.GPS_ADDRESS);
-                creditStartRequest.locgps = RxSPTool.getContent(this, Constant.GPS_LATITUDE);
-                creditStartRequest.productNo = Build.MODEL;
-                creditStartRequest.loanPurpose = window;
-                creditStartRequest.customerCreditLimit = moeny;
-                creditStartRequest.autographPicture = bitmapToBase64(isSetBitmap);
-                mPresenter.creditStart(creditStartRequest);
+
+                if (isreloan){
+                    getSubmit();
+                }else {
+                    rxDialogLoading.show();
+                    CreditStartRequest creditStartRequest = new CreditStartRequest();
+                    creditStartRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
+                    creditStartRequest.token = RxSPTool.getString(this, Constant.TOKEN);
+                    creditStartRequest.locaddress = RxSPTool.getContent(this, Constant.GPS_ADDRESS);
+                    creditStartRequest.locgps = RxSPTool.getContent(this, Constant.GPS_LATITUDE);
+                    creditStartRequest.productNo = Build.MODEL;
+                    creditStartRequest.loanPurpose = window;
+                    creditStartRequest.customerCreditLimit = moeny;
+                    creditStartRequest.autographPicture = bitmapToBase64(isSetBitmap);
+                    mPresenter.creditStart(creditStartRequest);
+                }
 //                final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(this);
 //                rxDialogSureCancel.getTitleView().setVisibility(View.GONE);
 //                rxDialogSureCancel.getSureView().setTextColor(Color.parseColor("#007AFF"));
@@ -236,6 +259,26 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
             default:
                 break;
         }
+    }
+
+
+
+    /**
+     * 借款
+     */
+    public void getSubmit() {
+        rxDialogLoading.show();
+        SubmitRequest submitRequest = new SubmitRequest();
+        submitRequest.userId = RxSPTool.getString(this, Constant.USER_ID);
+        submitRequest.token = RxSPTool.getString(this, Constant.TOKEN);
+        submitRequest.mobileno = RxSPTool.getString(this, Constant.USER_MOBILENO);
+        submitRequest.cycle = RxSPTool.getString(this, Constant.AUTH_VALID_DAY);
+        submitRequest.loanAmount = Integer.parseInt(moeny);
+        submitRequest.productNo = Build.MODEL;
+        submitRequest.osType = "ANDROID";
+        submitRequest.locgps = RxSPTool.getContent(this, Constant.GPS_LATITUDE);
+        submitRequest.locaddress = RxSPTool.getContent(this, Constant.GPS_ADDRESS);
+        mPresenter.getSubmit(submitRequest);
     }
 
     @SuppressLint("NewApi")
@@ -296,6 +339,15 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
 //        homeInfoRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
 //        homeInfoRequest.cycle = RxSPTool.getString(this, Constant.AUTH_VALID_DAY);
 //        mPresenter.homeInfo(homeInfoRequest);
+    }
+
+    @Override
+    public void onSubmitSuccess(BaseResponse response) {
+        rxDialogLoading.dismiss();
+        Intent intent = new Intent(this, CerFinshActivity.class);
+        intent.putExtra("what", 2);
+        startActivity(intent);
+        finish();
     }
 
     @Override

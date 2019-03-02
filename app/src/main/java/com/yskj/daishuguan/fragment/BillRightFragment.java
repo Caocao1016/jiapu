@@ -151,13 +151,13 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
                     }
 
                 } else {
-                    Intent intent = new Intent(getContext(), DeferMoneyActivity.class);
-                    intent.putExtra("false", false);
-                    intent.putExtra("interestRate", data.get(position).getInterestRate());
-                    intent.putExtra("loanDate", data.get(position).getLoanDate());
-                    intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
-                    intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
-                    startActivity(intent);
+//                    Intent intent = new Intent(getContext(), DeferMoneyActivity.class);
+//                    intent.putExtra("false", false);
+//                    intent.putExtra("interestRate", data.get(position).getInterestRate());
+//                    intent.putExtra("loanDate", data.get(position).getLoanDate());
+//                    intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo());
+//                    intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo());
+//                    startActivity(intent);
                 }
 
 //                1.逾期  2.展期

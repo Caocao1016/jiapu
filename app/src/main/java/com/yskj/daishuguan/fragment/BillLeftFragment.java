@@ -105,7 +105,7 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 List<BillResponse.ListBean> entity =  adapter.getData();
                 BillResponse.ListBean listBean = entity.get(position);
-                if (listBean.getStatus() == 1){
+                if (listBean.getStatus() == 1 && listBean.getIsMember() == 0){
                     Intent intent = new Intent(getContext(), MembersActivity.class);
                     intent.putExtra("moneyList", listBean.getAuditCreditLimit());
                     startActivity(intent);

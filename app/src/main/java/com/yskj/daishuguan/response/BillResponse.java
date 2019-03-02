@@ -85,9 +85,19 @@ public class BillResponse {
         private String loanDate;  // oanDate天数，interestRate利息
         private String interestRate;
         private List<Bean> recoveryList;
+        private int isMember ;
         private String pictureUrl;//图片地址
         private String merchantRealname;//商户名称
         private String h5Url;//h5地址
+
+
+        public int getIsMember() {
+            return isMember;
+        }
+
+        public void setIsMember(int isMember) {
+            this.isMember = isMember;
+        }
 
         public String getLoanDate() {
             return loanDate;

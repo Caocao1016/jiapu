@@ -15,6 +15,7 @@ import com.yskj.daishuguan.response.HomeInfoResponse;
 public interface AuthoriztionView {
 
     void onSuccess(BaseResponse response);
+    void onSubmitSuccess(BaseResponse response);
     void onFailure(BaseResponse response);
     void onHomeInfoSuccess(HomeInfoResponse response);
     void onError();

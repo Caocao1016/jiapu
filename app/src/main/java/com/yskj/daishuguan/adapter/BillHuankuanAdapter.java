@@ -38,16 +38,16 @@ public class BillHuankuanAdapter extends BaseQuickAdapter<BillHuankuanResponse.L
             } else {
                 helper.setGone(R.id.rl_one, false);
                 if (item.getIsExtension() == 1) {
-                    if (item.getExtensionType().equals("1") ) {
+                    if (item.getExtensionType() ==1 ) {
                         helper.setText(R.id.tv_start, "距离还款日：" + item.getPaymentDay() + "天");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#FCB112"));
-                    } else if (item.getExtensionType().equals("2")) {
+                    } else if (item.getExtensionType()==2) {
                         helper.setText(R.id.tv_start, "展期申请失败");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#FCB112"));
-                    } else if (item.getExtensionType().equals("3")) {
+                    } else if (item.getExtensionType()==3) {
                         helper.setText(R.id.tv_start, "展期申请中...");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#7BC076"));
-                    }else if (item.getExtensionType().equals("4")) {
+                    }else if (item.getExtensionType() == 4) {
                         helper.setText(R.id.tv_start, "展期通过待确认...");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#CCCCCC"));
                     }

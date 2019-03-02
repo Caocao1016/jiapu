@@ -94,27 +94,48 @@ public class BillHuankuanResponse {
          finishTime 还款时间
          */
 
-        private String repayOrderNo;
-        private String loanOrderNo;
-        private String productName;
-        private String repayTotal;
-        private String createTime;
-        private String repayDate;
-        private String finishTime;
-        private int status;
-        private String duedDay;
+
+        private String repayOrderNo; //订单号
+        private String loanOrderNo; //借款订单
+        private String productName; //产品名称
+        private String repayTotal; //应还金额
+        private String createTime; // 订单生成时间
+        private String repayDate; // 订单应还时间
+        private int status;  //0：待还款1：还款中 3：已还款
+        private String finishTime; //还款时间
+        private int duedDay;
         private int idDued;
-        private String paymentDay;
-        private int  loanDate;  // oanDate天数，interestRate利息
-
-
+        private int paymentDay;
+        private int loanDate;
+        private int interestRate;
         private int isExtension;
+        private int extensionType;
         private String ascription;
-        private String  extensionType;
 
 
-        private int  interestRate;
+        public int getDuedDay() {
+            return duedDay;
+        }
 
+        public void setDuedDay(int duedDay) {
+            this.duedDay = duedDay;
+        }
+
+        public int getPaymentDay() {
+            return paymentDay;
+        }
+
+        public void setPaymentDay(int paymentDay) {
+            this.paymentDay = paymentDay;
+        }
+
+        public int getExtensionType() {
+            return extensionType;
+        }
+
+        public void setExtensionType(int extensionType) {
+            this.extensionType = extensionType;
+        }
 
         public String getRepayDate() {
             return repayDate;
@@ -124,13 +145,7 @@ public class BillHuankuanResponse {
             this.repayDate = repayDate;
         }
 
-        public String getDuedDay() {
-            return duedDay;
-        }
 
-        public void setDuedDay(String duedDay) {
-            this.duedDay = duedDay;
-        }
 
         public int getIsExtension() {
             return isExtension;
@@ -140,13 +155,7 @@ public class BillHuankuanResponse {
             this.isExtension = isExtension;
         }
 
-        public String getExtensionType() {
-            return extensionType;
-        }
 
-        public void setExtensionType(String extensionType) {
-            this.extensionType = extensionType;
-        }
 
         public String getAscription() {
             return ascription;
@@ -166,13 +175,7 @@ public class BillHuankuanResponse {
         }
 
 
-        public String getPaymentDay() {
-            return paymentDay;
-        }
 
-        public void setPaymentDay(String paymentDay) {
-            this.paymentDay = paymentDay;
-        }
 
         public int getLoanDate() {
             return loanDate;

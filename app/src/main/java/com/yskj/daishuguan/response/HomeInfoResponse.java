@@ -17,7 +17,16 @@ public class HomeInfoResponse {
     private boolean creditJudge ;
     private boolean loanJudge ;
     private boolean pwd ;
+    private boolean isReloan ;
     private int isMember ;
+
+    public boolean isReloan() {
+        return isReloan;
+    }
+
+    public void setReloan(boolean reloan) {
+        isReloan = reloan;
+    }
 
     public int getIsMember() {
         return isMember;

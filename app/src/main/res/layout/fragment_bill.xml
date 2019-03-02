@@ -30,7 +30,7 @@
                 android:button="@null"
                 android:checked="true"
                 android:gravity="center"
-                android:text="@string/authorization_left"
+                android:text="授信状态"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -43,7 +43,7 @@
                 android:button="@null"
                 android:checked="false"
                 android:gravity="center"
-                android:text="@string/authorization_right"
+                android:text="订单列表"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </RadioGroup>

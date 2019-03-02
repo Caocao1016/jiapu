@@ -2,6 +2,7 @@ package com.yskj.daishuguan.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,11 +22,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.RxTextViewVerticalMore;
+import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.AuthorizationActivity;
 import com.yskj.daishuguan.activity.CerFinshActivity;
 import com.yskj.daishuguan.activity.CertificationActivity;
+import com.yskj.daishuguan.activity.Defer2MoneyActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.adapter.WindowAdapter;
@@ -38,6 +41,7 @@ import com.yskj.daishuguan.entity.request.SubmitRequest;
 import com.yskj.daishuguan.modle.CommonDataView;
 import com.yskj.daishuguan.presenter.CommonDataPresenter;
 import com.yskj.daishuguan.response.BannerResponse;
+import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.CommonDataResponse;
 import com.yskj.daishuguan.response.HomeInfoResponse;
 import com.yskj.daishuguan.response.ItemlistResponse;
@@ -94,6 +98,8 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     TextView mTvAllMoney;
     @BindView(R.id.rl_bar)
     LinearLayout mRlBar;
+    @BindView(R.id.ll_window)
+    LinearLayout mLlWindow;
     @BindView(R.id.rl_number)
     RelativeLayout mRlNumber;
     @BindView(R.id.upview1)
@@ -105,6 +111,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     private List<ItemlistResponse> itemlist;
     private boolean authJudge;
     private boolean creditJudge;
+    private boolean isreloan;
     private boolean loanJudge;
     private int member;
     private int auditCreditLimit;
@@ -211,7 +218,8 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                     if (creditJudge) {
                         if (loanJudge) {
                             if (member == 1) {
-                                getSubmit();
+
+                                showDialog();
                             } else {
                                 Intent intent = new Intent(getContext(), MembersActivity.class);
                                 intent.putExtra("moneyList", auditCreditLimit);
@@ -225,6 +233,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                         Intent intent = new Intent(getContext(), AuthorizationActivity.class);
                         intent.putExtra("MONEY", mTvMoney.getText().toString());
                         intent.putExtra("window", mTvWindow.getText().toString());
+                        intent.putExtra("isreloan", isreloan);
                         startActivity(intent);
                     }
                 } else {
@@ -373,6 +382,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         mPresenter.getCommonData(commonRequest);
 
 
+       isreloan =  response.isReloan();
         //认证
         authJudge = response.isAuthJudge();
         //授信
@@ -382,8 +392,10 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         member = response.getIsMember();
 
         if (creditJudge){
+            mLlWindow.setVisibility(View.GONE);
             mTure.setText("立即提现");
         }else {
+            mLlWindow.setVisibility(View.VISIBLE);
             mTure.setText("立即申请");
         }
 
@@ -536,6 +548,41 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             }
         });
     }
+
+
+
+    public void showDialog() {
+        final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
+        rxDialogSureCancel.getTitleView().setVisibility(View.GONE);
+        rxDialogSureCancel.getSureView().setTextColor(Color.parseColor("#007AFF"));
+        rxDialogSureCancel.getCancelView().setTextColor(Color.parseColor("#007AFF"));
+
+        rxDialogSureCancel.getContentView().setText("确认之后将立即提现");
+        rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isreloan){
+                    Intent intent = new Intent(getContext(), AuthorizationActivity.class);
+                    intent.putExtra("MONEY", mTvMoney.getText().toString());
+                    intent.putExtra("window", mTvWindow.getText().toString());
+                    intent.putExtra("isreloan", isreloan);
+                    startActivity(intent);
+                }else {
+                    getSubmit();
+                }
+
+                rxDialogSureCancel.cancel();
+            }
+        });
+        rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rxDialogSureCancel.cancel();
+            }
+        });
+        rxDialogSureCancel.show();
+    }
+
 
     /**
      * 借款

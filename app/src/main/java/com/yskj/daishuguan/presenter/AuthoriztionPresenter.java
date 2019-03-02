@@ -8,6 +8,7 @@ import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.CreditStartRequest;
 import com.yskj.daishuguan.entity.request.OCRRequest;
 import com.yskj.daishuguan.entity.request.SendSmsRequest;
+import com.yskj.daishuguan.entity.request.SubmitRequest;
 import com.yskj.daishuguan.modle.AuthoriztionView;
 import com.yskj.daishuguan.modle.CardView;
 import com.yskj.daishuguan.response.CardResponse;
@@ -59,6 +60,30 @@ public class AuthoriztionPresenter extends BasePresenter<AuthoriztionView> {
             protected void onSuccess(HomeInfoResponse response) {
 
                 mView.onHomeInfoSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
+        });
+
+    }
+
+
+    public void getSubmit(SubmitRequest request) {
+
+        addSubscription(mApiService.submit(BaseParams.getParams(request.params())), new SubscriberCallBack<BaseResponse>() {
+
+            @Override
+            protected void onSuccess(BaseResponse response) {
+
+                mView.onSubmitSuccess(response);
             }
 
             @Override

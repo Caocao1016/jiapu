@@ -294,6 +294,7 @@
             android:layout_marginLeft="22.5dp"
             android:layout_marginRight="22.5dp"
             android:layout_marginTop="3dp"
+
             android:background="@drawable/shape_auction_rectangle"
             android:orientation="horizontal">
 
