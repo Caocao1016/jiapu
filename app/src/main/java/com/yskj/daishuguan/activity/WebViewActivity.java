@@ -3,6 +3,7 @@ package com.yskj.daishuguan.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -52,7 +53,7 @@ public class WebViewActivity extends ActivityBase {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RxBarTool.setTransparentStatusBar(this);
+//        RxBarTool.setTransparentStatusBar(this);
         this.setContentView(com.vondear.rxui.R.layout.activity_webview);
         this.getWindow().setSoftInputMode(32);
         this.initView();
@@ -94,6 +95,9 @@ public class WebViewActivity extends ActivityBase {
 
     private void initData() {
         this.pbWebBase.setMax(100);
+        this.llIncludeTitle.setBackgroundColor(Color.parseColor("#F34F03"));
+        this.mRxTextAutoZoom.setBackgroundColor(Color.parseColor("#F34F03"));
+        this.pbWebBase.setBackgroundColor(Color.parseColor("#F34F03"));
         this.webPath = getIntent().getStringExtra(Constant.WEBVIEW_URL);
         this.mRxTextAutoZoom.setText(getIntent().getStringExtra(Constant.WEBVIEW_URL_TITLE));
         WebSettings webSettings = this.webBase.getSettings();

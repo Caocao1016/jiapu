@@ -3,11 +3,14 @@ package com.yskj.daishuguan.presenter;
 import com.yskj.daishuguan.api.SubscriberCallBack;
 import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BasePresenter;
+import com.yskj.daishuguan.base.BaseResponse;
+import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.LoginRequest;
 import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.LoginView;
 import com.yskj.daishuguan.modle.UserInfoView;
 import com.yskj.daishuguan.response.CommonDataResponse;
+import com.yskj.daishuguan.response.HomeInfoResponse;
 import com.yskj.daishuguan.response.LoginResponse;
 import com.yskj.daishuguan.response.UserInfoResponse;
 
@@ -55,6 +58,30 @@ public class UserInfoPresenter extends BasePresenter<UserInfoView> {
                 mView.onError();
             }
         });
+    }
+
+
+    public void homeInfo(BannerRequest request) {
+
+        addSubscription(mApiService.homeInfo(BaseParams.getParams(request.params())), new SubscriberCallBack<HomeInfoResponse>() {
+
+            @Override
+            protected void onSuccess(HomeInfoResponse response) {
+
+                mView.onHomeInfoSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
+        });
+
     }
 
 }

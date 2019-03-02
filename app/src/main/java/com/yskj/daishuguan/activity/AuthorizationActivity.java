@@ -25,6 +25,7 @@ import com.yskj.daishuguan.view.SignatureDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,6 +65,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     private boolean isSet;
     private Bitmap isSetBitmap;
     private String moeny;
+    private String window;
 
     @Override
     protected AuthoriztionPresenter createPresenter() {
@@ -83,6 +85,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     @Override
     protected void initView() {
         moeny = getIntent().getStringExtra("MONEY");
+        window = getIntent().getStringExtra("window");
 
         String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
         String dayRate = RxSPTool.getString(this, Constant.DAY_RATE);
@@ -95,8 +98,9 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
 
         mMoney.setText(moeny);
         mStartMoney.setText("应还本金：" + moeny + "元");
-        mInterest.setText("应还利息：" + StringUtil.getActualNUmber(Integer.parseInt(moeny), dayRate) + "元");
-        mMemberMoney.setText("本次应付费用：" + StringUtil.getRateMoney(Integer.parseInt(moeny), beginPate) + "元");
+        mInterest.setText("应还利息：" + StringUtil.getActualNUmber(Integer.parseInt(moeny), dayRate).multiply(new BigDecimal(ALLdayRate)) + "元");
+//        mMemberMoney.setText("本次应付费用：" + StringUtil.getRateMoney(Integer.parseInt(moeny), beginPate) + "元");
+        mMemberMoney.setText("本次应付费用： 300元");
         mDay.setText("周期：" + RxSPTool.getString(this, Constant.AUTH_VALID_DAY) + "天");
         mAllMoney.setText("应还总额：" + StringUtil.getALL(Integer.parseInt(moeny), StringUtil.getActualNUmber(Integer.parseInt(moeny), dayRate), ALLdayRate) + "元");
 
@@ -167,25 +171,25 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
             case R.id.tv_one:
                 Intent intent3 = new Intent(AuthorizationActivity.this, WebViewActivity.class);
                 intent3.putExtra(Constant.WEBVIEW_URL_TITLE, "授信合同");
-                intent3.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this, Constant.LOAN_PROTOCOL));
+                intent3.putExtra(Constant.WEBVIEW_URL, "http://120.27.224.36:8181/p/ShouXin.html");
                 startActivity(intent3);
                 break;
             case R.id.tv_two:
                 Intent intent4 = new Intent(AuthorizationActivity.this, WebViewActivity.class);
                 intent4.putExtra(Constant.WEBVIEW_URL_TITLE, "贷款合同");
-                intent4.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this, Constant.LOAN_PROTOCOL));
+                intent4.putExtra(Constant.WEBVIEW_URL, "http://120.27.224.36:8181/p/Loan_contract.html");
                 startActivity(intent4);
                 break;
             case R.id.tv_three:
                 Intent intent5 = new Intent(AuthorizationActivity.this, WebViewActivity.class);
                 intent5.putExtra(Constant.WEBVIEW_URL_TITLE, "委托扣款授权书");
-                intent5.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this, Constant.LOAN_PROTOCOL));
+                intent5.putExtra(Constant.WEBVIEW_URL, "http://120.27.224.36:8181/p/Deduct_personal2.html");
                 startActivity(intent5);
                 break;
             case R.id.tv_four:
                 Intent intent6 = new Intent(AuthorizationActivity.this, WebViewActivity.class);
                 intent6.putExtra(Constant.WEBVIEW_URL_TITLE, "居间服务协议");
-                intent6.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this, Constant.LOAN_PROTOCOL));
+                intent6.putExtra(Constant.WEBVIEW_URL, "http://120.27.224.36:8181/p/JuJian.html");
                 startActivity(intent6);
                 break;
             case R.id.rl_signature:
@@ -204,6 +208,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
                 creditStartRequest.locaddress = RxSPTool.getContent(this, Constant.GPS_ADDRESS);
                 creditStartRequest.locgps = RxSPTool.getContent(this, Constant.GPS_LATITUDE);
                 creditStartRequest.productNo = Build.MODEL;
+                creditStartRequest.loanPurpose = window;
                 creditStartRequest.customerCreditLimit = moeny;
                 creditStartRequest.autographPicture = bitmapToBase64(isSetBitmap);
                 mPresenter.creditStart(creditStartRequest);

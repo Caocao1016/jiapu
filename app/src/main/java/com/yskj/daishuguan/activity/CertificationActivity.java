@@ -29,6 +29,7 @@ import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.NoFinshDialog;
+import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.MoxieRequest;
 import com.yskj.daishuguan.modle.CertificationDataView;
@@ -40,6 +41,7 @@ import com.yskj.daishuguan.util.SettingUtil;
 import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -100,7 +102,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     // 活体配置 默认值
     public String publicFilePath;
     SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-    private String what = "original";
+    private String what = "A";
 
     @Override
     protected int getLayoutId() {
@@ -136,6 +138,8 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     @Override
     protected void initData() {
 
+        rxDialogLoading.setLoadingText("");
+        rxDialogLoading.show();
         BannerRequest bannerRequest = new BannerRequest();
         bannerRequest.mobileno = RxSPTool.getString(this, Constant.USER_MOBILENO);
         bannerRequest.token = RxSPTool.getString(this, Constant.TOKEN);
@@ -154,6 +158,18 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         }
 
 
+    }
+
+
+    @Override
+    public void onRightClick(View v) {
+        rxDialogLoading.setLoadingText("");
+        rxDialogLoading.show();
+        BannerRequest bannerRequest = new BannerRequest();
+        bannerRequest.mobileno = RxSPTool.getString(this, Constant.USER_MOBILENO);
+        bannerRequest.token = RxSPTool.getString(this, Constant.TOKEN);
+        bannerRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
+        mPresenter.authiteminfo(bannerRequest);
     }
 
     @Override
@@ -207,7 +223,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                 break;
 
             case R.id.rl_cer_number:
-                if (MNO_AUTH) {
+                if (MNO_AUTH || isMNO_AUTH) {
                     return;
                 }
                 if (IDCARD_AUTH && FACE_AUTH) {
@@ -236,11 +252,17 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                 break;
             case R.id.tv_sure:
 
-                if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
-
-                } else {
-                    UIUtils.showToast("请先去完成相关认证");
+                if (!isMNO_AUTH){
+                    if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
+                        EventBus.getDefault().post(new FinshMoneyEvenbus(0));
+                        finish();
+                    } else {
+                        UIUtils.showToast("请先去完成相关认证");
+                    }
+                }else {
+                    UIUtils.showToast("正在审核中");
                 }
+
                 break;
             default:
                 break;
@@ -417,7 +439,6 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         switch (resultCode) {
             case RESULT_OK:
 
-                rxDialogLoading.setLoadingText("人脸识别中...");
                 try {
                     upLoadFace(intent);
                 } catch (Exception e) {
@@ -436,7 +457,8 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
     public void upLoadFace(Intent intent) {
 
-
+        rxDialogLoading.setLoadingText("人脸识别中...");
+        rxDialogLoading.show();
         RequestParams params = new RequestParams(ApiConstant.BASE_SERVER_URL + ApiConstant.FACE);
         params.setMultipart(true);
         params.setConnectTimeout(60 * 1000);
@@ -520,6 +542,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
     @Override
     public void onAuthiteminfoSuccess(CertificationResponse response) {
+        rxDialogLoading.dismiss();
         List<CertificationResponse.CertificationListResponse> itemlist = response.getItemlist();
         for (CertificationResponse.CertificationListResponse mList : itemlist) {
             String status = String.valueOf(mList.getStatus());
@@ -593,7 +616,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                     mTvNumberRight.setVisibility(View.INVISIBLE);
                     mIvNumberRight.setImageResource(R.mipmap.ic_fish);
                 } else if ("2".equals(status)) {
-                    MNO_AUTH = true;
+                    isMNO_AUTH = true;
                     mIvNumberRight.setVisibility(View.VISIBLE);
                     mTvNumberRight.setVisibility(View.INVISIBLE);
                     mIvNumberRight.setImageResource(R.mipmap.ic_audit);
@@ -641,13 +664,13 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
     @Override
     public void onError() {
-
+        rxDialogLoading.dismiss();
     }
 
 
     @Override
     public void onFailure(BaseResponse response) {
-
+        rxDialogLoading.dismiss();
         UIUtils.showToast(response.getRetmsg());
     }
 

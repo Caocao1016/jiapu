@@ -13,6 +13,7 @@ import com.yskj.daishuguan.api.ApiConstant;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BasePresenter;
+import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.SmsDialog;
 import com.yskj.daishuguan.entity.evbus.DeferFinshEvenbus;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
@@ -20,6 +21,7 @@ import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.UserInfoView;
 import com.yskj.daishuguan.presenter.UserInfoPresenter;
 import com.yskj.daishuguan.response.CommonDataResponse;
+import com.yskj.daishuguan.response.HomeInfoResponse;
 import com.yskj.daishuguan.response.UserInfoResponse;
 import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
@@ -524,6 +526,16 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
 
     @Override
     public void onCommonDataSuccess(CommonDataResponse response) {
+
+    }
+
+    @Override
+    public void onHomeInfoSuccess(HomeInfoResponse response) {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
 
     }
 

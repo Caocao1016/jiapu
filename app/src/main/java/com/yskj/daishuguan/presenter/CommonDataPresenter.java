@@ -78,24 +78,24 @@ public class CommonDataPresenter extends BasePresenter<CommonDataView> {
 
     public void homeInfo(BannerRequest request) {
 
-        addSubscription(mApiService.homeInfo(BaseParams.getParams(request.params())), new SubscriberCallBack<HomeInfoResponse>() {
+            addSubscription(mApiService.homeInfo(BaseParams.getParams(request.params())), new SubscriberCallBack<HomeInfoResponse>() {
 
-            @Override
-            protected void onSuccess(HomeInfoResponse response) {
+                @Override
+                protected void onSuccess(HomeInfoResponse response) {
 
-                mView.onHomeInfoSuccess(response);
-            }
+                    mView.onHomeInfoSuccess(response);
+                }
 
-            @Override
-            protected void onError() {
-                mView.onError();
-            }
+                @Override
+                protected void onError() {
+                    mView.onError();
+                }
 
-            @Override
-            protected void onFailure(BaseResponse response) {
-                mView.onFailure(response);
-            }
-        });
+                @Override
+                protected void onFailure(BaseResponse response) {
+                    mView.onFailure(response);
+                }
+            });
 
     }
 

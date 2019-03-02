@@ -2,6 +2,7 @@ package com.yskj.daishuguan.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,14 +23,17 @@ import com.yskj.daishuguan.activity.MyShareActivity;
 import com.yskj.daishuguan.activity.RegisterActivity;
 import com.yskj.daishuguan.activity.SettingActivity;
 import com.yskj.daishuguan.activity.WebViewActivity;
+import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.OutLoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
+import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.UserInfoView;
 import com.yskj.daishuguan.presenter.UserInfoPresenter;
 import com.yskj.daishuguan.response.CommonDataResponse;
+import com.yskj.daishuguan.response.HomeInfoResponse;
 import com.yskj.daishuguan.response.UserInfoResponse;
 import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
@@ -60,7 +64,8 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     @BindView(R.id.tv_time)
     TextView mTime;
     @BindView(R.id.tv_certification)
-    TextView mTvCertification;@BindView(R.id.tv_two_certification)
+    TextView mTvCertification;
+    @BindView(R.id.tv_two_certification)
     TextView mTvtwoCertification;
     @BindView(R.id.tv_login)
     TextView mTvLogin;
@@ -92,9 +97,11 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
 
             if (RxSPTool.getBoolean(getContext(), Constant.AUTH_JUDGE)) {
                 mTvCertification.setText("已认证");
+                mTvCertification.setBackgroundColor(Color.parseColor("#F34F03"));
                 mTvtwoCertification.setText("已认证");
             } else {
                 mTvCertification.setText("未认证");
+                mTvCertification.setBackgroundColor(Color.parseColor("#999999"));
                 mTvtwoCertification.setText("未认证");
             }
         } else {
@@ -124,10 +131,17 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
         request.token = RxSPTool.getString(getContext(), Constant.TOKEN);
         mPresenter.getuserInfo(request);
 
+
+        BannerRequest homeInfoRequest = new BannerRequest();
+        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+        mPresenter.homeInfo(homeInfoRequest);
+
     }
 
 
-    @OnClick({R.id.tv_money_management, R.id.tv_login,R.id.rl_certification,R.id.rl_card,R.id.rl_help,R.id.tv_help, R.id.tv_call_phone, R.id.tv_share, R.id.tv_card, R.id.tv_my_certification})
+    @OnClick({R.id.tv_money_management, R.id.tv_login, R.id.rl_certification, R.id.rl_card, R.id.rl_help, R.id.tv_help, R.id.tv_call_phone, R.id.tv_share, R.id.tv_card, R.id.tv_my_certification})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_money_management:  //红包管理
@@ -160,6 +174,10 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
                     startActivity(LoginActivity.class);
                     return;
                 }
+
+                if (mTvCertification.getText().toString().equals("已认证")){
+                    return;
+                }
                 Intent mIntent = new Intent(getContext(), CertificationActivity.class);
                 mIntent.putExtra("maxMoney", RxSPTool.getString(getContext(), Constant.USER_BIG_MONEY));
                 startActivity(mIntent);
@@ -173,7 +191,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
             case R.id.tv_help:  //登录
             case R.id.rl_help:  //登录
                 Intent intent2 = new Intent(getContext(), WebViewActivity.class);
-                intent2.putExtra(Constant.WEBVIEW_URL, "http://47.99.151.209:8181/p/help/help.html");
+                intent2.putExtra(Constant.WEBVIEW_URL, "http://120.27.224.36:8181/p/help/help.html");
                 intent2.putExtra(Constant.WEBVIEW_URL_TITLE, "帮助中心");
                 startActivity(intent2);
                 break;
@@ -229,6 +247,27 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
 
     @Override
     public void onCommonDataSuccess(CommonDataResponse response) {
+
+    }
+
+    @Override
+    public void onHomeInfoSuccess(HomeInfoResponse response) {
+
+        //认证
+        boolean authJudge = response.isAuthJudge();
+        if (authJudge) {
+            mTvCertification.setText("已认证");
+            mTvCertification.setBackgroundColor(Color.parseColor("#F34F03"));
+            mTvtwoCertification.setText("已认证");
+        } else {
+            mTvCertification.setText("未认证");
+            mTvCertification.setBackgroundColor(Color.parseColor("#999999"));
+            mTvtwoCertification.setText("未认证");
+        }
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
 
     }
 

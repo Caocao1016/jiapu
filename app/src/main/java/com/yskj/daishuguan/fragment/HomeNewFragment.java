@@ -31,6 +31,7 @@ import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.adapter.WindowAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
+import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.SubmitRequest;
@@ -85,7 +86,8 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     @BindView(R.id.tv_time)
     TextView mTvTime;
     @BindView(R.id.tv_left)
-    TextView mLeft;
+    TextView mLeft;@BindView(R.id.tv_true)
+    TextView mTure;
     @BindView(R.id.tv_time_money)
     TextView mTvTiemMoney;
     @BindView(R.id.tv_money_all)
@@ -150,18 +152,12 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         mPresenter.getBanner(bannerRequest);
 
 
-        BannerRequest commonRequest = new BannerRequest();
-        commonRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
-        commonRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
-        mPresenter.getCommonData(commonRequest);
-
 
         BannerRequest homeInfoRequest = new BannerRequest();
         homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
         homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
         homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
         mPresenter.homeInfo(homeInfoRequest);
-
     }
 
 
@@ -173,6 +169,22 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void QuanxianEvenbus(QuanxianEvenbus event) {
         initData();
+    }
+
+    /**
+     * 购买会员卡成功后，去掉滑动栏，显示金额为授信金额
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void FinshMoneyEvenbus(FinshMoneyEvenbus event) {
+        if (event.number == 1) {
+            BannerRequest homeInfoRequest = new BannerRequest();
+            homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+            homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+            homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+            mPresenter.homeInfo(homeInfoRequest);
+        }
     }
 
 
@@ -188,9 +200,12 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                     startActivity(LoginActivity.class);
                     return;
                 }
-                if (StringUtil.isEmpty(mTvWindow.getText().toString())) {
-                    UIUtils.showToast("请先选择借款用途");
-                    return;
+
+                if (!creditJudge) {
+                    if (StringUtil.isEmpty(mTvWindow.getText().toString())) {
+                        UIUtils.showToast("请先选择借款用途");
+                        return;
+                    }
                 }
                 if (authJudge) {
                     if (creditJudge) {
@@ -209,11 +224,12 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                     } else {
                         Intent intent = new Intent(getContext(), AuthorizationActivity.class);
                         intent.putExtra("MONEY", mTvMoney.getText().toString());
+                        intent.putExtra("window", mTvWindow.getText().toString());
                         startActivity(intent);
                     }
                 } else {
                     Intent intent = new Intent(getContext(), CertificationActivity.class);
-                    intent.putExtra("maxMoney", mTvMoneyRight.getText().toString());
+                    intent.putExtra("maxMoney", mTvMoney.getText().toString());
                     startActivity(intent);
                 }
                 break;
@@ -253,6 +269,9 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     @Override
     public void onGetCommonDataSuccess(CommonDataResponse response) {
 
+
+
+
         RxSPTool.putInt(getActivity(), Constant.IS_LOGIN, response.getIsLogin());
         RxSPTool.putString(getActivity(), Constant.CONTACT_WAY, response.getServicecall());
         RxSPTool.putString(getActivity(), Constant.CONTACT_TIME, response.getServicecall_time());
@@ -279,9 +298,13 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             int max = Integer.parseInt(StringUtil.trimStr(split[1], ","));
             final int min = Integer.parseInt(StringUtil.trimStr(split[0], ","));
             int count = StringUtil.getNUmber(StringUtil.trimStr(split[1], ","), StringUtil.trimStr(split[0], ","));
-            mTvMoney.setText(max + "");
-            mTvTiemMoney.setText(StringUtil.getActualNUmber(max, response.getDayRate()) + "元/天");
-            mTvAllMoney.setText(StringUtil.getALL(max, StringUtil.getActualNUmber(max, response.getDayRate()), response.getAuthValidDay()) + "元");
+            if (auditCreditLimit > 0) {
+                mTvMoney.setText( auditCreditLimit+ "");
+            }else {
+                mTvMoney.setText(max + "");
+            }
+            mTvTiemMoney.setText(StringUtil.getActualNUmber(Integer.parseInt(mTvMoney.getText().toString()), response.getDayRate()) + "元/天");
+            mTvAllMoney.setText(StringUtil.getALL(Integer.parseInt(mTvMoney.getText().toString()), StringUtil.getActualNUmber(Integer.parseInt(mTvMoney.getText().toString()), response.getDayRate()), response.getAuthValidDay()) + "元");
             IndicatorSeekBar discrete_ticks_texts_ends = IndicatorSeekBar
                     .with(getContext())
                     .max(max)
@@ -320,6 +343,9 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
 
                 }
             });
+
+
+
         }
 
     }
@@ -339,6 +365,14 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     @Override
     public void onHomeInfoSuccess(HomeInfoResponse response) {
 
+        auditCreditLimit = response.getAuditCreditLimit();
+
+        BannerRequest commonRequest = new BannerRequest();
+        commonRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        commonRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+        mPresenter.getCommonData(commonRequest);
+
+
         //认证
         authJudge = response.isAuthJudge();
         //授信
@@ -346,8 +380,16 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         //可否借款
         loanJudge = response.isLoanJudge();
         member = response.getIsMember();
+
+        if (creditJudge){
+            mTure.setText("立即提现");
+        }else {
+            mTure.setText("立即申请");
+        }
+
         //判断已经购买会员卡
-        if (member == 1) {
+        if (auditCreditLimit > 0) {
+            mTvMoney.setText( auditCreditLimit+ "");
             mTvAgent.setVisibility(View.VISIBLE);
             mRlNumber.setVisibility(View.GONE);
         } else {
@@ -355,7 +397,6 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             mTvAgent.setVisibility(View.GONE);
         }
 
-        auditCreditLimit = response.getAuditCreditLimit();
 
         RxSPTool.putBoolean(getContext(), Constant.AUTH_JUDGE, authJudge);
         RxSPTool.putBoolean(getContext(), Constant.CREDIT_JUDGE, creditJudge);
@@ -508,7 +549,6 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         submitRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
         submitRequest.loanAmount = auditCreditLimit;
         submitRequest.productNo = Build.MODEL;
-        submitRequest.loanPurpose = mTvWindow.getText().toString();
         submitRequest.osType = "ANDROID";
         submitRequest.locgps = RxSPTool.getContent(getContext(), Constant.GPS_LATITUDE);
         submitRequest.locaddress = RxSPTool.getContent(getContext(), Constant.GPS_ADDRESS);

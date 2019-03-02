@@ -1,5 +1,6 @@
 package com.yskj.daishuguan.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.DeferMoneyActivity;
+import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.activity.PaymentDetailsActivity;
 import com.yskj.daishuguan.adapter.BillAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
@@ -97,6 +99,19 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                List<BillResponse.ListBean> entity =  adapter.getData();
+                BillResponse.ListBean listBean = entity.get(position);
+                if (listBean.getStatus() == 1){
+                    Intent intent = new Intent(getContext(), MembersActivity.class);
+                    intent.putExtra("moneyList", listBean.getAuditCreditLimit());
+                    startActivity(intent);
+                }
+            }
+        });
 
     }
 

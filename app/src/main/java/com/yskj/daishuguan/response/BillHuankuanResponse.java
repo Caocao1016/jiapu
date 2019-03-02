@@ -95,27 +95,57 @@ public class BillHuankuanResponse {
          */
 
         private String repayOrderNo;
-        private String idDued;
-        private String DuedDay;
-        private String paymentDay;
         private String loanOrderNo;
         private String productName;
         private String repayTotal;
-        private int extension;
-        private String ascription;
-        private int  extensionType;
         private String createTime;
-        private String loanDate;  // oanDate天数，interestRate利息
-        private String interestRate;
-        private int status;
+        private String repayDate;
         private String finishTime;
+        private int status;
+        private String duedDay;
+        private int idDued;
+        private String paymentDay;
+        private int  loanDate;  // oanDate天数，interestRate利息
 
-        public int getExtension() {
-            return extension;
+
+        private int isExtension;
+        private String ascription;
+        private String  extensionType;
+
+
+        private int  interestRate;
+
+
+        public String getRepayDate() {
+            return repayDate;
         }
 
-        public void setExtension(int extension) {
-            this.extension = extension;
+        public void setRepayDate(String repayDate) {
+            this.repayDate = repayDate;
+        }
+
+        public String getDuedDay() {
+            return duedDay;
+        }
+
+        public void setDuedDay(String duedDay) {
+            this.duedDay = duedDay;
+        }
+
+        public int getIsExtension() {
+            return isExtension;
+        }
+
+        public void setIsExtension(int isExtension) {
+            this.isExtension = isExtension;
+        }
+
+        public String getExtensionType() {
+            return extensionType;
+        }
+
+        public void setExtensionType(String extensionType) {
+            this.extensionType = extensionType;
         }
 
         public String getAscription() {
@@ -126,29 +156,15 @@ public class BillHuankuanResponse {
             this.ascription = ascription;
         }
 
-        public int getExtensionType() {
-            return extensionType;
-        }
 
-        public void setExtensionType(int extensionType) {
-            this.extensionType = extensionType;
-        }
-
-        public String getIdDued() {
+        public int getIdDued() {
             return idDued;
         }
 
-        public void setIdDued(String idDued) {
+        public void setIdDued(int idDued) {
             this.idDued = idDued;
         }
 
-        public String getDuedDay() {
-            return DuedDay;
-        }
-
-        public void setDuedDay(String duedDay) {
-            DuedDay = duedDay;
-        }
 
         public String getPaymentDay() {
             return paymentDay;
@@ -158,19 +174,19 @@ public class BillHuankuanResponse {
             this.paymentDay = paymentDay;
         }
 
-        public String getLoanDate() {
+        public int getLoanDate() {
             return loanDate;
         }
 
-        public void setLoanDate(String loanDate) {
+        public void setLoanDate(int loanDate) {
             this.loanDate = loanDate;
         }
 
-        public String getInterestRate() {
+        public int getInterestRate() {
             return interestRate;
         }
 
-        public void setInterestRate(String interestRate) {
+        public void setInterestRate(int interestRate) {
             this.interestRate = interestRate;
         }
 

@@ -31,23 +31,23 @@ public class BillHuankuanAdapter extends BaseQuickAdapter<BillHuankuanResponse.L
 
 //            0  代还款  3   已还款
         if (item.getStatus() == 0) {
-            if (item.getIdDued().equals("1")) {
+            if (item.getIdDued() == 1) {
                 helper.setGone(R.id.rl_one, true);
                 helper.setText(R.id.tv_start, "已逾期：" + item.getDuedDay() + "天");
                 helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#EA1616"));
             } else {
                 helper.setGone(R.id.rl_one, false);
-                if (item.getExtension() == 1) {
-                    if (item.getExtensionType() == 1) {
+                if (item.getIsExtension() == 1) {
+                    if (item.getExtensionType().equals("1") ) {
                         helper.setText(R.id.tv_start, "距离还款日：" + item.getPaymentDay() + "天");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#FCB112"));
-                    } else if (item.getExtensionType() == 2) {
+                    } else if (item.getExtensionType().equals("2")) {
                         helper.setText(R.id.tv_start, "展期申请失败");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#FCB112"));
-                    } else if (item.getExtensionType() == 3) {
+                    } else if (item.getExtensionType().equals("3")) {
                         helper.setText(R.id.tv_start, "展期申请中...");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#7BC076"));
-                    }else if (item.getExtensionType() == 4) {
+                    }else if (item.getExtensionType().equals("4")) {
                         helper.setText(R.id.tv_start, "展期通过待确认...");
                         helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#CCCCCC"));
                     }

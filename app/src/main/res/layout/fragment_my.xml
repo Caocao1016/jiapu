@@ -459,6 +459,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="关于我们"
+            android:visibility="gone"
             android:textColor="@color/cl_EA1616"
             android:textSize="10sp" />
     </LinearLayout>

@@ -61,17 +61,17 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     @Override
     protected void initView() {
 
-        anInt = getIntent().getIntExtra("moneyList",0);
+        anInt = getIntent().getIntExtra("moneyList", 0);
 
         String rate = RxSPTool.getString(this, Constant.BEGINNING_RATE);
         mMoney.setText(StringUtil.getRateMoney(anInt, rate).toString());
         finshDialog = new NoFinshDialog();
-        mContent.setText(
-                        "1.本次授信（有效期：2年）流程中的信息中介\n" +
-                        "2.本次授信及本次放款中的信息服务\n" +
-                        "3.授信期限内账户安全监管服务（有效期：2年）\n" +
-                        "4.授信期限内借款账户状态变更通知（有效期：2年）\n" +
-                        "5.代收本次放款的资金支付通道费用（本次）\n");
+        mContent.setText("授信服务费\n" +
+                "1.本次授信（有效期：2年）流程中的信息中介\n" +
+                "2.本次授信及本次放款中的信息服务\n" +
+                "3.授信期限内账户安全监管服务（有效期：2年）\n" +
+                "4.授信期限内借款账户状态变更通知（有效期：2年）\n" +
+                "5.代收本次放款的资金支付通道费用（本次）\n");
 
         finshDialog.setOnTypeClickLitener(new NoFinshDialog.OnNoFinshClickLitener() {
             @Override
@@ -91,7 +91,7 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     }
 
 
-    @OnClick({R.id.tv_sure, R.id.rl_envelope,R.id.tv_xieyi})
+    @OnClick({R.id.tv_sure, R.id.rl_envelope, R.id.tv_xieyi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_sure:
@@ -99,17 +99,18 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
                 membersRequest.userId = RxSPTool.getString(this, Constant.USER_ID);
                 membersRequest.couponIds = mListID;
                 membersRequest.token = RxSPTool.getString(this, Constant.TOKEN);
-                membersRequest.menberPrice =  anInt;
+                membersRequest.menberPrice = anInt;
                 membersRequest.menberRate = RxSPTool.getString(this, Constant.BEGINNING_RATE);
                 mPresenter.creditList(membersRequest);
                 break;
             case R.id.rl_envelope:
                 startActivityForResult(new Intent(MembersActivity.this, EnvelopeActivity.class), 100);
-                break;   case R.id.tv_xieyi:
-                Intent intent2 = new Intent(MembersActivity.this, WebViewActivity.class);
-                intent2.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this,Constant.MEMBER_PROTOCOL));
-                intent2.putExtra(Constant.WEBVIEW_URL_TITLE, "会员卡协议");
-                startActivity(intent2);
+                break;
+            case R.id.tv_xieyi:
+//                Intent intent2 = new Intent(MembersActivity.this, WebViewActivity.class);
+//                intent2.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this, Constant.MEMBER_PROTOCOL));
+//                intent2.putExtra(Constant.WEBVIEW_URL_TITLE, "会员卡协议");
+//                startActivity(intent2);
                 break;
             default:
                 break;
@@ -123,11 +124,10 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     }
 
 
-
     @Override
     public void onSuccess(String response) {
         Intent intent = new Intent(this, MembershipActivity.class);
-        intent.putExtra("money",response);
+        intent.putExtra("money", response);
         startActivity(intent);
         finish();
     }

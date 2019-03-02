@@ -26,14 +26,31 @@
             android:layout_height="29dp"
             android:background="@color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="21dp"
-            android:text="申请金额(元)"
-            android:textColor="@color/cl_4D4D4D"
-            android:textSize="12sp" />
+            >
+            <TextView
+                android:layout_width="87dp"
+                android:layout_height="16dp"
+                android:background="@drawable/shape_home_bg"
+                android:text="授信期限：2年"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:text="申请金额(元)"
+                android:textColor="@color/cl_4D4D4D"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tv_money"

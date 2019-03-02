@@ -137,6 +137,7 @@
         android:id="@+id/tv_xieyi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_gravity="bottom"
         android:gravity="center_horizontal"
         android:text="点击购卡即代表您同意相关规则"
