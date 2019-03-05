@@ -119,8 +119,8 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
         paymentDay = getIntent().getStringExtra("paymentDay");
         duedDay = getIntent().getStringExtra("duedDay");
 
-        mCInterest.setText("应还利息：" +(StringUtil.isEmpty(interestRate)? "0元": interestRate));
-        mTime.setText("周期：" +StringUtil.getValue( loanDate));
+        mCInterest.setText("应还利息：" +(StringUtil.isEmpty(interestRate)? "0元": interestRate)+"元");
+        mTime.setText("周期：" +StringUtil.getValue( loanDate)+"天");
         mTv.setText("距离还款日还剩" + paymentDay + "天");
         String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
         if (!StringUtil.isEmpty(cardNumber)) {
@@ -401,7 +401,7 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                         String data = jsonObject.getString("data");
                         JSONObject json = new JSONObject(data);
                         mMoney.setText("" + json.getString("total"));
-                        mBorrowing.setText("借款金额" + json.getString("total"));
+                        mBorrowing.setText("借款金额" + json.getString("total")+"元");
                         mStartTime.setText("借款时间" + json.getString("startTime") + "至" + json.getString("endTime"));
                         mEndTime.setText("还款时间：" + json.getString("endTime"));
                         currentStage = json.getString("currentStage");
