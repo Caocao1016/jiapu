@@ -17,6 +17,7 @@ public class MyApp extends BaseApp  {
     public static MyApp app;
     public static  String WEIXIN_APP_ID = "wx1bdba6acb5ccd3bf";
     public static    String WEIXIN_APP_SECRET = "93a1ed048621eaa6012aa1c083e519d7";
+
     //分享
     static {
         //微信

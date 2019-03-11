@@ -401,7 +401,7 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                         String data = jsonObject.getString("data");
                         JSONObject json = new JSONObject(data);
                         mMoney.setText("" + json.getString("total"));
-                        mBorrowing.setText("借款金额" + json.getString("total")+"元");
+                        mBorrowing.setText("借款金额" + json.getString("paymentMoney")+"元");
                         mStartTime.setText("借款时间" + json.getString("startTime") + "至" + json.getString("endTime"));
                         mEndTime.setText("还款时间：" + json.getString("endTime"));
                         currentStage = json.getString("currentStage");

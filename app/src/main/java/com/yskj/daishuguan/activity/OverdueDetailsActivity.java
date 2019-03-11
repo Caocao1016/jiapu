@@ -400,15 +400,16 @@ public class OverdueDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                         String data = jsonObject.getString("data");
                         JSONObject json = new JSONObject(data);
                        String money = json.getString("total");
+                       String paymentMoney = json.getString("paymentMoney");
                         mMoney.setText("" + money );
-                        mBorrowing.setText("借款金额" + json.getString("total"));
+                        mBorrowing.setText("借款金额" + paymentMoney);
                         mStartTime.setText("借款时间" + json.getString("startTime") + "至" + json.getString("endTime"));
                         mEndTime.setText("还款时间：" + json.getString("endTime"));
                         currentStage = json.getString("currentStage");
                         String overdue_rate = json.getString("overdue_rate");  //滞纳金利率
                         String bad_interest_rate = json.getString(" bad_interest_rate");  //逾期利率
-                        mInterset.setText("应还罚息："+new BigDecimal(money).multiply(new BigDecimal(duedDay)).multiply(new BigDecimal(bad_interest_rate)) +"元");
-                        mLateMoney.setText("应还滞纳金："+new BigDecimal(money).multiply(new BigDecimal(overdue_rate))+"元");
+                        mInterset.setText("应还罚息："+new BigDecimal(paymentMoney).multiply(new BigDecimal(duedDay)).multiply(new BigDecimal(bad_interest_rate)) +"元");
+                        mLateMoney.setText("应还滞纳金："+new BigDecimal(paymentMoney).multiply(new BigDecimal(overdue_rate))+"元");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
