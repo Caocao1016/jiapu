@@ -67,7 +67,8 @@ public class Constant {
     public static String LOAN_JUAGE= "loanJudge";  ////可否借款
     public static String CREDIT_JUDGE= "creditJudge";  ////授信
     public static String AUTH_JUDGE= "authJudge";  ////授信
-    public static String AUDIT_CREDIT_LIMIT= " auditCreditLimit";  ////授信金额
+    public static String AUDIT_CREDIT_LIMIT= "auditCreditLimit";  ////授信金额
+    public static String AUDIT_assessValue= "assessValue";  ////授信服务费
 
     /**
      * 通用数据

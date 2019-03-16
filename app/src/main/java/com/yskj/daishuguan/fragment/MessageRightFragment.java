@@ -16,12 +16,14 @@ import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.PaymentDetailsActivity;
 import com.yskj.daishuguan.adapter.BillAdapter;
+import com.yskj.daishuguan.adapter.MessageAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.modle.SettingAuthorizaView;
 import com.yskj.daishuguan.presenter.SettingAuthorizationPresenter;
 import com.yskj.daishuguan.response.AuthorizeRecordResponse;
 import com.yskj.daishuguan.response.AuthorizeResponse;
+import com.yskj.daishuguan.response.MessageResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class MessageRightFragment extends CommonLazyFragment<SettingAuthorizatio
     @BindView(R.id.swipe)
     SwipeRefreshLayout mSwipe;
 
-    private BillAdapter mAdapter;
+    private MessageAdapter mAdapter;
     private int mPageNo = 1;
     private boolean mIsLoadMore;
     private String mStart = "1";
@@ -79,8 +81,8 @@ public class MessageRightFragment extends CommonLazyFragment<SettingAuthorizatio
         mSwipe.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BillAdapter(null);
-        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        mAdapter = new MessageAdapter(null);
+//        mAdapter.setOnLoadMoreListener(this, mRecyclerView);this
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -102,45 +104,27 @@ public class MessageRightFragment extends CommonLazyFragment<SettingAuthorizatio
 //        request.page = mPageNo;
 //        request.limit = Constant.PAGE_SIZE;
 //        mPresenter.myAuthorizeRecord(request);
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("1");
-        strings.add("1");
-        strings.add("1");
-        strings.add("1");
-//        mAdapter.addData(strings);
+        ArrayList<MessageResponse> strings = new ArrayList<>();
 
+        MessageResponse messageResponse = new MessageResponse();
+        messageResponse.setMegTitle("审批通过");
+        messageResponse.setTime("2019-2-38  18:00:00");
+        messageResponse.setMegName("【贷属君】恭喜您已通过审核，700.00元只待收入囊中，快打开APP马上提现吧。");
+        strings.add(messageResponse);
+        mAdapter.addData(strings);
 
-        final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
-        rxDialogSureCancel.getTitleView().setVisibility(View.GONE);
-        rxDialogSureCancel.getSureView().setTextColor(Color.parseColor("#007AFF"));
-        rxDialogSureCancel.getCancelView().setTextColor(Color.parseColor("#007AFF"));
-
-        rxDialogSureCancel.getContentView().setText("您有一笔贷款即将到达还款\n日可以选择申请展期延后还款！？");
-        rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rxDialogSureCancel.cancel();
-            }
-        });
-        rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rxDialogSureCancel.cancel();
-            }
-        });
-//        rxDialogSureCancel.show();
     }
 
     @Override
     public void onRefresh() {
-        mPageNo = 1;
-        initData();
+//        mPageNo = 1;
+//        initData();
     }
 
     @Override
     public void onLoadMoreRequested() {
-        mIsLoadMore = true;
-        initData();
+//        mIsLoadMore = true;
+//        initData();
     }
 
     @Override

@@ -11,7 +11,9 @@ import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseApp;
 import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
+import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.OutLoginEvbusBean;
+import com.yskj.daishuguan.entity.evbus.StickyEvenbus;
 import com.yskj.daishuguan.entity.evbus.liveResultEvbusBean;
 import com.yskj.daishuguan.entity.request.SettingRequest;
 import com.yskj.daishuguan.modle.SettingfView;
@@ -85,6 +87,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
                 break;
             case R.id.rl_password:
+
                 break;
         }
     }
@@ -92,6 +95,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     public void onLogOutSuccess(BaseResponse response) {
         rxDialogLoading.dismiss();
+        EventBus.getDefault().post(new LoginEvbusBean());
+        EventBus.getDefault().postSticky(new StickyEvenbus());
         RxSPTool.remove(this, Constant.TOKEN);
         RxSPTool.remove(this, Constant.USER_HEAD);
         RxSPTool.remove(this, Constant.USER_MOBILENO);
@@ -99,7 +104,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         RxSPTool.remove(this, Constant.USER_ID);
         RxSPTool.putString(this, Constant.IS_LOGIN, "0");
         startActivity(LoginActivity.class);
-        EventBus.getDefault().post(new OutLoginEvbusBean());
         finish();
     }
 

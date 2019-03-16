@@ -64,7 +64,7 @@ public class BillHuankuanAdapter extends BaseQuickAdapter<BillHuankuanResponse.L
             helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#67BD66"));
         }
         helper.setText(R.id.tv_money, StringUtil.getValue(item.getRepayTotal()));
-        helper.setText(R.id.tv_time, "放款时间   " + item.getFinishTime());
+        helper.setText(R.id.tv_time, "放款时间   " + item.getCreateTime());
         helper.setText(R.id.tv_interest, "申请时间   " + item.getCreateTime());
         helper.setText(R.id.tv, "借款周期：" + item.getLoanDate() + "天");
         helper.addOnClickListener(R.id.rl_all);

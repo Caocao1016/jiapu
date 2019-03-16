@@ -13,28 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.Defer2MoneyActivity;
-import com.yskj.daishuguan.activity.DeferMoneyActivity;
-import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.activity.OverdueDetailsActivity;
 import com.yskj.daishuguan.activity.PaymentDetailsActivity;
-import com.yskj.daishuguan.adapter.BillAdapter;
 import com.yskj.daishuguan.adapter.BillHuankuanAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
+import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
+import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
+import com.yskj.daishuguan.entity.evbus.HuankuanEvenbus;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
-import com.yskj.daishuguan.entity.request.AuthorRequest;
 import com.yskj.daishuguan.entity.request.HuanKuanRequest;
 import com.yskj.daishuguan.modle.BillView;
-import com.yskj.daishuguan.modle.SettingAuthorizaView;
 import com.yskj.daishuguan.presenter.BillPresenter;
-import com.yskj.daishuguan.presenter.SettingAuthorizationPresenter;
-import com.yskj.daishuguan.response.AuthorizeRecordResponse;
-import com.yskj.daishuguan.response.AuthorizeResponse;
 import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
 
@@ -42,7 +38,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -110,6 +105,20 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         initData();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFinshMoneyEvenbus(FinshMoneyEvenbus event) {
+        mPageNo = 1;
+        initData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void HuankuanEvenbus(HuankuanEvenbus event) {
+
+        RxLogTool.e("-------","HuankuanEvenbus");
+        mPageNo = 1;
+        initData();
+    }
+
     @Override
     protected void initView() {
 
@@ -130,23 +139,24 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
                 List<BillHuankuanResponse.ListBean> data = adapter.getData();
 
                 if (data.get(position).getStatus() == 0) {
-                    if (data.get(position).getIdDued()== 1) {  //逾期
+                    if (data.get(position).getIdDued() == 1) {  //逾期
                         Intent intent = new Intent(getContext(), OverdueDetailsActivity.class);
                         intent.putExtra("false", true);
-                        intent.putExtra("interestRate", data.get(position).getInterestRate()+"");
-                        intent.putExtra("loanDate", data.get(position).getLoanDate()+"");
-                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo()+"");
-                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo()+"");
-                        intent.putExtra("duedDay", data.get(position).getDuedDay()+"");;
+                        intent.putExtra("interestRate", data.get(position).getInterestRate() + "");
+                        intent.putExtra("loanDate", data.get(position).getLoanDate() + "");
+                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo() + "");
+                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo() + "");
+                        intent.putExtra("duedDay", data.get(position).getDuedDay() + "");
+                        ;
                         startActivity(intent);
                     } else {  //代还款
                         Intent intent = new Intent(getContext(), PaymentDetailsActivity.class);
-                        intent.putExtra("interestRate", data.get(position).getInterestRate()+"");
-                        intent.putExtra("loanDate", data.get(position).getLoanDate()+"");
-                        intent.putExtra("paymentDay", data.get(position).getPaymentDay()+"");
-                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo()+"");
-                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo()+"");
-                        intent.putExtra("duedDay", data.get(position).getDuedDay()+"");
+                        intent.putExtra("interestRate", data.get(position).getInterestRate() + "");
+                        intent.putExtra("loanDate", data.get(position).getLoanDate() + "");
+                        intent.putExtra("paymentDay", data.get(position).getPaymentDay() + "");
+                        intent.putExtra("loanOrderNo", data.get(position).getLoanOrderNo() + "");
+                        intent.putExtra("repayOrderNo", data.get(position).getRepayOrderNo() + "");
+                        intent.putExtra("duedDay", data.get(position).getDuedDay() + "");
                         startActivity(intent);
                     }
 
@@ -170,6 +180,7 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
 
     @Override
     protected void initData() {
+        EventBus.getDefault().post(new FinshCertificationEvenbus());
         mSwipe.setRefreshing(true);
         HuanKuanRequest request = new HuanKuanRequest();
         request.userid = RxSPTool.getString(getActivity(), Constant.USER_ID);
@@ -181,8 +192,12 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
 
     }
 
+
+
     @Override
     public void onRefresh() {
+
+
         mPageNo = 1;
         initData();
     }
@@ -192,7 +207,6 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         mIsLoadMore = true;
         initData();
     }
-
 
 
     @Override
@@ -209,7 +223,7 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
 
     @Override
     public void onFailure(BaseResponse response) {
-
+        mSwipe.setRefreshing(false);
     }
 
 
@@ -277,5 +291,5 @@ public class BillRightFragment extends CommonLazyFragment<BillPresenter> impleme
         }
         mSwipe.setRefreshing(false);
 
-}
+    }
 }

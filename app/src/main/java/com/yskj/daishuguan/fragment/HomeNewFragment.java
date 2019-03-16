@@ -34,6 +34,7 @@ import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.adapter.WindowAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
+import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
 import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
@@ -90,12 +91,15 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     @BindView(R.id.tv_time)
     TextView mTvTime;
     @BindView(R.id.tv_left)
-    TextView mLeft;@BindView(R.id.tv_true)
+    TextView mLeft;
+    @BindView(R.id.tv_true)
     TextView mTure;
     @BindView(R.id.tv_time_money)
     TextView mTvTiemMoney;
     @BindView(R.id.tv_money_all)
     TextView mTvAllMoney;
+    @BindView(R.id.tv_title)
+    TextView mTvTitle;
     @BindView(R.id.rl_bar)
     LinearLayout mRlBar;
     @BindView(R.id.ll_window)
@@ -115,6 +119,9 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     private boolean loanJudge;
     private int member;
     private int auditCreditLimit;
+    private String isReloanCredit;
+    private boolean reloanMenber;
+    private boolean reloanLoanJudge;
 
 
     public static HomeNewFragment newInstance() {
@@ -159,7 +166,6 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         mPresenter.getBanner(bannerRequest);
 
 
-
         BannerRequest homeInfoRequest = new BannerRequest();
         homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
         homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
@@ -193,6 +199,19 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             mPresenter.homeInfo(homeInfoRequest);
         }
     }
+    /**
+     * 认证完成后刷新
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void FinshCertificationEvenbus(FinshCertificationEvenbus event) {
+            BannerRequest homeInfoRequest = new BannerRequest();
+            homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+            homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+            homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+            mPresenter.homeInfo(homeInfoRequest);
+    }
 
 
     @OnClick({R.id.tv_true, R.id.ll_window})
@@ -208,6 +227,10 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                     return;
                 }
 
+                if (mTure.getText().toString().equals("审核被拒")) {
+                    return;
+                }
+
                 if (!creditJudge) {
                     if (StringUtil.isEmpty(mTvWindow.getText().toString())) {
                         UIUtils.showToast("请先选择借款用途");
@@ -218,11 +241,18 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                     if (creditJudge) {
                         if (loanJudge) {
                             if (member == 1) {
+                                if (isreloan) {
 
-                                showDialog();
+                                    isReloan();
+
+                                } else {
+                                    showDialog();
+                                }
+
                             } else {
                                 Intent intent = new Intent(getContext(), MembersActivity.class);
                                 intent.putExtra("moneyList", auditCreditLimit);
+                                intent.putExtra("type", "member");
                                 startActivity(intent);
                             }
 
@@ -279,8 +309,6 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     public void onGetCommonDataSuccess(CommonDataResponse response) {
 
 
-
-
         RxSPTool.putInt(getActivity(), Constant.IS_LOGIN, response.getIsLogin());
         RxSPTool.putString(getActivity(), Constant.CONTACT_WAY, response.getServicecall());
         RxSPTool.putString(getActivity(), Constant.CONTACT_TIME, response.getServicecall_time());
@@ -308,8 +336,8 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             final int min = Integer.parseInt(StringUtil.trimStr(split[0], ","));
             int count = StringUtil.getNUmber(StringUtil.trimStr(split[1], ","), StringUtil.trimStr(split[0], ","));
             if (auditCreditLimit > 0) {
-                mTvMoney.setText( auditCreditLimit+ "");
-            }else {
+                mTvMoney.setText(auditCreditLimit + "");
+            } else {
                 mTvMoney.setText(max + "");
             }
             mTvTiemMoney.setText(StringUtil.getActualNUmber(Integer.parseInt(mTvMoney.getText().toString()), response.getDayRate()) + "元/天");
@@ -332,7 +360,10 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                     .trackBackgroundSize(8)
                     .build();
             IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
+
             stayLayout.attachTo(discrete_ticks_texts_ends);
+            stayLayout.refreshDrawableState();
+            mRlBar.removeAllViews();
             mRlBar.addView(stayLayout);
             discrete_ticks_texts_ends.setOnSeekChangeListener(new OnSeekChangeListener() {
                 @Override
@@ -354,7 +385,6 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             });
 
 
-
         }
 
     }
@@ -374,6 +404,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     @Override
     public void onHomeInfoSuccess(HomeInfoResponse response) {
 
+        rxDialogLoading.dismiss();
         auditCreditLimit = response.getAuditCreditLimit();
 
         BannerRequest commonRequest = new BannerRequest();
@@ -382,7 +413,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         mPresenter.getCommonData(commonRequest);
 
 
-       isreloan =  response.isReloan();
+        isreloan = response.isReloan();
         //认证
         authJudge = response.isAuthJudge();
         //授信
@@ -390,21 +421,44 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         //可否借款
         loanJudge = response.isLoanJudge();
         member = response.getIsMember();
+        isReloanCredit = response.getIsReloanCredit();
+        reloanMenber = response.isReloanMenber();
+        reloanLoanJudge = response.isReloanLoanJudge();
 
-        if (creditJudge){
+
+        if (isreloan) {
             mLlWindow.setVisibility(View.GONE);
-            mTure.setText("立即提现");
-        }else {
-            mLlWindow.setVisibility(View.VISIBLE);
-            mTure.setText("立即申请");
-        }
+            if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("0")) {
+                mTure.setText("立即提现");
+                mTure.setBackgroundResource(R.mipmap.ic_button_bg);
+            } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("1")) {
+                mTure.setText("审核中，点击刷新审核结果");
+                mTure.setBackgroundResource(R.mipmap.ic_button_bg);
+            } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("2")) {
+                mTure.setText("本次申请失败，请于"+ response.getIsReloanCreditDay()+"再试");
+                mTure.setBackgroundResource(R.mipmap.ic_button_no_bg);
+            } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("3")) {
+                mTure.setText("立即提现");
+                mTure.setBackgroundResource(R.mipmap.ic_button_bg);
+            }
+        } else {
 
+            if (creditJudge) {
+                mLlWindow.setVisibility(View.GONE);
+                mTure.setText("立即提现");
+            } else {
+                mLlWindow.setVisibility(View.VISIBLE);
+                mTure.setText("立即申请");
+            }
+        }
         //判断已经购买会员卡
         if (auditCreditLimit > 0) {
-            mTvMoney.setText( auditCreditLimit+ "");
+            mTvTitle.setText("最大提现金额(元)");
+            mTvMoney.setText(auditCreditLimit + "");
             mTvAgent.setVisibility(View.VISIBLE);
             mRlNumber.setVisibility(View.GONE);
         } else {
+            mTvTitle.setText("申请授信金额(元)");
             mRlNumber.setVisibility(View.VISIBLE);
             mTvAgent.setVisibility(View.GONE);
         }
@@ -413,6 +467,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         RxSPTool.putBoolean(getContext(), Constant.AUTH_JUDGE, authJudge);
         RxSPTool.putBoolean(getContext(), Constant.CREDIT_JUDGE, creditJudge);
         RxSPTool.putBoolean(getContext(), Constant.LOAN_JUAGE, loanJudge);
+        RxSPTool.putString(getContext(), Constant.AUDIT_assessValue, response.getAssessValue());
         RxSPTool.putInt(getContext(), Constant.AUDIT_CREDIT_LIMIT, response.getAuditCreditLimit());
         RxSPTool.putString(getContext(), Constant.PRO_EXPLAIN, response.getProductintroduce());
     }
@@ -550,7 +605,6 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     }
 
 
-
     public void showDialog() {
         final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
         rxDialogSureCancel.getTitleView().setVisibility(View.GONE);
@@ -561,15 +615,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isreloan){
-                    Intent intent = new Intent(getContext(), AuthorizationActivity.class);
-                    intent.putExtra("MONEY", mTvMoney.getText().toString());
-                    intent.putExtra("window", mTvWindow.getText().toString());
-                    intent.putExtra("isreloan", isreloan);
-                    startActivity(intent);
-                }else {
-                    getSubmit();
-                }
+                getSubmit();
 
                 rxDialogSureCancel.cancel();
             }
@@ -600,5 +646,49 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         submitRequest.locgps = RxSPTool.getContent(getContext(), Constant.GPS_LATITUDE);
         submitRequest.locaddress = RxSPTool.getContent(getContext(), Constant.GPS_ADDRESS);
         mPresenter.getSubmit(submitRequest);
+    }
+
+    /**
+     * 判断是否复借
+     */
+
+    public void isReloan() {
+
+        if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("0")) {
+
+            if (reloanMenber){
+                if (reloanLoanJudge){
+                    showDialog();
+                }else {
+                    UIUtils.showToast("您还有未还订单,无法再次借款哦~");
+                }
+
+            }else {
+                Intent intent = new Intent(getContext(), MembersActivity.class);
+                intent.putExtra("moneyList", auditCreditLimit);
+                intent.putExtra("type", "repeat");
+                startActivity(intent);
+            }
+
+        } else if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("1")) {
+            rxDialogLoading.show();
+            BannerRequest homeInfoRequest = new BannerRequest();
+            homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+            homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+            homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+            mPresenter.homeInfo(homeInfoRequest);
+
+        } else if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("2")) {
+
+
+        } else if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("3")) {
+            Intent intent = new Intent(getContext(), AuthorizationActivity.class);
+            intent.putExtra("MONEY", mTvMoney.getText().toString());
+            intent.putExtra("window", mTvWindow.getText().toString());
+            intent.putExtra("isreloan", isreloan);
+            startActivity(intent);
+        }
+
+
     }
 }

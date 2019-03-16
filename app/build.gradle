@@ -39,7 +39,31 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
+    flavorDimensions "default"
     productFlavors {
+        yingyongbao { dimension "default" }
+        huawei { dimension "default" }
+        baidu { dimension "default" }
+        wandoujia { dimension "default" }
+        xiaomi { dimension "default" }
+        qh360 { dimension "default" }
+        vivo { dimension "default" }
+        meizu { dimension "default" }
+        oppo { dimension "default" }
+        fir { dimension "default" }
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    //自定义打包时apk名字
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            // abc_渠道名_版本名.apk  还可以拼接其他app内容：variant.versionCode  variant.buildType.name
+            outputFileName = "abc_${variant.name}_${variant.versionName}.apk"
+        }
     }
     repositories {
         flatDir { dirs 'libs' }
@@ -52,6 +76,11 @@ android {
     }
 
 
+    android {
+        productFlavors {
+
+        }
+    }
 }
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
@@ -125,7 +154,8 @@ dependencies {
     implementation 'com.github.vondear.RxTool:RxCamera:v2.2.7'
     implementation 'com.afollestad.material-dialogs:core:0.9.3.0'
     implementation 'org.xutils:xutils:3.3.26'
-
+/*友盟统计需要的最新版本组件化基础库和统计SDK*/
+    implementation  'com.umeng.umsdk:analytics:8.0.0'
 
 
     //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）

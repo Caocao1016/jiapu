@@ -15,12 +15,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.DeferMoneyActivity;
 import com.yskj.daishuguan.adapter.BillAdapter;
+import com.yskj.daishuguan.adapter.MessageAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.modle.SettingAuthorizaView;
 import com.yskj.daishuguan.presenter.SettingAuthorizationPresenter;
 import com.yskj.daishuguan.response.AuthorizeRecordResponse;
 import com.yskj.daishuguan.response.AuthorizeResponse;
+import com.yskj.daishuguan.response.MessageResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,7 @@ public class MessageLeftFragment extends CommonLazyFragment<SettingAuthorization
     @BindView(R.id.swipe)
     SwipeRefreshLayout mSwipe;
 
-    private BillAdapter mAdapter;
+    private MessageAdapter mAdapter;
     private int mPageNo = 1;
     private View emptyView ;
     private boolean mIsLoadMore;
@@ -77,8 +79,8 @@ public class MessageLeftFragment extends CommonLazyFragment<SettingAuthorization
         emptyView = LayoutInflater.from(getContext()).inflate(R.layout.view_empty, (ViewGroup) mRecyclerView.getParent(), false);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BillAdapter(null);
-        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        mAdapter = new MessageAdapter(null);
+//        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -100,24 +102,31 @@ public class MessageLeftFragment extends CommonLazyFragment<SettingAuthorization
 //        request.limit = Constant.PAGE_SIZE;
 //        mPresenter.myAuthorizeRecord(request);
 
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("1");
-        strings.add("1");
-        strings.add("1");
-        strings.add("1");
-//        mAdapter.addData(strings);
+        ArrayList<MessageResponse> strings = new ArrayList<>();
+
+        MessageResponse messageResponse = new MessageResponse();
+        messageResponse.setMegTitle("审批通过");
+        messageResponse.setTime("2019-2-38  18:00:00");
+        messageResponse.setMegName("【贷属君】恭喜您已通过审核，700.00元只待收入囊中，快打开APP马上提现吧。");
+        strings.add(messageResponse);
+        MessageResponse messageResponse1 = new MessageResponse();
+        messageResponse1.setMegTitle("审批通过");
+        messageResponse1.setTime("2019-2-38  18:00:00");
+        messageResponse1.setMegName("【贷属君】恭喜您已通过审核，700.00元只待收入囊中，快打开APP马上提现吧。");
+        strings.add(messageResponse1);
+        mAdapter.addData(strings);
     }
 
     @Override
     public void onRefresh() {
-        mPageNo = 1;
-        initData();
+//        mPageNo = 1;
+//        initData();
     }
 
     @Override
     public void onLoadMoreRequested() {
-        mIsLoadMore = true;
-        initData();
+//        mIsLoadMore = true;
+//        initData();
     }
 
     @Override

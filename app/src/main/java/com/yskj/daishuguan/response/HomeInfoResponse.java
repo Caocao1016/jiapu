@@ -13,12 +13,49 @@ public class HomeInfoResponse {
     private String assessValue ;
     private int auditCreditLimit ;
     private String productintroduce ;
+    private String isReloanCreditDay ;   //时间
     private boolean authJudge ;
     private boolean creditJudge ;
     private boolean loanJudge ;
     private boolean pwd ;
     private boolean isReloan ;
     private int isMember ;
+
+    private String isReloanCredit;//3未跑风控，1审核中   2拒绝   0通过
+    private boolean isReloanMenber;  //是否已交会员费   true已交   false未交
+    private boolean isReloanLoanJudge;//是否可复借  true可以复借   false不可以复借
+
+    public String getIsReloanCreditDay() {
+        return isReloanCreditDay;
+    }
+
+    public void setIsReloanCreditDay(String isReloanCreditDay) {
+        this.isReloanCreditDay = isReloanCreditDay;
+    }
+
+    public String getIsReloanCredit() {
+        return isReloanCredit;
+    }
+
+    public void setIsReloanCredit(String isReloanCredit) {
+        this.isReloanCredit = isReloanCredit;
+    }
+
+    public boolean isReloanMenber() {
+        return isReloanMenber;
+    }
+
+    public void setReloanMenber(boolean reloanMenber) {
+        isReloanMenber = reloanMenber;
+    }
+
+    public boolean isReloanLoanJudge() {
+        return isReloanLoanJudge;
+    }
+
+    public void setReloanLoanJudge(boolean reloanLoanJudge) {
+        isReloanLoanJudge = reloanLoanJudge;
+    }
 
     public boolean isReloan() {
         return isReloan;

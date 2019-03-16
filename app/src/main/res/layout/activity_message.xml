@@ -40,7 +40,7 @@
                 android:button="@null"
                 android:checked="true"
                 android:gravity="center"
-                android:text="@string/authorization_left"
+                android:text="个人消息"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -53,7 +53,7 @@
                 android:button="@null"
                 android:checked="false"
                 android:gravity="center"
-                android:text="@string/authorization_right"
+                android:text="系统消息"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </RadioGroup>

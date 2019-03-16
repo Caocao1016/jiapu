@@ -39,9 +39,14 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     TextView mNumber;
     @BindView(R.id.tv_money)
     TextView mMoney;
+    @BindView(R.id.tv_right)
+    TextView mRight;
+    @BindView(R.id.tv_original_price)
+    TextView mPrice;
     private NoFinshDialog finshDialog;
     private String mListID;
     private int anInt;
+    private String type;
 
     @Override
     protected MembersPresenter createPresenter() {
@@ -62,16 +67,33 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     protected void initView() {
 
         anInt = getIntent().getIntExtra("moneyList", 0);
-
+        type = getIntent().getStringExtra("type");
         String rate = RxSPTool.getString(this, Constant.BEGINNING_RATE);
-        mMoney.setText(StringUtil.getRateMoney(anInt, rate).toString());
+//        mMoney.setText(StringUtil.getRateMoney(anInt, rate).toString());
+        mMoney.setText(RxSPTool.getString(this, Constant.AUDIT_assessValue));
         finshDialog = new NoFinshDialog();
-        mContent.setText("授信服务费\n" +
-                "1.本次授信（有效期：2年）流程中的信息中介\n" +
-                "2.本次授信及本次放款中的信息服务\n" +
-                "3.授信期限内账户安全监管服务（有效期：2年）\n" +
-                "4.授信期限内借款账户状态变更通知（有效期：2年）\n" +
-                "5.代收本次放款的资金支付通道费用（本次）\n");
+
+        if (type.equals("repeat")) {
+            setTitle("提款服务费");
+            mRight.setText("提款服务费");
+            mPrice.setText("仅当次有效");
+            mContent.setText("提款服务费\n" +
+                    "1.保证本次放款成功\n" +
+                    "2.本次放款中的信息服务\n" +
+                    "3.代收本次放款的支付通道费用\n"
+            );
+        } else {
+            setTitle("授信服务费");
+            mRight.setText("授信服务");
+            mPrice.setText("有效期：2年");
+            mContent.setText("授信服务费\n" +
+                    "1.本次授信（有效期：2年）流程中的信息中介\n" +
+                    "2.本次授信及本次放款中的信息服务\n" +
+                    "3.授信期限内账户安全监管服务（有效期：2年）\n" +
+                    "4.授信期限内借款账户状态变更通知（有效期：2年）\n" +
+                    "5.代收本次放款的资金支付通道费用（本次）\n");
+        }
+
 
         finshDialog.setOnTypeClickLitener(new NoFinshDialog.OnNoFinshClickLitener() {
             @Override
@@ -100,6 +122,7 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
                 membersRequest.couponIds = mListID;
                 membersRequest.token = RxSPTool.getString(this, Constant.TOKEN);
                 membersRequest.menberPrice = anInt;
+                membersRequest.type = type;
                 membersRequest.menberRate = RxSPTool.getString(this, Constant.BEGINNING_RATE);
                 mPresenter.creditList(membersRequest);
                 break;
@@ -128,6 +151,7 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     public void onSuccess(String response) {
         Intent intent = new Intent(this, MembershipActivity.class);
         intent.putExtra("money", response);
+        intent.putExtra("type", getIntent().getStringExtra("type"));
         startActivity(intent);
         finish();
     }

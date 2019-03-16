@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:icon_left="@mipmap/ic_setting"
+
         app:size_title="19sp"
         app:title="我的" />
 

@@ -20,6 +20,7 @@
         android:background="@mipmap/ic_members_bg">
 
         <TextView
+            android:id="@+id/tv_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -49,6 +50,7 @@
             android:textSize="50sp" />
 
         <TextView
+
             android:id="@+id/tv_original_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

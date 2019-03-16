@@ -21,6 +21,22 @@
         android:text="充值成功！"
         android:textColor="@color/black"
         android:textSize="25sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:text="请保留在当前页面等待银行支付结果"
+        android:textColor="@color/gray_font123"
+        android:textSize="10sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="如支付失败，请注意查收短信通知"
+        android:textColor="@color/gray_font123"
+        android:textSize="10sp" />
 
 
     <TextView
@@ -30,7 +46,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="23dp"
         android:layout_marginRight="23dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="40dp"
         android:background="@mipmap/ic_cer_button"
         android:gravity="center"
         android:text="去提现"
@@ -39,7 +55,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -47,13 +62,13 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
+            android:text="10"
             android:textColor="#FFD4AE6F" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" 秒 后自动返回借款页面"
+            android:text=" 秒 后自动返回借款首页"
 
             />
 

@@ -18,6 +18,7 @@ public class BannerRequest extends MapParamsRequest {
     public String showType;
     public String cycle;
     public String mobileno;
+    public String type;
 
 
     @Override
@@ -33,6 +34,8 @@ public class BannerRequest extends MapParamsRequest {
 
         if (!StringUtil.isEmpty(token)) {
             params.put("token", token);
+        }if (!StringUtil.isEmpty(type)) {
+            params.put("type", type);
         }
         if (!StringUtil.isEmpty(userid)) {
             params.put("userid", userid);

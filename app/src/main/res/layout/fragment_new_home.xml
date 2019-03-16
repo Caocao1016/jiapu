@@ -41,11 +41,12 @@
                 android:textSize="10sp" />
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:text="申请金额(元)"
+                android:text="申请授信金额(元)"
                 android:textColor="@color/cl_4D4D4D"
                 android:textSize="12sp" />
 
@@ -179,7 +180,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingLeft="4dp"
-                    android:text="最大授信额"
+                    android:text="最大授信金额"
                     android:textColor="@color/cl_F34F03"
                     android:textSize="12sp" />
             </LinearLayout>

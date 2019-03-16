@@ -20,6 +20,7 @@ import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
+import com.yskj.daishuguan.entity.evbus.StickyEvenbus;
 import com.yskj.daishuguan.entity.request.LoginRequest;
 import com.yskj.daishuguan.entity.request.SmsCaptchaRequest;
 import com.yskj.daishuguan.modle.LoginView;
@@ -52,6 +53,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     CountdownView mRcountdown;
     private String latitude;
     private String location;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -91,8 +93,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void onRightClick(View v) {
         // 跳转到注册界面
-        Intent intent =new Intent(LoginActivity.this, RegisterActivity.class);
-        intent.putExtra("phone",mETphone.getText().toString());
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        intent.putExtra("phone", mETphone.getText().toString());
         startActivity(intent);
         finish();
     }
@@ -100,6 +102,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onSuccess(LoginResponse response) {
+        rxDialogLoading
+                .dismiss();
         UIUtils.showToast("登录成功");
         RxSPTool.putString(this, Constant.TOKEN, response.getToken());
         RxSPTool.putString(this, Constant.USER_HEAD, response.getUserimg());
@@ -109,6 +113,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         RxSPTool.putString(this, Constant.INVITATION_CODE, response.getInvitationcode());
         RxSPTool.putString(this, Constant.IS_LOGIN, "1");
         EventBus.getDefault().post(new LoginEvbusBean());
+        EventBus.getDefault().postSticky(new StickyEvenbus());
         finish();
     }
 
@@ -128,8 +133,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         rxDialogLoading.dismiss();
         UIUtils.showToast(response.getRetmsg());
         if (response.getRetcode() == 1502) {
-            Intent intent =new Intent(LoginActivity.this, RegisterActivity.class);
-            intent.putExtra("phone",mETphone.getText().toString());
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            intent.putExtra("phone", mETphone.getText().toString());
             startActivity(intent);
             finish();
         }
@@ -176,19 +181,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
                 rxDialogLoading.show();
                 LoginRequest loginRequest = new LoginRequest();
-                loginRequest.reqtype = "login" ;
-                loginRequest.locaddress = ""    ;
-                loginRequest.locgps = "" ;
-                loginRequest.mobileno = mETphone.getText().toString() ;
-                loginRequest.verifycode = mETpassWord.getText().toString() ;
+                loginRequest.reqtype = "login";
+                loginRequest.locaddress = "";
+                loginRequest.locgps = "";
+                loginRequest.mobileno = mETphone.getText().toString();
+                loginRequest.verifycode = mETpassWord.getText().toString();
 
                 mPresenter.getLogin(loginRequest);
                 break;
             case R.id.login_forget_password:
 
                 Intent intent2 = new Intent(LoginActivity.this, WebViewActivity.class);
-                intent2.putExtra(Constant.WEBVIEW_URL,RxSPTool.getString(this,Constant.REGISTER_PROTOCOL));
-                intent2.putExtra(Constant.WEBVIEW_URL_TITLE,"用户服务协议");
+                intent2.putExtra(Constant.WEBVIEW_URL, RxSPTool.getString(this, Constant.REGISTER_PROTOCOL));
+                intent2.putExtra(Constant.WEBVIEW_URL_TITLE, "用户服务协议");
                 startActivity(intent2);
                 break;
             default:

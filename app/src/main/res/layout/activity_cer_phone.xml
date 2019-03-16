@@ -9,7 +9,6 @@
         android:id="@+id/tb_phone_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:icon_right="@mipmap/ic_refresh"
         app:size_title="19sp"
         app:title="联系人" />
 
@@ -47,7 +46,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="24dp"
                 android:layout_weight="1"
-                android:text="关系"
+                android:hint="关系"
                 android:textColor="@color/cl_999999"
                 android:textSize="13sp" />
 
@@ -280,6 +279,7 @@
         android:layout_marginTop="28dp"
         android:lineSpacingExtra="4dp"
         android:text="温馨提示"
+        android:visibility="gone"
         android:textColor="@color/cl_9FA1A4"
         android:textSize="12sp" />
 
@@ -289,6 +289,7 @@
         android:layout_marginLeft="37dp"
         android:layout_marginTop="3dp"
         android:lineSpacingExtra="4dp"
+        android:visibility="gone"
         android:text="1.请确认个人信息，若有错误请点击"
         android:textColor="@color/cl_9FA1A4"
         android:textSize="12sp" />
@@ -300,6 +301,7 @@
         android:layout_marginTop="3dp"
         android:lineSpacingExtra="4dp"
         android:text="2.先支持"
+        android:visibility="gone"
         android:textColor="@color/cl_9FA1A4"
         android:textSize="12sp" />
 
@@ -308,6 +310,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="37dp"
         android:layout_marginTop="3dp"
+        android:visibility="gone"
         android:text="3.该银行卡将用于放款和还款"
         android:textColor="@color/cl_9FA1A4"
         android:textSize="12sp" />

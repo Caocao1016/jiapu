@@ -77,11 +77,15 @@ public class BillResponse {
          */
 
         private String creditNo;
+        private boolean isReloan;
+        private boolean isReloanMenber;
         private String productName;
         private int status;
+        private String flag;   //提示审核中
         private String statusString;
         private int auditCreditLimit;
         private String createTime;
+        private int customerCreditLimit;
         private String loanDate;  // oanDate天数，interestRate利息
         private String interestRate;
         private List<Bean> recoveryList;
@@ -90,6 +94,37 @@ public class BillResponse {
         private String merchantRealname;//商户名称
         private String h5Url;//h5地址
 
+        public boolean isReloan() {
+            return isReloan;
+        }
+
+        public void setReloan(boolean reloan) {
+            isReloan = reloan;
+        }
+
+        public boolean isReloanMenber() {
+            return isReloanMenber;
+        }
+
+        public void setReloanMenber(boolean reloanMenber) {
+            isReloanMenber = reloanMenber;
+        }
+
+        public int getCustomerCreditLimit() {
+            return customerCreditLimit;
+        }
+
+        public void setCustomerCreditLimit(int customerCreditLimit) {
+            this.customerCreditLimit = customerCreditLimit;
+        }
+
+        public String getFlag() {
+            return flag;
+        }
+
+        public void setFlag(String flag) {
+            this.flag = flag;
+        }
 
         public int getIsMember() {
             return isMember;

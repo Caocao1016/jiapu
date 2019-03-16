@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hjq.baselibrary.utils.KeyboardUtils;
+import com.vondear.rxtool.RxKeyboardTool;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
@@ -15,6 +17,7 @@ import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.SmsDialog;
 import com.yskj.daishuguan.entity.evbus.DeferFinshEvenbus;
+import com.yskj.daishuguan.entity.evbus.HuankuanEvenbus;
 import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.UserInfoView;
 import com.yskj.daishuguan.presenter.UserInfoPresenter;
@@ -117,7 +120,7 @@ public class OverdueDetailsActivity extends BaseActivity<UserInfoPresenter> impl
         paymentDay = getIntent().getStringExtra("paymentDay");
         duedDay = getIntent().getStringExtra("duedDay");
 
-        mCInterest.setText("应还利息：" + (StringUtil.isEmpty(interestRate) ? "0元" : interestRate));
+//        mCInterest.setText("应还利息：" + (StringUtil.isEmpty(interestRate) ? "0元" : interestRate));
         mTime.setText("周期：" + StringUtil.getValue(loanDate));
         mTv.setText("距离还款日还剩" + paymentDay + "天");
         String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
@@ -164,6 +167,7 @@ public class OverdueDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                 if (id == R.id.cv_register_countdown) {
                     getCode();
                 } else if (id == R.id.tv_rig) {
+                    RxKeyboardTool.hideSoftInput(OverdueDetailsActivity.this);
                     pay(code);
                 }
             }
@@ -266,11 +270,13 @@ public class OverdueDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                     String retmsg = jsonObject.getString("retmsg");
                     int retcode = jsonObject.getInt("retcode");
                     UIUtils.showToast(retmsg);
+                    EventBus.getDefault().post(new HuankuanEvenbus());
                     if (1000 == retcode) {
                         finish();
                     } else {
                         finish();
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -402,14 +408,17 @@ public class OverdueDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                        String money = json.getString("total");
                        String paymentMoney = json.getString("paymentMoney");
                         mMoney.setText("" + money );
-                        mBorrowing.setText("借款金额" + paymentMoney);
+                        mBorrowing.setText("借款金额：" + paymentMoney);
+                        mCInterest.setText("应还利息：" +json.getString("interest")+"元");
                         mStartTime.setText("借款时间" + json.getString("startTime") + "至" + json.getString("endTime"));
                         mEndTime.setText("还款时间：" + json.getString("endTime"));
                         currentStage = json.getString("currentStage");
                         String overdue_rate = json.getString("overdue_rate");  //滞纳金利率
-                        String bad_interest_rate = json.getString(" bad_interest_rate");  //逾期利率
-                        mInterset.setText("应还罚息："+new BigDecimal(paymentMoney).multiply(new BigDecimal(duedDay)).multiply(new BigDecimal(bad_interest_rate)) +"元");
-                        mLateMoney.setText("应还滞纳金："+new BigDecimal(paymentMoney).multiply(new BigDecimal(overdue_rate))+"元");
+                        String bad_interest_rate = json.getString("bad_interest_rate");  //逾期利率
+//                        mInterset.setText("应还罚息："+new BigDecimal(paymentMoney).multiply(new BigDecimal(duedDay)).multiply(new BigDecimal(bad_interest_rate)).setScale(2,BigDecimal.ROUND_HALF_UP) +"元");
+                        mInterset.setText("应还罚息："+json.getString("overdueInterest")+"元");
+//                        mLateMoney.setText("应还滞纳金："+new BigDecimal(paymentMoney).multiply(new BigDecimal(overdue_rate)).setScale(2,BigDecimal.ROUND_HALF_UP)+"元");
+                        mLateMoney.setText("应还滞纳金："+json.getString("overdueItfee")+"元");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

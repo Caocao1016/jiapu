@@ -22,6 +22,7 @@ import com.vondear.rxtool.RxAppTool;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
+import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.adapter.HomeViewPagerAdapter;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.dialog.AppVersionDialog;
@@ -137,6 +138,11 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
                 mViewPager.setCurrentItem(0);
                 return true;
             case R.id.menu:
+                if (RxSPTool.getString(this, Constant.IS_LOGIN) .equals("0")) {
+                    UIUtils.showToast("请先去登录");
+                    startActivity(LoginActivity.class);
+                    return false;
+                }
                 mViewPager.setCurrentItem(1);
                 return true;
             case R.id.home_me:
@@ -303,6 +309,8 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
                             }
                         }
                     });
+
+
         }
     }
 

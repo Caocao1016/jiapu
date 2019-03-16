@@ -16,21 +16,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
-import com.yskj.daishuguan.activity.DeferMoneyActivity;
-import com.yskj.daishuguan.activity.MembersActivity;
-import com.yskj.daishuguan.activity.PaymentDetailsActivity;
 import com.yskj.daishuguan.adapter.BillAdapter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
+import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
+import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
-import com.yskj.daishuguan.entity.request.AuthorRequest;
 import com.yskj.daishuguan.entity.request.ManagementListRequest;
 import com.yskj.daishuguan.modle.BillView;
-import com.yskj.daishuguan.modle.SettingAuthorizaView;
 import com.yskj.daishuguan.presenter.BillPresenter;
-import com.yskj.daishuguan.presenter.SettingAuthorizationPresenter;
-import com.yskj.daishuguan.response.AuthorizeRecordResponse;
-import com.yskj.daishuguan.response.AuthorizeResponse;
 import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
 import com.yskj.daishuguan.util.UIUtils;
@@ -39,7 +33,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -100,18 +93,19 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                List<BillResponse.ListBean> entity =  adapter.getData();
-                BillResponse.ListBean listBean = entity.get(position);
-                if (listBean.getStatus() == 1 && listBean.getIsMember() == 0){
-                    Intent intent = new Intent(getContext(), MembersActivity.class);
-                    intent.putExtra("moneyList", listBean.getAuditCreditLimit());
-                    startActivity(intent);
-                }
-            }
-        });
+//        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//            @Override
+//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                List<BillResponse.ListBean> entity =  adapter.getData();
+//                BillResponse.ListBean listBean = entity.get(position);
+//                if (listBean.getStatus() == 1 && listBean.getIsMember() == 0){
+//                    Intent intent = new Intent(getContext(), MembersActivity.class);
+//                    intent.putExtra("moneyList", listBean.getAuditCreditLimit());
+//                    intent.putExtra("type", "member");
+//                    startActivity(intent);
+//                }
+//            }
+//        });
 
     }
 
@@ -126,6 +120,11 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
         initData();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFinshMoneyEvenbus(FinshMoneyEvenbus event) {
+        mPageNo = 1 ;
+        initData();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -134,6 +133,7 @@ public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> impleme
 
     @Override
     protected void initData() {
+        EventBus.getDefault().post(new FinshCertificationEvenbus());
         mSwipe.setRefreshing(true);
         ManagementListRequest request = new ManagementListRequest();
         request.userid = RxSPTool.getString(getContext(), Constant.USER_ID);

@@ -23,12 +23,14 @@ public class SubmitRequest extends MapParamsRequest {
     public String locgps;
     public String locaddress;
     public String loanPurpose;
-
+    public String isSign;
 
     @Override
     protected void putParams() {
         if (!StringUtil.isEmpty(userId)) {
             params.put("userid", userId);
+        } if (!StringUtil.isEmpty(isSign)) {
+            params.put("isSign", isSign);
         }
 
 

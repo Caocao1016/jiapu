@@ -78,11 +78,12 @@ public class MembershipActivity extends BaseActivity<MembersPresenter> implement
         mCZ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                rxDialogLoading.show();
                 BannerRequest bannerRequest = new BannerRequest();
                 bannerRequest.token = RxSPTool.getString(MembershipActivity.this, Constant.TOKEN);
                 bannerRequest.userid = RxSPTool.getString(MembershipActivity.this, Constant.USER_ID);
                 bannerRequest.mobileno = RxSPTool.getString(MembershipActivity.this, Constant.USER_MOBILENO);
+                bannerRequest.type = getIntent().getStringExtra("type");
                 mPresenter.memberPayment(bannerRequest);
 
             }
@@ -104,21 +105,9 @@ public class MembershipActivity extends BaseActivity<MembersPresenter> implement
         memberSmsRequest.paramCode = event.password;
         memberSmsRequest.token = RxSPTool.getString(MembershipActivity.this, Constant.TOKEN);
         memberSmsRequest.userid = RxSPTool.getString(MembershipActivity.this, Constant.USER_ID);
+        memberSmsRequest.type = getIntent().getStringExtra("type");
         mPresenter.memberConfirmRepayment(memberSmsRequest);
 
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                /**
-//                 *要执行的操作
-//                 */
-//                mDialogUtils.dismissDialog(MembershipActivity.this);
-//                startActivity(new Intent(MembershipActivity.this, MembershipFinshActivity.class));
-//                finish();
-//            }
-//        };
-//        Timer timer = new Timer();
-//        timer.schedule(task, 3000);//3秒后执行TimeTask的run方法
 
     }
 
@@ -147,6 +136,9 @@ public class MembershipActivity extends BaseActivity<MembersPresenter> implement
     @Override
     public void onFailure(BaseResponse response) {
         rxDialogLoading.dismiss();
+        if (response.getRetcode() == 9503){
+            finish();
+        }
     }
 
     @Override
@@ -159,6 +151,8 @@ public class MembershipActivity extends BaseActivity<MembersPresenter> implement
 
     @Override
     public void onSendSuccess(BaseResponse response) {
+
+        rxDialogLoading.dismiss();
         UIUtils.showToast("验证码发送成功");
         new RechargeDialog(getApplicationContext(), MembershipActivity.this, mCZ, StringUtil.getValue(getIntent().getStringExtra("money"))).showConnectPopup();
 

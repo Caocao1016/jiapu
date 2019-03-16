@@ -7,6 +7,7 @@ import android.telephony.TelephonyManager;
 
 import com.moxie.client.manager.MoxieSDK;
 import com.socks.library.KLog;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.vondear.rxtool.RxTool;
@@ -35,6 +36,8 @@ public class MyApp extends BaseApp  {
         UMConfigure.setLogEnabled(true);
         UMConfigure.init(this,"5847ad2a07fe655886000b3d"
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
+        // 选用AUTO页面采集模式
+//        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 //        MoxieSDK.init(this);
     }
     //获取单例

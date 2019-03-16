@@ -13,12 +13,14 @@ import com.hjq.baselibrary.widget.CountdownView;
 import com.hjq.toast.ToastUtils;
 import com.vondear.rxtool.RxDeviceTool;
 import com.vondear.rxtool.RxSPTool;
+import com.yskj.daishuguan.BuildConfig;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
+import com.yskj.daishuguan.entity.evbus.StickyEvenbus;
 import com.yskj.daishuguan.entity.request.LoginRequest;
 import com.yskj.daishuguan.entity.request.SmsCaptchaRequest;
 import com.yskj.daishuguan.modle.RegisterView;
@@ -189,6 +191,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public void onSuccess(RegisterResponse response) {
+        EventBus.getDefault().post(new LoginEvbusBean());
+        EventBus.getDefault().postSticky(new StickyEvenbus());
         UIUtils.showToast("注册成功，这里属于你...");
         RxSPTool.putString(this, Constant.TOKEN, response.getToken());
         RxSPTool.putString(this, Constant.USER_MOBILENO, response.getMobileno());
@@ -196,7 +200,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         RxSPTool.putString(this, Constant.USER_NAME, response.getName());
         RxSPTool.putString(this, Constant.INVITATION_CODE, response.getInvitationcode());
         RxSPTool.putString(this, Constant.IS_LOGIN, "1");
-        EventBus.getDefault().post(new LoginEvbusBean());
         finish();
     }
 

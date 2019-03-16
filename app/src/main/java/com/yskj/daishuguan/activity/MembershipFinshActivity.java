@@ -13,6 +13,7 @@ import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
+import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
 import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.SubmitRequest;
@@ -48,26 +49,33 @@ public class MembershipFinshActivity extends BaseActivity<CommonDataPresenter>  
 
     private ImmersionBar mImmersionBar;
     private ProgressDialogUtils mDialog;
-//    Timer timer = new Timer();
-//    private int recLen = 3;
-//    TimerTask task = new TimerTask() {
-//        @Override
-//        public void run() {
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    recLen--;
-//                    mTime.setText(recLen+"");
-//                    if (recLen ==0){
-//                        timer.cancel();
-//                        EventBus.getDefault().post(new FinshMoneyEvenbus(1));
-//                        finish();
-//                    }
-//                }
-//            });
-//        }
-//    };
+    Timer timer = new Timer();
+    private int recLen = 10;
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    recLen--;
+                    mTime.setText(recLen+"");
+                    if (recLen ==0){
+                        timer.cancel();
+                        EventBus.getDefault().post(new FinshCertificationEvenbus());
+                        finish();
+                    }
+                }
+            });
+        }
+    };
 
+
+
+    @Override
+    public void onLeftClick(View v) {
+        EventBus.getDefault().post(new FinshCertificationEvenbus());
+        finish();
+    }
 
     @Override
     protected int getLayoutId() {
@@ -81,7 +89,7 @@ public class MembershipFinshActivity extends BaseActivity<CommonDataPresenter>  
 
     @Override
     protected void initView() {
-//        timer.schedule(task, 1000, 1000);       // timeTask
+        timer.schedule(task, 1000, 1000);       // timeTask
     }
 
     @Override
@@ -92,6 +100,9 @@ public class MembershipFinshActivity extends BaseActivity<CommonDataPresenter>  
 //                timer.cancel();
 //                EventBus.getDefault().post(new FinshMoneyEvenbus(1));
 //                finish();
+//                timer.cancel();
+
+
                 BannerRequest homeInfoRequest = new BannerRequest();
                 homeInfoRequest.token = RxSPTool.getString(MembershipFinshActivity.this, Constant.TOKEN);
                 homeInfoRequest.userid = RxSPTool.getString(MembershipFinshActivity.this,Constant.USER_ID);
@@ -109,8 +120,8 @@ public class MembershipFinshActivity extends BaseActivity<CommonDataPresenter>  
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        timer.cancel();
-//        task.cancel();
+        timer.cancel();
+        task.cancel();
     }
 
 
@@ -156,6 +167,12 @@ public class MembershipFinshActivity extends BaseActivity<CommonDataPresenter>  
     @Override
     public void onFailure(BaseResponse response) {
         rxDialogLoading.dismiss();
+        if (response.getRetcode() == 2716){
+            Intent intent = new Intent(this, CerFinshActivity.class);
+            intent.putExtra("what", 2);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

@@ -75,7 +75,7 @@ public class StringUtil {
         BigDecimal bigDecima = new BigDecimal(day);
         return bigDecimal.add(dayRateMoney.multiply(bigDecima));
     }
-    public static BigDecimal getRateMoney(int money, String rate) {
+    public static BigDecimal getRateMoney(String money, String rate) {
 
         BigDecimal bigDecimal = new BigDecimal(money);
         BigDecimal bigDecima = new BigDecimal(rate);

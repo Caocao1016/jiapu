@@ -18,6 +18,7 @@ public class CreditStartRequest extends MapParamsRequest {
     public String productNo;
     public String locaddress;
     public String locgps;
+
     public String loanPurpose;
     public String customerCreditLimit;
     public String autographPicture;
@@ -32,6 +33,7 @@ public class CreditStartRequest extends MapParamsRequest {
         if (!StringUtil.isEmpty(customerCreditLimit)) {
             params.put("customerCreditLimit", customerCreditLimit);
         }
+
         if (!StringUtil.isEmpty(loanPurpose)) {
             params.put("loanPurpose", loanPurpose);
         }

@@ -29,6 +29,7 @@ import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.NoFinshDialog;
+import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
 import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.MoxieRequest;
@@ -254,7 +255,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
                 if (!isMNO_AUTH){
                     if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
-                        EventBus.getDefault().post(new FinshMoneyEvenbus(0));
+                        EventBus.getDefault().post(new FinshCertificationEvenbus());
                         finish();
                     } else {
                         UIUtils.showToast("请先去完成相关认证");
@@ -274,9 +275,9 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
      */
     private void startMoxie() {
 //合作方系统中的客户ID
-        String mUserId = RxSPTool.getContent(this, Constant.USER_ID);  //合作方系统中的客户ID
-        String mPhone = RxSPTool.getContent(this, Constant.USER_MOBILENO);
-        String mName = RxSPTool.getContent(this, Constant.USER_NAME);
+        String mUserId = RxSPTool.getString(this, Constant.USER_ID);  //合作方系统中的客户ID
+        String mPhone = RxSPTool.getString(this, Constant.USER_MOBILENO);
+        String mName = RxSPTool.getString(this, Constant.USER_NAME);
         MxParam mxParam = new MxParam();
         mxParam.setUserId(mUserId);                      //必传
         mxParam.setThemeColor("#FFB700");                      //必传
@@ -612,6 +613,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
             } else if (itemcode.equals("MNO")) {
                 if ("1".equals(status)) {
                     MNO_AUTH = true;
+                    isMNO_AUTH = false;
                     mIvNumberRight.setVisibility(View.VISIBLE);
                     mTvNumberRight.setVisibility(View.INVISIBLE);
                     mIvNumberRight.setImageResource(R.mipmap.ic_fish);
@@ -621,6 +623,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                     mTvNumberRight.setVisibility(View.INVISIBLE);
                     mIvNumberRight.setImageResource(R.mipmap.ic_audit);
                 } else if ("3".equals(status)) {
+                    isMNO_AUTH = false;
                     mIvNumberRight.setVisibility(View.VISIBLE);
                     mTvNumberRight.setVisibility(View.INVISIBLE);
                     mIvNumberRight.setImageResource(R.mipmap.ic_no_approve);

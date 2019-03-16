@@ -31,8 +31,8 @@ import com.sensetime.senseid.sdk.liveness.interactive.type.OcclusionState;
 public class MotionLivenessActivity extends AbstractCommonMotionLivingActivity {
 
     //请将账户信息补全，然后删除此行。Fill in your account info below, and delete this line.
-    private static final String API_KEY = "7a2276cc4afe449b9dceaa4c628c7163";
-    private static final String API_SECRET = "f0ff37baa45c407ca0e8dc971537f237";
+    private static final String API_KEY = "5a5e84acb7d64383b364f134d8a1d05e";
+    private static final String API_SECRET = "8dd212e851ae4c9c997c52837b7de496";
 
     private OnLivenessListener mLivenessListener = new OnLivenessListener() {
         private long mLastStatusUpdateTime;

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,9 +26,11 @@ import com.yskj.daishuguan.activity.SettingActivity;
 import com.yskj.daishuguan.activity.WebViewActivity;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
+import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.OutLoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
+import com.yskj.daishuguan.entity.evbus.StickyEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.UserInfoView;
@@ -74,6 +77,14 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     private String bankcard;
     private String bankName;
 
+    @Override
+    public void setUserVisibleHint(boolean hidden) {
+        if (hidden) {
+            initview();
+            initData();
+        }
+    }
+
     public static MyFragment newInstance() {
         return new MyFragment();
     }
@@ -90,7 +101,11 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
 
     @Override
     protected void initView() {
-        EventBus.getDefault().register(this);
+
+        initview();
+    }
+
+    private void initview() {
         if (RxSPTool.getString(getContext(), Constant.IS_LOGIN).equals("1")) {
             mLlName.setVisibility(View.VISIBLE);
             mTvLogin.setVisibility(View.GONE);
@@ -109,17 +124,22 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
             mTvLogin.setVisibility(View.VISIBLE);
         }
 
-        mTime.setText(RxSPTool.getString(getContext(), Constant.CONTACT_TIME) + " " + RxSPTool.getString(getContext(), Constant.CONTACT_WAY) + "|");
+        mTime.setText(RxSPTool.getString(getContext(), Constant.CONTACT_TIME) + " " + RxSPTool.getString(getContext(), Constant.CONTACT_WAY));
     }
 
     @Override
     public void onRightClick(View v) {
-//    startActivity(MessageActivity.class);
+        startActivity(MessageActivity.class);
 
     }
 
     @Override
     public void onLeftClick(View v) {
+        if (RxSPTool.getString(getContext(), Constant.IS_LOGIN).equals("0")) {
+            UIUtils.showToast("您当前还未登录，请先去登录");
+            startActivity(LoginActivity.class);
+            return;
+        }
         startActivity(SettingActivity.class);
     }
 
@@ -175,7 +195,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
                     return;
                 }
 
-                if (mTvCertification.getText().toString().equals("已认证")){
+                if (mTvCertification.getText().toString().equals("已认证")) {
                     return;
                 }
                 Intent mIntent = new Intent(getContext(), CertificationActivity.class);
@@ -234,14 +254,16 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     @Override
     public void onResume() {
         super.onResume();
-
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
     public void onSuccess(UserInfoResponse response) {
         bankcard = response.getBankcard();
         bankName = response.getBankName();
-        mTvMoney.setText("已贷金额：" + StringUtil.getValue(response.getLoanMoney()));
+        mTvMoney.setText("已贷金额：" + StringUtil.getValue(response.getLoanMoney()) + "元");
         mTvName.setText(StringUtil.isEmpty(response.getName()) ? StringUtil.getString(response.getMobile()) : response.getName());
     }
 
@@ -269,6 +291,9 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     @Override
     public void onFailure(BaseResponse response) {
 
+        if (response.getRetcode() == 1508){
+            initview();
+        }
     }
 
     @Override
@@ -282,18 +307,7 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * 登录成功
-     *
-     * @param event
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void LoginEvbusBean(LoginEvbusBean event) {
 
-        mLlName.setVisibility(View.VISIBLE);
-        mTvLogin.setVisibility(View.GONE);
-        initData();
-    }
 
     /**
      * 登录成功
@@ -302,20 +316,35 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void QuanxianEvenbus(QuanxianEvenbus event) {
+        initview();
         initData();
     }
 
-    /**
+
+ /**
      * 登录成功
      *
      * @param event
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void OutLoginEvbusBean(OutLoginEvbusBean event) {
-
-        mLlName.setVisibility(View.GONE);
-        mTvLogin.setVisibility(View.VISIBLE);
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void StickyEvenbus(StickyEvenbus event) {
+        initview();
         initData();
     }
 
+
+
+    /**
+     * 认证完成后刷新
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void FinshCertificationEvenbus(FinshCertificationEvenbus event) {
+        BannerRequest homeInfoRequest = new BannerRequest();
+        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+        mPresenter.homeInfo(homeInfoRequest);
+    }
 }

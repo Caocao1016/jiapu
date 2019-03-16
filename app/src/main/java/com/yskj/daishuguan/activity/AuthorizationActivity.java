@@ -55,7 +55,8 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     @BindView(R.id.tv_one)
     TextView mOne;
     @BindView(R.id.tv_four)
-    TextView mFour; @BindView(R.id.tv_three)
+    TextView mFour;
+    @BindView(R.id.tv_three)
     TextView mThree;
 
     @BindView(R.id.tv_interest)
@@ -92,7 +93,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     @Override
     protected void initView() {
         moeny = getIntent().getStringExtra("MONEY");
-         isreloan = getIntent().getBooleanExtra("isreloan", false);
+        isreloan = getIntent().getBooleanExtra("isreloan", false);
         window = getIntent().getStringExtra("window");
 
         String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
@@ -105,14 +106,11 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
         }
 
         if (isreloan) {
-            mMemberMoney.setText("本次应付费用： 0元");
+            mMemberMoney.setText("本次应付费用：" + RxSPTool.getString(this, Constant.AUDIT_assessValue) + "元");
             mOne.setVisibility(View.GONE);
-            mThree.setText("委托扣款授权书");
-            mFour.setVisibility(View.GONE);
         } else {
-            mMemberMoney.setText("本次应付费用： 300元");
+            mMemberMoney.setText("本次应付费用：" + StringUtil.getRateMoney(moeny, beginPate) + "元");
             mOne.setVisibility(View.VISIBLE);
-            mFour.setVisibility(View.VISIBLE);
         }
 
 
@@ -157,7 +155,10 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
 
     @Override
     public void onLeftClick(View v) {
-        finshDialog.show(getSupportFragmentManager(), "set");
+        if (!isreloan) {
+            finshDialog.show(getSupportFragmentManager(), "set");
+        }
+
     }
 
     @OnClick({R.id.rl_card, R.id.rl_agreement, R.id.rl_money_agreement, R.id.iv_signature,
@@ -209,7 +210,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
             case R.id.tv_four:
                 Intent intent6 = new Intent(AuthorizationActivity.this, WebViewActivity.class);
                 intent6.putExtra(Constant.WEBVIEW_URL_TITLE, "居间服务协议");
-                intent6.putExtra(Constant.WEBVIEW_URL, "http://120.27.224.36:8181/p/JuJian.html");
+                intent6.putExtra(Constant.WEBVIEW_URL, "http://120.27.224.36:8181/p/" + (isreloan ? "JuJian_Shou.html" : "JuJian_Fu.html"));
                 startActivity(intent6);
                 break;
             case R.id.rl_signature:
@@ -222,9 +223,9 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
                     return;
                 }
 
-                if (isreloan){
+                if (isreloan) {
                     getSubmit();
-                }else {
+                } else {
                     rxDialogLoading.show();
                     CreditStartRequest creditStartRequest = new CreditStartRequest();
                     creditStartRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
@@ -264,7 +265,6 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     }
 
 
-
     /**
      * 借款
      */
@@ -277,6 +277,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
         submitRequest.cycle = RxSPTool.getString(this, Constant.AUTH_VALID_DAY);
         submitRequest.loanAmount = Integer.parseInt(moeny);
         submitRequest.productNo = Build.MODEL;
+        submitRequest.isSign = "1";
         submitRequest.osType = "ANDROID";
         submitRequest.locgps = RxSPTool.getContent(this, Constant.GPS_LATITUDE);
         submitRequest.locaddress = RxSPTool.getContent(this, Constant.GPS_ADDRESS);
@@ -336,18 +337,13 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
         intent.putExtra("what", 1);
         startActivity(intent);
         finish();
-//        BannerRequest homeInfoRequest = new BannerRequest();
-//        homeInfoRequest.token = RxSPTool.getString(this, Constant.TOKEN);
-//        homeInfoRequest.userid = RxSPTool.getString(this, Constant.USER_ID);
-//        homeInfoRequest.cycle = RxSPTool.getString(this, Constant.AUTH_VALID_DAY);
-//        mPresenter.homeInfo(homeInfoRequest);
     }
 
     @Override
     public void onSubmitSuccess(BaseResponse response) {
         rxDialogLoading.dismiss();
         Intent intent = new Intent(this, CerFinshActivity.class);
-        intent.putExtra("what", 2);
+        intent.putExtra("what", 1);
         startActivity(intent);
         finish();
     }
@@ -366,10 +362,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
 
     @Override
     public void onHomeInfoSuccess(HomeInfoResponse response) {
-//        rxDialogLoading.dismiss();
-        Intent intent = new Intent(this, MembersActivity.class);
-        intent.putExtra("moneyList", response.getAuditCreditLimit());
-        startActivity(intent);
+
     }
 
     @Override

@@ -41,6 +41,10 @@ public class UserInfoPresenter extends BasePresenter<UserInfoView> {
             protected void onError() {
                 mView.onError();
             }
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
         });
     }
         public void geMyCommonData() {

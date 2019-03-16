@@ -23,8 +23,9 @@ import com.sensetime.senseid.sdk.ocr.id.OnIdCardScanListener;
 public class IdCardActivity extends AbstractIdCardActivity {
 
     //Set your API Key & Secret here.
-    private static final String API_KEY = "7a2276cc4afe449b9dceaa4c628c7163";
-    private static final String API_SECRET = "f0ff37baa45c407ca0e8dc971537f237";
+    private static final String API_KEY = "5a5e84acb7d64383b364f134d8a1d05e";
+    private static final String API_SECRET = "8dd212e851ae4c9c997c52837b7de496";
+
 
     private OnIdCardScanListener mListener = new OnIdCardScanListener() {
         @Override

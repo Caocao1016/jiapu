@@ -202,6 +202,7 @@ public class HomeFragment extends CommonLazyFragment<CommonDataPresenter> implem
                             } else {
                                 Intent intent = new Intent(getContext(), MembersActivity.class);
                                 intent.putExtra("moneyList", auditCreditLimit);
+                                intent.putExtra("type", "member");
                                 startActivity(intent);
                             }
 

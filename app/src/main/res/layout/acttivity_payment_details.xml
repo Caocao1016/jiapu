@@ -9,7 +9,6 @@
         android:id="@+id/tb_payment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:icon_right="@mipmap/ic_refresh"
         app:size_title="19sp"
         app:title="还款详情" />
 

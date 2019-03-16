@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hjq.baselibrary.utils.KeyboardUtils;
+import com.vondear.rxtool.RxKeyboardTool;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
@@ -16,6 +18,7 @@ import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.SmsDialog;
 import com.yskj.daishuguan.entity.evbus.DeferFinshEvenbus;
+import com.yskj.daishuguan.entity.evbus.HuankuanEvenbus;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.request.UserInfoRequest;
 import com.yskj.daishuguan.modle.UserInfoView;
@@ -119,7 +122,7 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
         paymentDay = getIntent().getStringExtra("paymentDay");
         duedDay = getIntent().getStringExtra("duedDay");
 
-        mCInterest.setText("应还利息：" +(StringUtil.isEmpty(interestRate)? "0元": interestRate)+"元");
+
         mTime.setText("周期：" +StringUtil.getValue( loanDate)+"天");
         mTv.setText("距离还款日还剩" + paymentDay + "天");
         String cardNumber = RxSPTool.getString(this, Constant.CARD_NUMBER);
@@ -166,12 +169,14 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                 if (id == R.id.cv_register_countdown){
                     getCode();
                 }else if (id == R.id.tv_rig){
+                    RxKeyboardTool.hideSoftInput(PaymentDetailsActivity.this);
                     pay(code);
                 }
             }
         });
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -261,13 +266,16 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
         x.http().post(params, new Callback.ProgressCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                RxLogTool.d("flag", "还款2:" + result);
+
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String retmsg = jsonObject.getString("retmsg");
                     int retcode = jsonObject.getInt("retcode");
                     UIUtils.showToast(retmsg);
+
                     if (1000 == retcode) {
+                        RxLogTool.d("---------", "HuankuanEvenbus:" + result);
+                        EventBus.getDefault().post(new HuankuanEvenbus());
                         finish();
                     } else {
                         finish();
@@ -401,8 +409,9 @@ public class PaymentDetailsActivity extends BaseActivity<UserInfoPresenter> impl
                         String data = jsonObject.getString("data");
                         JSONObject json = new JSONObject(data);
                         mMoney.setText("" + json.getString("total"));
-                        mBorrowing.setText("借款金额" + json.getString("paymentMoney")+"元");
-                        mStartTime.setText("借款时间" + json.getString("startTime") + "至" + json.getString("endTime"));
+                        mCInterest.setText("应还利息：" +json.getString("interest")+"元");
+                        mBorrowing.setText("借款金额：" + json.getString("paymentMoney")+"元");
+                        mStartTime.setText("借款时间：" + json.getString("startTime") + "至" + json.getString("endTime"));
                         mEndTime.setText("还款时间：" + json.getString("endTime"));
                         currentStage = json.getString("currentStage");
                     }
