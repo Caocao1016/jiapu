@@ -269,6 +269,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                 } else {
                     Intent intent = new Intent(getContext(), CertificationActivity.class);
                     intent.putExtra("maxMoney", mTvMoney.getText().toString());
+                    intent.putExtra("isreloan", isreloan);
                     startActivity(intent);
                 }
                 break;

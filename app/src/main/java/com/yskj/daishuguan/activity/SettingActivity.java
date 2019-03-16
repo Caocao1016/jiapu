@@ -95,14 +95,15 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     public void onLogOutSuccess(BaseResponse response) {
         rxDialogLoading.dismiss();
-        EventBus.getDefault().post(new LoginEvbusBean());
-        EventBus.getDefault().postSticky(new StickyEvenbus());
+
         RxSPTool.remove(this, Constant.TOKEN);
         RxSPTool.remove(this, Constant.USER_HEAD);
         RxSPTool.remove(this, Constant.USER_MOBILENO);
         RxSPTool.remove(this, Constant.USER_NAME);
         RxSPTool.remove(this, Constant.USER_ID);
         RxSPTool.putString(this, Constant.IS_LOGIN, "0");
+        EventBus.getDefault().post(new LoginEvbusBean());
+        EventBus.getDefault().postSticky(new StickyEvenbus());
         startActivity(LoginActivity.class);
         finish();
     }

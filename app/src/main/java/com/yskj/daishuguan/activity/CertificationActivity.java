@@ -1,6 +1,5 @@
 package com.yskj.daishuguan.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -18,9 +17,7 @@ import com.moxie.client.manager.MoxieContext;
 import com.moxie.client.manager.MoxieSDK;
 import com.moxie.client.model.MxLoginCustom;
 import com.moxie.client.model.MxParam;
-import com.moxie.client.widget.wave.UiUtils;
 import com.sensetime.liveness.motion.MotionLivenessActivity;
-import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
@@ -30,7 +27,6 @@ import com.yskj.daishuguan.base.BaseParams;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.dialog.NoFinshDialog;
 import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
-import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.MoxieRequest;
 import com.yskj.daishuguan.modle.CertificationDataView;
@@ -104,6 +100,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
     public String publicFilePath;
     SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
     private String what = "A";
+    private boolean isreloan;
 
     @Override
     protected int getLayoutId() {
@@ -117,12 +114,13 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
     @Override
     protected void initView() {
+        isreloan = getIntent().getBooleanExtra("isreloan", false);
         String maxMoney = getIntent().getStringExtra("maxMoney");
         mTvMoney.setText(maxMoney);
         mTvDayRate.setText("1千元用一天，每日仅需" + StringUtil.getActualNUmber(1000, RxSPTool.getString(this, Constant.DAY_RATE)) + "元");
         createFileDir();
         BannerRequest bannerRequest = new BannerRequest();
-        bannerRequest.userid =RxSPTool.getContent(this,Constant.USER_ID);
+        bannerRequest.userid = RxSPTool.getContent(this, Constant.USER_ID);
         mPresenter.operatorChannel(bannerRequest);
 
         finshDialog = new NoFinshDialog();
@@ -151,13 +149,13 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
     @Override
     public void onLeftClick(View v) {
-
-        if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
-            finish();
-        } else {
-            finshDialog.show(getSupportFragmentManager(), "set");
+        if (!isreloan) {
+            if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
+                finish();
+            } else {
+                finshDialog.show(getSupportFragmentManager(), "set");
+            }
         }
-
 
     }
 
@@ -232,7 +230,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
                         if (CONTACT_AUTH) {
 
-                                if (what.equals("B")) {
+                            if (what.equals("B")) {
                                 startActivity(CerNumberActivity.class);
                             } else {
                                 startMoxie();
@@ -253,14 +251,14 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                 break;
             case R.id.tv_sure:
 
-                if (!isMNO_AUTH){
+                if (!isMNO_AUTH) {
                     if (REAL_AUTh && IDCARD_AUTH && FACE_AUTH && CONTACT_AUTH && MNO_AUTH) {
                         EventBus.getDefault().post(new FinshCertificationEvenbus());
                         finish();
                     } else {
                         UIUtils.showToast("请先去完成相关认证");
                     }
-                }else {
+                } else {
                     UIUtils.showToast("正在审核中");
                 }
 
@@ -288,6 +286,7 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
         loginParam.put("phone", mPhone);          // 手机号
         loginParam.put("name", mName);               // 姓名
         loginParam.put("idcard", RxSPTool.getString(this, Constant.IDCARD_NUMBER));  // 身份证
+        loginCustom.setLoginParams(loginParam);
         mxParam.setLoginCustom(loginCustom);
         MoxieSDK.getInstance().start(this, mxParam, new MoxieCallBack() {
             /**
@@ -363,26 +362,26 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
                             break;
                         case MxParam.ResultCode.THIRD_PARTY_SERVER_ERROR:
                             UIUtils.showToast("导入失败(1)");
-                            Log.e("-----MoxieSDK-----","导入失败(1)");
+                            Log.e("-----MoxieSDK-----", "导入失败(1)");
                             break;
                         case MxParam.ResultCode.MOXIE_SERVER_ERROR:
                             UIUtils.showToast("导入失败(魔蝎数据服务异常)");
-                            Log.e("-----MoxieSDK-----","魔蝎数据服务异常");
+                            Log.e("-----MoxieSDK-----", "魔蝎数据服务异常");
                             break;
                         case MxParam.ResultCode.USER_INPUT_ERROR:
-                            Log.e("-----MoxieSDK-----","导入失败");
+                            Log.e("-----MoxieSDK-----", "导入失败");
                             UIUtils.showToast("导入失败(" + moxieCallBackData.getMessage() + ")");
                             break;
                         case MxParam.ResultCode.IMPORT_FAIL:
                             UIUtils.showToast("导入失败)");
-                            Log.e("-----MoxieSDK-----","导入失败)");
+                            Log.e("-----MoxieSDK-----", "导入失败)");
                             break;
                         case MxParam.ResultCode.IMPORT_SUCCESS:
                             Log.e("-----MoxieSDK-----", "任务采集成功，任务最终状态会从服务端回调，建议轮询APP服务端接口查询任务/业务最新状态");
                             //根据taskType进行对应的处理
                             switch (moxieCallBackData.getTaskType()) {
                                 case MxParam.PARAM_TASK_CARRIER:
-                                    Log.e("-----MoxieSDK-----","导入失败)");
+                                    Log.e("-----MoxieSDK-----", "导入失败)");
                                     MoxieRequest request = new MoxieRequest();
                                     request.taskId = moxieCallBackData.getTaskId();
                                     request.token = RxSPTool.getString(CertificationActivity.this, Constant.TOKEN);

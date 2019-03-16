@@ -3,7 +3,6 @@ package com.yskj.daishuguan.activity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.moxie.client.widget.wave.UiUtils;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;

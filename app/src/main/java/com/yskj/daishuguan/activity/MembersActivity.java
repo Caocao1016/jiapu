@@ -143,7 +143,9 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
 
     @Override
     public void onLeftClick(View v) {
-        finshDialog.show(getSupportFragmentManager(), "set");
+        if (!type.equals("repeat")) {
+            finshDialog.show(getSupportFragmentManager(), "set");
+        }
     }
 
 

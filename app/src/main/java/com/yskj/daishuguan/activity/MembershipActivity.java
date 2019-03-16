@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.moxie.client.widget.wave.UiUtils;
 import com.vondear.rxtool.RxSPTool;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;

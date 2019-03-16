@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hjq.baselibrary.widget.CountdownView;
-import com.moxie.client.widget.wave.UiUtils;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
