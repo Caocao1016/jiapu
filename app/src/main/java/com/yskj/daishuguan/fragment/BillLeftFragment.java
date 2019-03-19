@@ -45,7 +45,7 @@ import butterknife.BindView;
  * @Description:
  */
 
-public class BillLeftFragment  extends CommonLazyFragment<BillPresenter> implements SwipeRefreshLayout.OnRefreshListener,
+public class  BillLeftFragment  extends CommonLazyFragment<BillPresenter> implements SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener, BillView {
 
     @BindView(R.id.recycler_view)

@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
         mViewPager.setAdapter(mAdapter);
         // 限制页面数量
         mViewPager.setOffscreenPageLimit(mAdapter.getCount());
-
+//        initUpdata();
     }
 
 
@@ -238,17 +238,17 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
 
                                 mLocationClient.start();
                             } else {
-                                ToastUtils.show("获取权限成功，部分权限未正常授予");
+                                UIUtils.showToast("获取权限成功，部分权限未正常授予");
                             }
                         }
                         @Override
                         public void noPermission(List<String> denied, boolean quick) {
                             if (quick) {
-                                ToastUtils.show("被永久拒绝授权，请手动授予权限");
+                                UIUtils.showToast("被永久拒绝授权，请手动授予权限");
                                 //如果是被永久拒绝就跳转到应用权限系统设置页面
                                 XXPermissions.gotoPermissionSettings(MainActivity.this);
                             } else {
-                                ToastUtils.show("获取权限失败");
+                                UIUtils.showToast("获取权限失败");
                             }
                         }
                     });

@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import com.vondear.rxtool.RxDeviceTool;
 import com.vondear.rxtool.RxSPTool;
+import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.CertificationActivity;
+import com.yskj.daishuguan.activity.Defer2MoneyActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.activity.ManagementMoneyActivity;
 import com.yskj.daishuguan.activity.MessageActivity;
@@ -168,19 +170,42 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
                 startActivity(ManagementMoneyActivity.class);
                 break;
             case R.id.tv_call_phone:
-                new AlertDialog.Builder(getContext()).setTitle("联系客服")
-                        .setMessage(RxSPTool.getString(getContext(), Constant.CONTACT_WAY))
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                RxDeviceTool.dial(getContext(), RxSPTool.getString(getContext(), Constant.CONTACT_WAY));
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                new AlertDialog.Builder(getContext())
+//                        .setTitle("联系客服")
+//                        .setMessage(RxSPTool.getString(getContext(), Constant.CONTACT_WAY))
+//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                RxDeviceTool.dial(getContext(), RxSPTool.getString(getContext(), Constant.CONTACT_WAY));
+//                            }
+//                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                }).create().show();
+
+
+                final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(getContext());
+                rxDialogSureCancel.getTitleView().setText("联系客服");
+                rxDialogSureCancel.getSureView().setTextColor(Color.parseColor("#007AFF"));
+                rxDialogSureCancel.getCancelView().setTextColor(Color.parseColor("#007AFF"));
+
+                rxDialogSureCancel.getContentView().setText(RxSPTool.getString(getContext(), Constant.CONTACT_WAY));
+                rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onClick(View v) {
+                        RxDeviceTool.dial(getContext(), RxSPTool.getString(getContext(), Constant.CONTACT_WAY));
+                        rxDialogSureCancel.cancel();
                     }
-                }).create().show();
+                });
+                rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rxDialogSureCancel.cancel();
+                    }
+                });
+                rxDialogSureCancel.show();
                 break;
             case R.id.tv_my_certification:  //认证
             case R.id.rl_certification:  //认证

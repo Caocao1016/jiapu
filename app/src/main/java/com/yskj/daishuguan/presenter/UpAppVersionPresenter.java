@@ -20,6 +20,7 @@ import com.yskj.daishuguan.response.LoginResponse;
  */
 
 public class UpAppVersionPresenter extends BasePresenter<AppVersionView> {
+
     public UpAppVersionPresenter(AppVersionView view) {
         super(view);
     }

@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
+ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
 	package
-		ADDED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:11-48
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:11-48
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
 	android:versionCode
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml:1:1-51
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml:1:1-51
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
 uses-sdk
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
-		INJECTED from D:\work\yskj\daisguan\common-motion\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-motion/src/main/AndroidManifest.xml

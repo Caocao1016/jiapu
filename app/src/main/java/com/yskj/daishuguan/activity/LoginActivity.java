@@ -124,7 +124,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onError() {
-        UIUtils.showToast("服务器异常，请稍后再试");
+//        UIUtils.showToast("服务器异常，请稍后再试");
         rxDialogLoading.dismiss();
     }
 

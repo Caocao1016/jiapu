@@ -152,6 +152,10 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
                     UIUtils.showToast("请输入验证码");
                     return;
                 }
+                if (StringUtil.isEmpty(phone)) {
+                    UIUtils.showToast("请输入银行预留手机号");
+                    return;
+                }
 //                if (!mCheckbox.isChecked()) {
 //                    UIUtils.showToast("请阅读绑卡协议并勾选");
 //                    return;

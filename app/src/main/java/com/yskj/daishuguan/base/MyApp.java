@@ -5,6 +5,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
+
 import com.moxie.client.manager.MoxieSDK;
 import com.socks.library.KLog;
 import com.umeng.analytics.MobclickAgent;
@@ -38,7 +39,7 @@ public class MyApp extends BaseApp  {
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
         // 选用AUTO页面采集模式
 //        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
-//        MoxieSDK.init(this);
+        MoxieSDK.init(this);
     }
     //获取单例
     public static MyApp getInstance(){
@@ -47,24 +48,24 @@ public class MyApp extends BaseApp  {
         }
         return app;
     }
-    //deviceId：设备编号 IEMI
-    public String getIMEI() {
-        String devicedId = null;
-        try {
-            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            devicedId = telephonyManager.getDeviceId();
-            if (null==devicedId){
-                devicedId= Settings.System.getString(getContentResolver(), Settings.System.ANDROID_ID);
-            }
-            //LogUtil.d("flag","IMEI:"+devicedId);
-            return devicedId;
-        }catch (Exception e){
-            e.printStackTrace();
-            if (null==devicedId){
-                devicedId= Settings.System.getString(getContentResolver(), Settings.System.DEVICE_PROVISIONED);
-            }
-            return devicedId;
-        }
-    }
+//    //deviceId：设备编号 IEMI
+//    public String getIMEI() {
+//        String devicedId = null;
+//        try {
+//            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//            devicedId = telephonyManager.getDeviceId();
+//            if (null==devicedId){
+//                devicedId= Settings.System.getString(getContentResolver(), Settings.System.ANDROID_ID);
+//            }
+//            //LogUtil.d("flag","IMEI:"+devicedId);
+//            return devicedId;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            if (null==devicedId){
+//                devicedId= Settings.System.getString(getContentResolver(), Settings.System.DEVICE_PROVISIONED);
+//            }
+//            return devicedId;
+//        }
+//    }
 }
 

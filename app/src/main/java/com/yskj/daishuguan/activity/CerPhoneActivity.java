@@ -1,5 +1,6 @@
 package com.yskj.daishuguan.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.UiAutomation;
 import android.content.Context;
@@ -26,6 +27,8 @@ import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.adapter.WindowAdapter;
@@ -54,6 +57,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.hjq.toast.ToastUtils.show;
 
 /**
  * CaoPengFei
@@ -107,34 +112,64 @@ public class CerPhoneActivity extends BaseActivity {
     @OnClick({R.id.ll_phone, R.id.tv_sure, R.id.ll_relation})
     public void onClick(View view) {
         if (view.getId() == R.id.ll_phone) {
-            XXPermissions.with(this)
-                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                    .permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
-                    .permission(Permission.READ_CONTACTS, Permission.WRITE_CONTACTS, Permission.GET_ACCOUNTS)
-                    .request(new OnPermission() {
+            AndPermission.with(this)
+                    .permission(Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_CONTACTS,Manifest.permission.GET_ACCOUNTS)
+                    // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
+                    .rationale((context, permissions, executor) -> {
+                        // 此处可以选择显示提示弹窗
+//                        executor.execute();
+                        UIUtils.showToast("请去权限管理页面授权相关权限");
+                    })
+                    // 用户给权限了
+                    .onGranted(permissions ->
 
-                        @Override
-                        public void hasPermission(List<String> granted, boolean isAll) {
-                            if (isAll) {
-                                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                                startActivityForResult(intent, CONNECT_PARENT);
-                                mContacts = PermissionsUtils.getContacts(CerPhoneActivity.this);
-                            } else {
-                                ToastUtils.show("获取权限成功，部分权限未正常授予");
-                            }
-                        }
+                    {
+                        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                        startActivityForResult(intent, CONNECT_PARENT);
+                        mContacts = PermissionsUtils.getContacts(CerPhoneActivity.this);
 
-                        @Override
-                        public void noPermission(List<String> denied, boolean quick) {
-                            if (quick) {
-                                ToastUtils.show("被永久拒绝授权，请手动授予权限");
-                                //如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.gotoPermissionSettings(CerPhoneActivity.this);
-                            } else {
-                                ToastUtils.show("获取权限失败");
-                            }
+                    })
+                    // 用户拒绝权限，包括不再显示权限弹窗也在此列
+                    .onDenied(permissions -> {
+                        // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
+                        if (AndPermission.hasAlwaysDeniedPermission(CerPhoneActivity.this, permissions)) {
+                            // 打开权限设置页
+                            AndPermission.permissionSetting(CerPhoneActivity.this).execute();
+                            return;
                         }
-                    });
+                        show("用户拒绝权限");
+                    })
+                    .start();
+
+//
+//            XXPermissions.with(this)
+//                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+//                    .permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
+//                    .permission(Permission.READ_CONTACTS, Permission.WRITE_CONTACTS, Permission.GET_ACCOUNTS)
+//                    .request(new OnPermission() {
+//
+//                        @Override
+//                        public void hasPermission(List<String> granted, boolean isAll) {
+//                            if (isAll) {
+//                                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+//                                startActivityForResult(intent, CONNECT_PARENT);
+//                                mContacts = PermissionsUtils.getContacts(CerPhoneActivity.this);
+//                            } else {
+//                                show("获取权限成功，部分权限未正常授予");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void noPermission(List<String> denied, boolean quick) {
+//                            if (quick) {
+//                                show("被永久拒绝授权，请手动授予权限");
+//                                //如果是被永久拒绝就跳转到应用权限系统设置页面
+//                                XXPermissions.gotoPermissionSettings(CerPhoneActivity.this);
+//                            } else {
+//                                show("获取权限失败");
+//                            }
+//                        }
+//                    });
         } else if (view.getId() == R.id.tv_sure) {
             String lianXiRen = mPhone.getText().toString();
             String re = mRelation.getText().toString();

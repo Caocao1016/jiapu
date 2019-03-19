@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
+ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
 	package
-		ADDED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:11-55
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:11-55
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
 	android:versionCode
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml:1:1-58
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml:1:1-58
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
 uses-sdk
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-		ADDED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
-		INJECTED from D:\work\yskj\daisguan\common-idcard\src\main\AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+		ADDED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml
+		INJECTED from /Users/caopengfei/Desktop/git/daishuguan/common-idcard/src/main/AndroidManifest.xml

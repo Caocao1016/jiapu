@@ -2,6 +2,7 @@ package com.yskj.daishuguan.api;
 
 
 import com.yskj.daishuguan.base.BaseResponse;
+import com.yskj.daishuguan.response.AppVersionResponse;
 import com.yskj.daishuguan.response.BannerResponse;
 import com.yskj.daishuguan.response.BillHuankuanResponse;
 import com.yskj.daishuguan.response.BillResponse;
@@ -36,6 +37,12 @@ import rx.Observable;
 
 public interface ApiService {
 
+
+    /**
+     * 版本更新
+     */
+    @POST("promotion/appVersion")
+    Observable<BaseResponse<AppVersionResponse>> appVersion(@QueryMap Map<String, Object> params);
 
     /**
      * 用户登陆
@@ -208,7 +215,9 @@ public interface ApiService {
      * 授信
      */
     @POST("credit/start")
-    Observable<BaseResponse> creditStart(@QueryMap Map<String, Object> params);  /**
+    Observable<BaseResponse> creditStart(@QueryMap Map<String, Object> params);
+
+    /**
      * 授信
      */
     @GET("vyp/initiativeRepayment/initiativeExtend")

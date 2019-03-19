@@ -34,7 +34,10 @@ public class BaseParams {
         paramMap.put("merchantcode", Constant.merchantcode);//商户编号
         paramMap.put("clienttype",Constant.clienttype);
         paramMap.put("appid",Constant.appid);
-        paramMap.put("deviceid", RxDeviceTool.getDeviceIdIMEI(BaseApp.getContext()));
+        if (!StringUtil.isEmpty(RxDeviceTool.getDeviceIdIMEI(BaseApp.getContext()))){
+            paramMap.put("deviceid",RxDeviceTool.getDeviceIdIMEI(BaseApp.getContext()));
+        }
+
         paramMap.put("devicecode",RxDeviceTool.getBuildBrandModel().trim()); //操作系统编号
         paramMap.put("appversion",RxDeviceTool.getAppVersionName(BaseApp.getContext()));
 

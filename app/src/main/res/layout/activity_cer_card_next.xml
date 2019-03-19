@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="23dp"
-                android:text="手机号"
+                android:text="预留手机号"
                 android:textColor="@color/cl_4D4D4D"
                 android:textSize="13sp"
 
@@ -144,13 +144,13 @@
             <com.hjq.baselibrary.widget.ClearEditText
                 android:id="@+id/cl_phone"
                 android:layout_width="0dp"
-                android:layout_marginLeft="45dp"
+                android:layout_marginLeft="26dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:inputType="number"
                 android:background="@null"
-                android:hint="请输入银行预留号"
+                android:hint="请输入银行预留手机号"
                 android:textColor="@color/cl_4D4D4D"
                 android:textSize="13sp"
 
