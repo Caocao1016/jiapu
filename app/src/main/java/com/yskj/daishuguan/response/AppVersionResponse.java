@@ -12,11 +12,11 @@ public class AppVersionResponse {
 
 
     private String appName;   //app名称
-    private String versionTips;  //版本升级提示说明
-    private String displayVersion;   //显示版本。如：v1.0.0
+    private String versionContent;  //版本升级提示说明
+    private String disVersion;   //显示版本。如：v1.0.0
     private int appVersion;    //app数字版本号
     private String appType;    //app客户端类型:ios,android,wap
-    private String forcedUpdate;  //当前版本是否需要强制更新。0：否,1：是
+    private int appForce;  //当前版本是否需要强制更新。0：否,1：是
     private String appDownloadUrl;   //app包下载地址
     private String createTime;    //当前版本更新时间
 
@@ -28,20 +28,20 @@ public class AppVersionResponse {
         this.appName = appName;
     }
 
-    public String getVersionTips() {
-        return versionTips;
+    public String getVersionContent() {
+        return versionContent;
     }
 
-    public void setVersionTips(String versionTips) {
-        this.versionTips = versionTips;
+    public void setVersionContent(String versionContent) {
+        this.versionContent = versionContent;
     }
 
-    public String getDisplayVersion() {
-        return displayVersion;
+    public String getDisVersion() {
+        return disVersion;
     }
 
-    public void setDisplayVersion(String displayVersion) {
-        this.displayVersion = displayVersion;
+    public void setDisVersion(String disVersion) {
+        this.disVersion = disVersion;
     }
 
     public int getAppVersion() {
@@ -60,12 +60,12 @@ public class AppVersionResponse {
         this.appType = appType;
     }
 
-    public String getForcedUpdate() {
-        return forcedUpdate;
+    public int getAppForce() {
+        return appForce;
     }
 
-    public void setForcedUpdate(String forcedUpdate) {
-        this.forcedUpdate = forcedUpdate;
+    public void setAppForce(int appForce) {
+        this.appForce = appForce;
     }
 
     public String getAppDownloadUrl() {

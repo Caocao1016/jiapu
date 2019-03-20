@@ -31,7 +31,8 @@ public class SendSmsRequest extends MapParamsRequest {
     protected void putParams() {
         if (!StringUtil.isEmpty(token)) {
             params.put("token", token);
-        } if (!StringUtil.isEmpty(bankCardMobile)) {
+        }
+        if (!StringUtil.isEmpty(bankCardMobile)) {
             params.put("bankCardMobile", bankCardMobile);
         }
         if (!StringUtil.isEmpty(validatecode)) {

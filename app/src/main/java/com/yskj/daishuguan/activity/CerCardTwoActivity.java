@@ -103,7 +103,7 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
 
     @Override
     protected void initView() {
-        mPhone.setText(StringUtil.getString(StringUtil.getValue(RxSPTool.getString(this, Constant.USER_MOBILENO))));
+        mPhone.setText(StringUtil.getValue(RxSPTool.getString(this, Constant.USER_MOBILENO)));
     }
 
     @Override
@@ -122,6 +122,12 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
             case R.id.cv_register_countdown:
                 String cardNumber = mCardNumber.getText().toString();
                 String type = mType.getText().toString();
+                String phone = mPhone.getText().toString();
+
+                if (StringUtil.isEmpty(phone)) {
+                    UIUtils.showToast("请输入银行预留手机号");
+                    return;
+                }
                 if (StringUtil.isEmpty(type)) {
                     mRcountdown.resetState();
                     UIUtils.showToast("请选择卡类型");
@@ -141,21 +147,18 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
                 request.cardno = cardNumber;
                 request.bankname = type;
                 request.bankcode = code;
+                request.bankCardMobile = phone ;
                 mPresenter.sendMessage(request);
                 break;
             case R.id.tv_next:
                 String number1 = mClNumber.getText().toString();
-                String phone = mPhone.getText().toString();
 
 
                 if (StringUtil.isEmpty(number1)) {
                     UIUtils.showToast("请输入验证码");
                     return;
                 }
-                if (StringUtil.isEmpty(phone)) {
-                    UIUtils.showToast("请输入银行预留手机号");
-                    return;
-                }
+
 //                if (!mCheckbox.isChecked()) {
 //                    UIUtils.showToast("请阅读绑卡协议并勾选");
 //                    return;
@@ -167,7 +170,7 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
                 sendSmsRequest.mobileno = RxSPTool.getString(this, Constant.USER_MOBILENO);
                 sendSmsRequest.validatecode = number1;
                 sendSmsRequest.requestno = requestno;
-                sendSmsRequest.bankCardMobile = phone.indexOf("****") != -1 ?phone :RxSPTool.getString(this, Constant.USER_MOBILENO) ;
+
                 mPresenter.getAuthrealnamerequeset(sendSmsRequest);
                 break;
             case R.id.ll_type:

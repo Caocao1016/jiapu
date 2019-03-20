@@ -28,9 +28,11 @@ import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.dialog.AppVersionDialog;
 import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
 import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
+import com.yskj.daishuguan.entity.request.AppVersionRequest;
 import com.yskj.daishuguan.modle.AppVersionView;
 import com.yskj.daishuguan.presenter.UpAppVersionPresenter;
 import com.yskj.daishuguan.response.AppVersionResponse;
+import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -90,9 +92,16 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
         mViewPager.setAdapter(mAdapter);
         // 限制页面数量
         mViewPager.setOffscreenPageLimit(mAdapter.getCount());
-//        initUpdata();
+        initUpdata();
     }
 
+    private void initUpdata() {
+
+        AppVersionRequest appVersionRequest = new AppVersionRequest();
+        appVersionRequest.appType = "android";
+        appVersionRequest.disVersion = RxAppTool.getAppVersionName(this);
+        mPresenter.appVersion(appVersionRequest);
+    }
 
 
     /**
@@ -258,8 +267,8 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
     @Override
     public void onSuccess(AppVersionResponse response) {
 
-        int appVersionCode = RxAppTool.getAppVersionCode(this);
-        if (response.getAppVersion() > appVersionCode) {
+        String appVersionCode = RxAppTool.getAppVersionName(this);
+        if (StringUtil.isUpdate(response.getDisVersion(),appVersionCode)) {
             XXPermissions.with(this)
                     .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
                     .permission(Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
@@ -272,21 +281,32 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
                                 final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(MainActivity.this);
                                 rxDialogSureCancel.setCancelable(false);
                                 rxDialogSureCancel.getTitleView().setText(Constant.APP_UPDALE_TITLE);
+                                rxDialogSureCancel.getContentView().setText(response.getVersionContent());
                                 rxDialogSureCancel.getCancelView().setText(Constant.APP_UPDALE_TRUE);
                                 rxDialogSureCancel.getSureView().setTextColor(getResources().getColor(R.color.colorPrimary));
                                 rxDialogSureCancel.getCancelView().setTextColor(getResources().getColor(R.color.colorPrimary));
-                                rxDialogSureCancel.getSureView().setText(Constant.APP_UPDALE_FALSE);
+                                if (response.getAppForce() == 0){
+                                    rxDialogSureCancel.getSureView().setText("取消");
+                                }else {
+                                    rxDialogSureCancel.getSureView().setText(Constant.APP_UPDALE_FALSE);
+                                }
+
                                 rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        exitApp();
+                                        if (response.getAppForce() == 0){
+                                            rxDialogSureCancel.dismiss();
+                                        }else {
+                                            exitApp();
+                                        }
+
                                     }
                                 });
                                 rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         rxDialogSureCancel.cancel();
-                                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl());
+                                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(),response.getAppForce());
                                         rxAppVersionDialog.setCancelable(false);
                                         rxAppVersionDialog.show();
                                     }

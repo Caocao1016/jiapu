@@ -263,5 +263,85 @@ public class StringUtil {
             }
         }
     }
+    /***
+     * 版本是否需要更新
+     */
 
+    public static Boolean isUpdate(String netVersion ,String localVersion) {
+
+        if (TextUtils.isEmpty(netVersion) || TextUtils.isEmpty(localVersion) ){
+            return false ;
+        }else {
+            String[] net = netVersion.split("\\.");
+            int netOne = 0 ;
+            int netTwo = 0;
+            int netThree = 0;
+            if(net.length >0){
+                try {
+                    netOne = Integer.valueOf(net[0]).intValue();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (net.length >1 ){
+                try {
+                    netTwo = Integer.valueOf(net[1]).intValue();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (net.length >2 ){
+                try {
+                    netThree = Integer.valueOf(net[2]).intValue();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            String[] local = localVersion.split("\\.");
+            int  localOne = 0 ;
+            int localTwo = 0;
+            int localThree = 0;
+            if(local.length >0){
+                try {
+                    localOne = Integer.valueOf(local[0]).intValue();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (local.length >1 ){
+                try {
+                    localTwo = Integer.valueOf(local[1]).intValue();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (local.length >2 ){
+                try {
+                    localThree = Integer.valueOf(local[2]).intValue();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (netOne > localOne){
+                return true ;
+            }else if (netOne < localOne ){
+                return false ;
+            }
+
+            if (netTwo > localTwo){
+                return true ;
+            }else if (netTwo < localTwo){
+                return false ;
+            }
+
+            if (netThree > localThree){
+                return true ;
+            }else if (netThree < localThree){
+                return false ;
+            }
+        }
+        return false ;
+    }
 }
