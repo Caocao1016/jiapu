@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.hjq.permissions.Permission;
 import com.hjq.toast.ToastUtils;
 import com.lzy.okgo.request.BaseRequest;
 import com.sensetime.sample.common.idcard.ActivityUtils;
@@ -22,6 +23,7 @@ import com.vondear.rxtool.RxDeviceTool;
 import com.vondear.rxtool.RxImageTool;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
+import com.yanzhenjie.permission.AndPermission;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.api.ApiConstant;
@@ -203,30 +205,61 @@ public class IDCardActivity extends BaseActivity<OCRPresenter> implements OCRVie
     }
 
     private void checkPermissionToDetect(int scanType) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            List<String> permissions = null;
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                permissions = new ArrayList<>();
-                permissions.add(Manifest.permission.CAMERA);
-            }
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (permissions == null) {
-                    permissions = new ArrayList<>();
-                }
-                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
-            if (permissions != null) {
-                String[] permissionArray = new String[permissions.size()];
-                permissions.toArray(permissionArray);
-                /// Request the permission. The result will be received
-                // in onRequestPermissionResult()
-                requestPermissions(permissionArray, scanType);
-            } else {
-                GoToActivity(scanType);
-            }
-        } else {
-            GoToActivity(scanType);
-        }
+
+
+        AndPermission.with(this)
+                .permission(Permission.Group.STORAGE)
+                .permission(Permission.CAMERA)
+                // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
+                .rationale((context, permissions, executor) -> {
+                    // 此处可以选择显示提示弹窗
+//                        executor.execute();
+                    UIUtils.showToast("请去权限管理页面授权相关权限");
+                })
+                // 用户给权限了
+                .onGranted(permissions ->
+
+                {
+                    GoToActivity(scanType);
+                })
+                // 用户拒绝权限，包括不再显示权限弹窗也在此列
+                .onDenied(permissions -> {
+                    UIUtils.showToast("用户拒绝权限");
+                    // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
+                    if (AndPermission.hasAlwaysDeniedPermission(this, permissions)) {
+                        // 打开权限设置页
+                        AndPermission.permissionSetting(this).execute();
+                        return;
+                    }
+
+                })
+                .start();
+
+//
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            List<String> permissions = null;
+//            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                permissions = new ArrayList<>();
+//                permissions.add(Manifest.permission.CAMERA);
+//            }
+//            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                if (permissions == null) {
+//                    permissions = new ArrayList<>();
+//                }
+//                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//            }
+//            if (permissions != null) {
+//                String[] permissionArray = new String[permissions.size()];
+//                permissions.toArray(permissionArray);
+//                /// Request the permission. The result will be received
+//                // in onRequestPermissionResult()
+//                requestPermissions(permissionArray, scanType);
+//            } else {
+//                GoToActivity(scanType);
+//            }
+//        } else {
+//            GoToActivity(scanType);
+//        }
     }
 
     public void GoToActivity(final int req_camera) {
@@ -362,7 +395,6 @@ public class IDCardActivity extends BaseActivity<OCRPresenter> implements OCRVie
 
     @Override
     public void onIDCardSuccess(BaseRequest response) {
-        ToastUtils.show(response.getRequest().getClass());
         finish();
     }
 

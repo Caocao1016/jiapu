@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -25,6 +25,8 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+
     <!-- 这个权限用于进行网络定位-->
     <!-- 这个权限用于访问GPS定位-->
     <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
@@ -38,7 +40,9 @@
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
     <!-- SD卡读取权限，用户写入离线定位数据-->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-sdk android:minSdkVersion="8"></uses-sdk>
+    <uses-sdk android:minSdkVersion="8">
+
+    </uses-sdk>
 
     <application
         android:name=".base.MyApp"

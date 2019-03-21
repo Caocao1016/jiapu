@@ -3,6 +3,7 @@ package com.yskj.daishuguan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,18 +18,25 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hjq.permissions.Permission;
+
+import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.RxTextViewVerticalMore;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
+import com.yanzhenjie.permission.AndPermission;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.AuthorizationActivity;
 import com.yskj.daishuguan.activity.CerFinshActivity;
 import com.yskj.daishuguan.activity.CertificationActivity;
-import com.yskj.daishuguan.activity.Defer2MoneyActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.activity.MembersActivity;
 import com.yskj.daishuguan.adapter.WindowAdapter;
@@ -58,12 +66,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
+
 
 /**
  * CaoPengFei
@@ -122,6 +132,10 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     private String isReloanCredit;
     private boolean reloanMenber;
     private boolean reloanLoanJudge;
+    private MyLocationListener myListener = new MyLocationListener();
+    private String mLatitude, mAddress = null;
+    private LocationClient mLocationClient;
+    private Location locationGoole;//gogle自带获取经纬度
 
 
     public static HomeNewFragment newInstance() {
@@ -157,6 +171,8 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         mWindow.add("餐饮娱乐");
         mWindow.add("医疗美容");
         mWindow.add("生活消费");
+        initAdress();
+        get();
     }
 
     @Override
@@ -174,6 +190,107 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     }
 
 
+    private void initAdress() {
+        mAddress = RxSPTool.getString(getActivity(), Constant.GPS_ADDRESS);
+        if (mAddress.isEmpty() || mAddress == null) {
+            mLocationClient = new LocationClient(getActivity());
+            mLocationClient.registerLocationListener(myListener);
+            LocationClientOption option = new LocationClientOption();
+            option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+            option.setCoorType("bd09ll");
+            option.setScanSpan(1000);
+            option.setIsNeedAddress(true);
+            mLocationClient.setLocOption(option);
+        }
+    }
+        public class MyLocationListener extends BDAbstractLocationListener {
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+                if (locationGoole != null) {
+                    mLatitude = locationGoole.getLongitude() + "|" + locationGoole.getLatitude();
+                }
+                if (mLatitude != null) {
+                    RxSPTool.putString(getActivity(), Constant.GPS_LATITUDE, mLatitude);
+                }
+                BigDecimal bigDecimal = new BigDecimal(location.getLongitude());
+                BigDecimal bigDecima2 = new BigDecimal(location.getLatitude());
+
+                RxLogTool.e("TAG", "首页经纬度" + bigDecimal.setScale(5, BigDecimal.ROUND_UP)
+                        + "--" + bigDecima2.setScale(5, BigDecimal.ROUND_UP) + "--" + mAddress);
+                mAddress = location.getAddrStr();
+                RxSPTool.putString(getActivity(), Constant.GPS_ADDRESS, mAddress);
+                if (!mAddress.isEmpty() && mAddress != null) {
+                    if (mLocationClient != null && mLocationClient.isStarted()) {
+                        mLocationClient.stop();
+                    }
+                }
+            }
+        }
+    public void get() {
+
+        AndPermission.with(getActivity())
+//                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                        Manifest.permission.ACCESS_FINE_LOCATION,
+//                        Manifest.permission.CALL_PHONE,  Manifest.permission.READ_PHONE_STATE
+//                        ,  Manifest.permission.READ_EXTERNAL_STORAGE
+//                )
+                .permission(Permission.Group.STORAGE,Permission.Group.CONTACTS,Permission.Group.LOCATION
+                       )
+                .permission( Permission.READ_PHONE_NUMBERS,Permission.CALL_PHONE,Permission.READ_CALL_LOG,Permission.CAMERA,
+                        Permission.REQUEST_INSTALL_PACKAGES,  Permission.ACCESS_FINE_LOCATION,Permission.ACCESS_COARSE_LOCATION)
+                // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
+                .rationale((context, permissions, executor) -> {
+                    // 此处可以选择显示提示弹窗
+//                        executor.execute();
+                    UIUtils.showToast("请去权限管理页面授权相关权限");
+                })
+                // 用户给权限了
+                .onGranted(permissions ->
+
+                {
+                    mLocationClient.start();
+                })
+                // 用户拒绝权限，包括不再显示权限弹窗也在此列
+                .onDenied(permissions -> {
+                    // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
+                    if (AndPermission.hasAlwaysDeniedPermission(getActivity(), permissions)) {
+                        // 打开权限设置页
+                        AndPermission.permissionSetting(getActivity()).execute();
+                        return;
+                    }
+                    UIUtils.showToast("用户拒绝权限");
+                })
+                .start();
+//        XXPermissions.with(getActivity())
+//                .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+//                .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.ACCESS_FINE_LOCATION,
+//                        Permission.CALL_PHONE, Permission.READ_PHONE_STATE, Permission.ACCESS_COARSE_LOCATION
+//                        , Permission.READ_EXTERNAL_STORAGE,
+//                        Permission.GET_ACCOUNTS)
+//                .request(new OnPermission() {
+//                    @Override
+//                    public void hasPermission(List<String> granted, boolean isAll) {
+////                            EventBus.getDefault().post(new QuanxianEvenbus());
+//                        if (isAll) {
+//
+////                            mLocationClient.start();
+//                        } else {
+//                            UIUtils.showToast("获取权限成功，部分权限未正常授予");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void noPermission(List<String> denied, boolean quick) {
+//                        if (quick) {
+//                            UIUtils.showToast("被永久拒绝授权，请手动授予权限");
+//                            //如果是被永久拒绝就跳转到应用权限系统设置页面
+//                            XXPermissions.gotoPermissionSettings(getActivity());
+//                        } else {
+//                            UIUtils.showToast("获取权限失败");
+//                        }
+//                    }
+//                });
+    }
     /**
      * 登录成功
      *
@@ -508,11 +625,11 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     @Override
     public void onResume() {
         super.onResume();
-        BannerRequest homeInfoRequest = new BannerRequest();
-        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
-        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
-        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
-        mPresenter.homeInfo(homeInfoRequest);
+//        BannerRequest homeInfoRequest = new BannerRequest();
+//        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+//        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+//        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+//        mPresenter.homeInfo(homeInfoRequest);
     }
 
     private void setUPMarqueeView(List<View> views, int size) {

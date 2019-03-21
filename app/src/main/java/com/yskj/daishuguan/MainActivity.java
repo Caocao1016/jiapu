@@ -1,8 +1,11 @@
 package com.yskj.daishuguan;
 
 
+import android.Manifest;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -17,17 +20,17 @@ import com.hjq.baselibrary.utils.OnClickUtils;
 import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
 import com.vondear.rxtool.RxAppTool;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
+import com.yanzhenjie.permission.AndPermission;
+import com.yskj.daishuguan.activity.CerPhoneActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.adapter.HomeViewPagerAdapter;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.dialog.AppVersionDialog;
 import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
-import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
 import com.yskj.daishuguan.entity.request.AppVersionRequest;
 import com.yskj.daishuguan.modle.AppVersionView;
 import com.yskj.daishuguan.presenter.UpAppVersionPresenter;
@@ -43,6 +46,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.hjq.toast.ToastUtils.show;
 
 
 public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
@@ -60,6 +65,7 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
     private String mLatitude, mAddress = null;
     private LocationClient mLocationClient;
     private Location locationGoole;//gogle自带获取经纬度
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -79,7 +85,7 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
         // 不使用图标默认变色
         mBottomNavigationView.setItemIconTintList(null);
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
-        initAdress();
+//        initAdress();
         // 修复在 ViewPager 中点击 EditText 弹出软键盘导致 BottomNavigationView 还显示在 ViewPager 下面的问题
 //        postDelayed(this, 1000);
 
@@ -131,7 +137,6 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
     }
 
 
-
     @Override
     public void onPageScrollStateChanged(int state) {
     }
@@ -147,7 +152,7 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
                 mViewPager.setCurrentItem(0);
                 return true;
             case R.id.menu:
-                if (RxSPTool.getString(this, Constant.IS_LOGIN) .equals("0")) {
+                if (RxSPTool.getString(this, Constant.IS_LOGIN).equals("0")) {
                     UIUtils.showToast("请先去登录");
                     startActivity(LoginActivity.class);
                     return false;
@@ -205,13 +210,13 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
                 mLatitude = locationGoole.getLongitude() + "|" + locationGoole.getLatitude();
             }
             if (mLatitude != null) {
-                RxSPTool.putString(MainActivity.this,Constant.GPS_LATITUDE, mLatitude);
+                RxSPTool.putString(MainActivity.this, Constant.GPS_LATITUDE, mLatitude);
             }
             BigDecimal bigDecimal = new BigDecimal(location.getLongitude());
             BigDecimal bigDecima2 = new BigDecimal(location.getLatitude());
 
             RxLogTool.e("TAG", "首页经纬度" + bigDecimal.setScale(5, BigDecimal.ROUND_UP)
-                    + "--" + bigDecima2.setScale(5, BigDecimal.ROUND_UP)+"--"+mAddress);
+                    + "--" + bigDecima2.setScale(5, BigDecimal.ROUND_UP) + "--" + mAddress);
             mAddress = location.getAddrStr();
             RxSPTool.putString(MainActivity.this, Constant.GPS_ADDRESS, mAddress);
             if (!mAddress.isEmpty() && mAddress != null) {
@@ -221,6 +226,7 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
             }
         }
     }
+
     private void initAdress() {
         mAddress = RxSPTool.getString(MainActivity.this, Constant.GPS_ADDRESS);
         if (mAddress.isEmpty() || mAddress == null) {
@@ -232,35 +238,69 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
             option.setScanSpan(1000);
             option.setIsNeedAddress(true);
             mLocationClient.setLocOption(option);
+//        }
+//            AndPermission.with(this)
+//                    .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE,
+//                            Manifest.permission.READ_PHONE_STATE,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION
+//                    , Manifest.permission.READ_EXTERNAL_STORAGE
+//                    , Manifest.permission.GET_ACCOUNTS)
+//            // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
+//                    .rationale((context, permissions, executor) -> {
+//                // 此处可以选择显示提示弹窗
+////                        executor.execute();
+//                UIUtils.showToast("请去权限管理页面授权相关权限");
+//            })
+//                    // 用户给权限了
+//                    .onGranted(permissions ->
+//
+//                    {
+//                        mLocationClient.start();
+//                    })
+//                    // 用户拒绝权限，包括不再显示权限弹窗也在此列
+//                    .onDenied(permissions -> {
+//                        // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
+//                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+//                            // 打开权限设置页
+//                            AndPermission.permissionSetting(MainActivity.this).execute();
+//                            return;
+//                        }
+//                        show("用户拒绝权限");
+//                    })
+//                    .start();
 
-            XXPermissions.with(MainActivity.this)
-                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                    .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.ACCESS_FINE_LOCATION,
-                            Permission.CALL_PHONE, Permission.READ_PHONE_STATE,Permission.ACCESS_COARSE_LOCATION
-                            , Permission.READ_EXTERNAL_STORAGE,
-                            Permission.GET_ACCOUNTS)
-                    .request(new OnPermission() {
-                        @Override
-                        public void hasPermission(List<String> granted, boolean isAll) {
-                            EventBus.getDefault().post(new QuanxianEvenbus());
-                            if (isAll) {
 
-                                mLocationClient.start();
-                            } else {
-                                UIUtils.showToast("获取权限成功，部分权限未正常授予");
-                            }
-                        }
-                        @Override
-                        public void noPermission(List<String> denied, boolean quick) {
-                            if (quick) {
-                                UIUtils.showToast("被永久拒绝授权，请手动授予权限");
-                                //如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.gotoPermissionSettings(MainActivity.this);
-                            } else {
-                                UIUtils.showToast("获取权限失败");
-                            }
-                        }
-                    });
+//            XXPermissions.with(MainActivity.this)
+//                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+//                    .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.ACCESS_FINE_LOCATION,
+//                            Permission.CALL_PHONE, Permission.READ_PHONE_STATE, Permission.ACCESS_COARSE_LOCATION
+//                            , Permission.READ_EXTERNAL_STORAGE,
+//                            Permission.GET_ACCOUNTS)
+//                    .request(new OnPermission() {
+//                        @Override
+//                        public void hasPermission(List<String> granted, boolean isAll) {
+////                            EventBus.getDefault().post(new QuanxianEvenbus());
+//                            if (isAll) {
+//
+//                                mLocationClient.start();
+//                            } else {
+//                                UIUtils.showToast("获取权限成功，部分权限未正常授予");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void noPermission(List<String> denied, boolean quick) {
+//                            if (quick) {
+//                                UIUtils.showToast("被永久拒绝授权，请手动授予权限");
+//                                //如果是被永久拒绝就跳转到应用权限系统设置页面
+//                                XXPermissions.gotoPermissionSettings(MainActivity.this);
+//                            } else {
+//                                UIUtils.showToast("获取权限失败");
+//                            }
+//                        }
+//                    });
+
         }
     }
 
@@ -268,68 +308,99 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
     public void onSuccess(AppVersionResponse response) {
 
         String appVersionCode = RxAppTool.getAppVersionName(this);
-        if (StringUtil.isUpdate(response.getDisVersion(),appVersionCode)) {
-            XXPermissions.with(this)
-                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                    .permission(Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
-                    .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE) //不指定权限则自动获取清单中的危险权限
-                    .request(new OnPermission() {
+        if (StringUtil.isUpdate(response.getDisVersion(), appVersionCode)) {
 
-                        @Override
-                        public void hasPermission(List<String> granted, boolean isAll) {
-                            if (isAll) {
-                                final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(MainActivity.this);
-                                rxDialogSureCancel.setCancelable(false);
-                                rxDialogSureCancel.getTitleView().setText(Constant.APP_UPDALE_TITLE);
-                                rxDialogSureCancel.getContentView().setText(response.getVersionContent());
-                                rxDialogSureCancel.getCancelView().setText(Constant.APP_UPDALE_TRUE);
-                                rxDialogSureCancel.getSureView().setTextColor(getResources().getColor(R.color.colorPrimary));
-                                rxDialogSureCancel.getCancelView().setTextColor(getResources().getColor(R.color.colorPrimary));
-                                if (response.getAppForce() == 0){
-                                    rxDialogSureCancel.getSureView().setText("取消");
-                                }else {
-                                    rxDialogSureCancel.getSureView().setText(Constant.APP_UPDALE_FALSE);
-                                }
+            final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(MainActivity.this);
+            rxDialogSureCancel.setCancelable(false);
+            rxDialogSureCancel.getTitleView().setText(Constant.APP_UPDALE_TITLE);
+            rxDialogSureCancel.getContentView().setText(response.getVersionContent());
+            rxDialogSureCancel.getCancelView().setText(Constant.APP_UPDALE_TRUE);
+            rxDialogSureCancel.getSureView().setTextColor(getResources().getColor(R.color.colorPrimary));
+            rxDialogSureCancel.getCancelView().setTextColor(getResources().getColor(R.color.colorPrimary));
+            if (response.getAppForce() == 0) {
+                rxDialogSureCancel.getSureView().setText("取消");
+            } else {
+                rxDialogSureCancel.getSureView().setText(Constant.APP_UPDALE_FALSE);
+            }
 
-                                rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (response.getAppForce() == 0){
-                                            rxDialogSureCancel.dismiss();
-                                        }else {
-                                            exitApp();
-                                        }
+            rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (response.getAppForce() == 0) {
+                        rxDialogSureCancel.dismiss();
+                    } else {
+                        exitApp();
+                    }
 
-                                    }
-                                });
-                                rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        rxDialogSureCancel.cancel();
-                                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(),response.getAppForce());
-                                        rxAppVersionDialog.setCancelable(false);
-                                        rxAppVersionDialog.show();
-                                    }
-                                });
-                                rxDialogSureCancel.show();
+                }
+            });
+            rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                            } else {
-                                ToastUtils.show("获取权限成功，部分权限未正常授予");
-                            }
+                                AndPermission.with(MainActivity.this)
+                    .permission(Manifest.permission.REQUEST_INSTALL_PACKAGES
+                        )
+            // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
+                    .rationale((context, permissions, executor) -> {
+                // 此处可以选择显示提示弹窗
+//                        executor.execute();
+                UIUtils.showToast("请去权限管理页面授权相关权限");
+            })
+                    // 用户给权限了
+                    .onGranted(permissions ->
+
+                    {
+                        rxDialogSureCancel.cancel();
+                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(), response.getAppForce());
+                        rxAppVersionDialog.setCancelable(false);
+                        rxAppVersionDialog.show();
+                    })
+                    // 用户拒绝权限，包括不再显示权限弹窗也在此列
+                    .onDenied(permissions -> {
+                        // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
+                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                            UIUtils.showToast("请去权限管理页面授权安装权限");
+                            // 打开权限设置页
+                            AndPermission.permissionSetting(MainActivity.this).execute();
+                            return;
                         }
+                        UIUtils.showToast("用户拒绝权限");
+                    })
+                    .start();
+//
+//                    XXPermissions.with(MainActivity.this)
+//                            .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+//                            .permission(Permission.) //支持请求6.0悬浮窗权限8.0请求安装权限
+//                            .request(new OnPermission() {
+//
+//                                @Override
+//                                public void hasPermission(List<String> granted, boolean isAll) {
+//                                    if (isAll) {
+//                                        rxDialogSureCancel.cancel();
+//                                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(), response.getAppForce());
+//                                        rxAppVersionDialog.setCancelable(false);
+//                                        rxAppVersionDialog.show();
+//                                    } else {
+//                                        UIUtils.showToast("获取权限成功，部分权限未正常授予");
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void noPermission(List<String> denied, boolean quick) {
+//                                    if (quick) {
+//                                        UIUtils.showToast("被永久拒绝授权，请手动授予权限");
+//                                        //如果是被永久拒绝就跳转到应用权限系统设置页面
+//                                        XXPermissions.gotoPermissionSettings(MainActivity.this);
+//                                    } else {
+//                                        UIUtils.showToast("获取权限失败");
+//                                    }
+//                                }
+//                            });
 
-                        @Override
-                        public void noPermission(List<String> denied, boolean quick) {
-                            if (quick) {
-                                ToastUtils.show("被永久拒绝授权，请手动授予权限");
-                                //如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.gotoPermissionSettings(MainActivity.this);
-                            } else {
-                                ToastUtils.show("获取权限失败");
-                            }
-                        }
-                    });
-
+                }
+            });
+            rxDialogSureCancel.show();
 
         }
     }

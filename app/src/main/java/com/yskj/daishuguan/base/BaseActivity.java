@@ -212,27 +212,27 @@ public abstract class BaseActivity<T extends BasePresenter>  extends UIActivity
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0) {
-                    List<String> deniedPermissions = new ArrayList<>();
-                    for (int i = 0; i < grantResults.length; i++) {
-                        int grantResult = grantResults[i];
-                        String permission = permissions[i];
-                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                            deniedPermissions.add(permission);
-                        }
-                    }
-                    if (deniedPermissions.isEmpty()) {
-                        mPermissionListener.onGranted();
-                    } else {
-                        mPermissionListener.onDenied(deniedPermissions);
-                    }
-                }
-                break;
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode) {
+//            case 1:
+//                if (grantResults.length > 0) {
+//                    List<String> deniedPermissions = new ArrayList<>();
+//                    for (int i = 0; i < grantResults.length; i++) {
+//                        int grantResult = grantResults[i];
+//                        String permission = permissions[i];
+//                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
+//                            deniedPermissions.add(permission);
+//                        }
+//                    }
+//                    if (deniedPermissions.isEmpty()) {
+//                        mPermissionListener.onGranted();
+//                    } else {
+//                        mPermissionListener.onDenied(deniedPermissions);
+//                    }
+//                }
+//                break;
+//        }
+//    }
 }

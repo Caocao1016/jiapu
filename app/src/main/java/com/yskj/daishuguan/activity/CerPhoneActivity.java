@@ -137,7 +137,7 @@ public class CerPhoneActivity extends BaseActivity {
                             AndPermission.permissionSetting(CerPhoneActivity.this).execute();
                             return;
                         }
-                        show("用户拒绝权限");
+                        UIUtils.showToast("用户拒绝权限");
                     })
                     .start();
 

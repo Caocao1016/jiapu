@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import com.hjq.baselibrary.base.BaseFragmentPagerAdapter;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.fragment.BillFragment;
-import com.yskj.daishuguan.fragment.HomeFragment;
 import com.yskj.daishuguan.fragment.HomeNewFragment;
 import com.yskj.daishuguan.fragment.MyFragment;
 
