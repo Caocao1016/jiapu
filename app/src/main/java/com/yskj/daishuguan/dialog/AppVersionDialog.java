@@ -50,7 +50,7 @@ public class AppVersionDialog extends RxDialog {
         setContentView(dialogView);
 
 
-        OkGo.get("http://wxz.myapp.com/16891/0669F69E8F4A697A8E66FDB86C06A06F.apk?fsname=com.tencent.mobileqq_7.9.0_954.apk&hsr=4d5s").tag(this)
+        OkGo.get(url).tag(this)
                 .execute(new FileCallback() {
                     public void onSuccess(File file, okhttp3.Call call, okhttp3.Response response) {
                         if (appForce == 0) {

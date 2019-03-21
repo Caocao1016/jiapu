@@ -1,9 +1,7 @@
 package com.yskj.daishuguan.fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +13,6 @@ import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.CertificationActivity;
-import com.yskj.daishuguan.activity.Defer2MoneyActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.activity.ManagementMoneyActivity;
 import com.yskj.daishuguan.activity.MessageActivity;
