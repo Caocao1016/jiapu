@@ -145,6 +145,8 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     public void onLeftClick(View v) {
         if (!type.equals("repeat")) {
             finshDialog.show(getSupportFragmentManager(), "set");
+        }else {
+            finish();
         }
     }
 
