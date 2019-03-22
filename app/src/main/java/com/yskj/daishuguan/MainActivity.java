@@ -12,20 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.hjq.baselibrary.utils.OnClickUtils;
-import com.hjq.permissions.OnPermission;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
 import com.vondear.rxtool.RxAppTool;
-import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yanzhenjie.permission.AndPermission;
-import com.yskj.daishuguan.activity.CerPhoneActivity;
 import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.adapter.HomeViewPagerAdapter;
 import com.yskj.daishuguan.base.BaseActivity;
@@ -42,12 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import butterknife.BindView;
-
-import static com.hjq.toast.ToastUtils.show;
 
 
 public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
@@ -61,7 +48,6 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
     private HomeViewPagerAdapter mAdapter;
 
 
-    private MyLocationListener myListener = new MyLocationListener();
     private String mLatitude, mAddress = null;
     private LocationClient mLocationClient;
     private Location locationGoole;//gogle自带获取经纬度
@@ -203,106 +189,12 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
         return !super.isSupportSwipeBack();
     }
 
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            if (locationGoole != null) {
-                mLatitude = locationGoole.getLongitude() + "|" + locationGoole.getLatitude();
-            }
-            if (mLatitude != null) {
-                RxSPTool.putString(MainActivity.this, Constant.GPS_LATITUDE, mLatitude);
-            }
-            BigDecimal bigDecimal = new BigDecimal(location.getLongitude());
-            BigDecimal bigDecima2 = new BigDecimal(location.getLatitude());
-
-            RxLogTool.e("TAG", "首页经纬度" + bigDecimal.setScale(5, BigDecimal.ROUND_UP)
-                    + "--" + bigDecima2.setScale(5, BigDecimal.ROUND_UP) + "--" + mAddress);
-            mAddress = location.getAddrStr();
-            RxSPTool.putString(MainActivity.this, Constant.GPS_ADDRESS, mAddress);
-            if (!mAddress.isEmpty() && mAddress != null) {
-                if (mLocationClient != null && mLocationClient.isStarted()) {
-                    mLocationClient.stop();
-                }
-            }
-        }
-    }
-
-    private void initAdress() {
-        mAddress = RxSPTool.getString(MainActivity.this, Constant.GPS_ADDRESS);
-        if (mAddress.isEmpty() || mAddress == null) {
-            mLocationClient = new LocationClient(MainActivity.this);
-            mLocationClient.registerLocationListener(myListener);
-            LocationClientOption option = new LocationClientOption();
-            option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-            option.setCoorType("bd09ll");
-            option.setScanSpan(1000);
-            option.setIsNeedAddress(true);
-            mLocationClient.setLocOption(option);
-//        }
-//            AndPermission.with(this)
-//                    .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE,
-//                            Manifest.permission.READ_PHONE_STATE,
-//                    Manifest.permission.ACCESS_COARSE_LOCATION
-//                    , Manifest.permission.READ_EXTERNAL_STORAGE
-//                    , Manifest.permission.GET_ACCOUNTS)
-//            // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
-//                    .rationale((context, permissions, executor) -> {
-//                // 此处可以选择显示提示弹窗
-////                        executor.execute();
-//                UIUtils.showToast("请去权限管理页面授权相关权限");
-//            })
-//                    // 用户给权限了
-//                    .onGranted(permissions ->
-//
-//                    {
-//                        mLocationClient.start();
-//                    })
-//                    // 用户拒绝权限，包括不再显示权限弹窗也在此列
-//                    .onDenied(permissions -> {
-//                        // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
-//                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-//                            // 打开权限设置页
-//                            AndPermission.permissionSetting(MainActivity.this).execute();
-//                            return;
-//                        }
-//                        show("用户拒绝权限");
-//                    })
-//                    .start();
 
 
-//            XXPermissions.with(MainActivity.this)
-//                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-//                    .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.ACCESS_FINE_LOCATION,
-//                            Permission.CALL_PHONE, Permission.READ_PHONE_STATE, Permission.ACCESS_COARSE_LOCATION
-//                            , Permission.READ_EXTERNAL_STORAGE,
-//                            Permission.GET_ACCOUNTS)
-//                    .request(new OnPermission() {
-//                        @Override
-//                        public void hasPermission(List<String> granted, boolean isAll) {
-////                            EventBus.getDefault().post(new QuanxianEvenbus());
-//                            if (isAll) {
-//
-//                                mLocationClient.start();
-//                            } else {
-//                                UIUtils.showToast("获取权限成功，部分权限未正常授予");
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void noPermission(List<String> denied, boolean quick) {
-//                            if (quick) {
-//                                UIUtils.showToast("被永久拒绝授权，请手动授予权限");
-//                                //如果是被永久拒绝就跳转到应用权限系统设置页面
-//                                XXPermissions.gotoPermissionSettings(MainActivity.this);
-//                            } else {
-//                                UIUtils.showToast("获取权限失败");
-//                            }
-//                        }
-//                    });
 
-        }
-    }
+
+
+
 
     @Override
     public void onSuccess(AppVersionResponse response) {

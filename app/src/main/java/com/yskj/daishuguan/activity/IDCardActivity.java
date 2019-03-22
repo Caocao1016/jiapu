@@ -1,17 +1,11 @@
 package com.yskj.daishuguan.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.google.gson.Gson;
-import com.hjq.permissions.Permission;
-import com.hjq.toast.ToastUtils;
 import com.lzy.okgo.request.BaseRequest;
 import com.sensetime.sample.common.idcard.ActivityUtils;
 import com.sensetime.sample.common.idcard.IdCardActivity;
@@ -24,19 +18,16 @@ import com.vondear.rxtool.RxImageTool;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.api.ApiConstant;
 import com.yskj.daishuguan.base.BaseActivity;
-import com.yskj.daishuguan.base.BaseApp;
+
 import com.yskj.daishuguan.base.BaseParams;
-import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.base.BaseResponse;
-import com.yskj.daishuguan.entity.request.OCRRequest;
 import com.yskj.daishuguan.modle.OCRView;
 import com.yskj.daishuguan.presenter.OCRPresenter;
-import com.yskj.daishuguan.response.OCRResponse;
-import com.yskj.daishuguan.util.FilePostUtil;
 import com.yskj.daishuguan.util.UIUtils;
 
 import org.json.JSONException;
@@ -44,17 +35,11 @@ import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.MediaType;
 
 /**
  * CaoPengFei

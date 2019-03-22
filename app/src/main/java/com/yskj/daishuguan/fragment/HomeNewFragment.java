@@ -25,13 +25,13 @@ import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hjq.permissions.Permission;
 
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.RxTextViewVerticalMore;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.activity.AuthorizationActivity;
@@ -229,15 +229,11 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     public void get() {
 
         AndPermission.with(getActivity())
-//                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                        Manifest.permission.ACCESS_FINE_LOCATION,
-//                        Manifest.permission.CALL_PHONE,  Manifest.permission.READ_PHONE_STATE
-//                        ,  Manifest.permission.READ_EXTERNAL_STORAGE
-//                )
+//
                 .permission(Permission.Group.STORAGE,Permission.Group.CONTACTS,Permission.Group.LOCATION
                        )
-                .permission( Permission.READ_PHONE_NUMBERS,Permission.CALL_PHONE,Permission.READ_CALL_LOG,Permission.CAMERA,
-                        Permission.REQUEST_INSTALL_PACKAGES,  Permission.ACCESS_FINE_LOCATION,Permission.ACCESS_COARSE_LOCATION)
+                .permission( "android.permission.READ_PHONE_NUMBERS",Permission.CALL_PHONE,Permission.READ_CALL_LOG,Permission.CAMERA,
+                        "android.permission.REQUEST_INSTALL_PACKAGES",  Permission.ACCESS_FINE_LOCATION,Permission.ACCESS_COARSE_LOCATION)
                 // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
                 .rationale((context, permissions, executor) -> {
                     // 此处可以选择显示提示弹窗
@@ -261,35 +257,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                     UIUtils.showToast("用户拒绝权限");
                 })
                 .start();
-//        XXPermissions.with(getActivity())
-//                .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-//                .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.ACCESS_FINE_LOCATION,
-//                        Permission.CALL_PHONE, Permission.READ_PHONE_STATE, Permission.ACCESS_COARSE_LOCATION
-//                        , Permission.READ_EXTERNAL_STORAGE,
-//                        Permission.GET_ACCOUNTS)
-//                .request(new OnPermission() {
-//                    @Override
-//                    public void hasPermission(List<String> granted, boolean isAll) {
-////                            EventBus.getDefault().post(new QuanxianEvenbus());
-//                        if (isAll) {
-//
-////                            mLocationClient.start();
-//                        } else {
-//                            UIUtils.showToast("获取权限成功，部分权限未正常授予");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void noPermission(List<String> denied, boolean quick) {
-//                        if (quick) {
-//                            UIUtils.showToast("被永久拒绝授权，请手动授予权限");
-//                            //如果是被永久拒绝就跳转到应用权限系统设置页面
-//                            XXPermissions.gotoPermissionSettings(getActivity());
-//                        } else {
-//                            UIUtils.showToast("获取权限失败");
-//                        }
-//                    }
-//                });
+
     }
     /**
      * 登录成功

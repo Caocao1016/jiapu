@@ -108,7 +108,7 @@ dependencies {
     api 'cn.bingoogolapple:bga-swipebacklayout:1.1.9@aar'
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    api 'com.hjq:xxpermissions:5.2'
+//    api 'com.hjq:xxpermissions:5.2'
 
     // 标题栏：https://github.com/getActivity/TitleBar
     api 'com.hjq:titlebar:3.2'

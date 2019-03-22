@@ -21,13 +21,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjq.baselibrary.widget.ClearEditText;
-import com.hjq.permissions.OnPermission;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
 import com.vondear.rxtool.RxLogTool;
 import com.vondear.rxtool.RxSPTool;
-import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yskj.daishuguan.Constant;
 import com.yskj.daishuguan.R;
@@ -39,8 +34,6 @@ import com.yskj.daishuguan.base.BasePresenter;
 import com.yskj.daishuguan.util.PermissionsUtils;
 import com.yskj.daishuguan.util.StringUtil;
 import com.yskj.daishuguan.util.UIUtils;
-import com.yzq.zxinglibrary.android.CaptureActivity;
-import com.yzq.zxinglibrary.bean.ZxingConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +42,6 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +50,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.hjq.toast.ToastUtils.show;
 
 /**
  * CaoPengFei
@@ -141,35 +132,7 @@ public class CerPhoneActivity extends BaseActivity {
                     })
                     .start();
 
-//
-//            XXPermissions.with(this)
-//                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-//                    .permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
-//                    .permission(Permission.READ_CONTACTS, Permission.WRITE_CONTACTS, Permission.GET_ACCOUNTS)
-//                    .request(new OnPermission() {
-//
-//                        @Override
-//                        public void hasPermission(List<String> granted, boolean isAll) {
-//                            if (isAll) {
-//                                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-//                                startActivityForResult(intent, CONNECT_PARENT);
-//                                mContacts = PermissionsUtils.getContacts(CerPhoneActivity.this);
-//                            } else {
-//                                show("获取权限成功，部分权限未正常授予");
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void noPermission(List<String> denied, boolean quick) {
-//                            if (quick) {
-//                                show("被永久拒绝授权，请手动授予权限");
-//                                //如果是被永久拒绝就跳转到应用权限系统设置页面
-//                                XXPermissions.gotoPermissionSettings(CerPhoneActivity.this);
-//                            } else {
-//                                show("获取权限失败");
-//                            }
-//                        }
-//                    });
+
         } else if (view.getId() == R.id.tv_sure) {
             String lianXiRen = mPhone.getText().toString();
             String re = mRelation.getText().toString();

@@ -6,10 +6,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hjq.permissions.OnPermission;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -122,39 +118,39 @@ public class MyShareActivity extends BaseActivity<SharePresenter> implements Sha
 
     private void initAdress() {
 
-        XXPermissions.with(this)
-                .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
-                .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.ACCESS_FINE_LOCATION,
-                        Permission.CALL_PHONE, Permission.READ_PHONE_STATE,
-                        Permission.READ_EXTERNAL_STORAGE, Permission.SYSTEM_ALERT_WINDOW, Permission.GET_ACCOUNTS)
-                .request(new OnPermission() {
-
-                    @Override
-                    public void hasPermission(List<String> granted, boolean isAll) {
-                        if (isAll) {
-                            OCRRequest ocrRequest = new OCRRequest();
-                            ocrRequest.userid = RxSPTool.getString(MyShareActivity.this, Constant.USER_ID);
-                            ocrRequest.token = RxSPTool.getString(MyShareActivity.this, Constant.TOKEN);
-                            ocrRequest.merchantCode = Constant.merchantcode;
-                            mPresenter.share(ocrRequest);
-
-                        } else {
-                            UIUtils.showToast("获取权限成功，部分权限未正常授予");
-                        }
-                    }
-
-                    @Override
-                    public void noPermission(List<String> denied, boolean quick) {
-                        if (quick) {
-                            UIUtils.showToast("被永久拒绝授权，请手动授予权限");
-                            //如果是被永久拒绝就跳转到应用权限系统设置页面
-                            XXPermissions.gotoPermissionSettings(MyShareActivity.this);
-                        } else {
-                            UIUtils.showToast("获取权限失败");
-                        }
-                    }
-                });
+//        XXPermissions.with(this)
+//                .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+//                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
+//                .permission(Permission.WRITE_EXTERNAL_STORAGE, Permission.ACCESS_FINE_LOCATION,
+//                        Permission.CALL_PHONE, Permission.READ_PHONE_STATE,
+//                        Permission.READ_EXTERNAL_STORAGE, Permission.SYSTEM_ALERT_WINDOW, Permission.GET_ACCOUNTS)
+//                .request(new OnPermission() {
+//
+//                    @Override
+//                    public void hasPermission(List<String> granted, boolean isAll) {
+//                        if (isAll) {
+//                            OCRRequest ocrRequest = new OCRRequest();
+//                            ocrRequest.userid = RxSPTool.getString(MyShareActivity.this, Constant.USER_ID);
+//                            ocrRequest.token = RxSPTool.getString(MyShareActivity.this, Constant.TOKEN);
+//                            ocrRequest.merchantCode = Constant.merchantcode;
+//                            mPresenter.share(ocrRequest);
+//
+//                        } else {
+//                            UIUtils.showToast("获取权限成功，部分权限未正常授予");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void noPermission(List<String> denied, boolean quick) {
+//                        if (quick) {
+//                            UIUtils.showToast("被永久拒绝授权，请手动授予权限");
+//                            //如果是被永久拒绝就跳转到应用权限系统设置页面
+//                            XXPermissions.gotoPermissionSettings(MyShareActivity.this);
+//                        } else {
+//                            UIUtils.showToast("获取权限失败");
+//                        }
+//                    }
+//                });
     }
 
     private UMShareListener umShareListener = new UMShareListener() {
