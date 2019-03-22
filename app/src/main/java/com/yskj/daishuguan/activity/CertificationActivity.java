@@ -206,18 +206,18 @@ public class CertificationActivity extends BaseActivity<CertificationPresenter> 
 
             case R.id.rl_cer_phone:
 
-//                if (CONTACT_AUTH) {
-//                    return;
-//                }
-//                if (IDCARD_AUTH && FACE_AUTH) {
-//                    if (REAL_AUTh) {
+                if (CONTACT_AUTH) {
+                    return;
+                }
+                if (IDCARD_AUTH && FACE_AUTH) {
+                    if (REAL_AUTh) {
                         startActivity(CerPhoneActivity.class);
-//                    } else {
-//                        UIUtils.showToast("请先去完成银行卡绑定");
-//                    }
-//                } else {
-//                    UIUtils.showToast("请先去完成身份信息认证");
-//                }
+                    } else {
+                        UIUtils.showToast("请先去完成银行卡绑定");
+                    }
+                } else {
+                    UIUtils.showToast("请先去完成身份信息认证");
+                }
 
                 break;
 

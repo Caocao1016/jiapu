@@ -14,6 +14,9 @@ import android.view.View;
 
 import com.baidu.location.LocationClient;
 import com.hjq.baselibrary.utils.OnClickUtils;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.vondear.rxtool.RxAppTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
@@ -34,7 +37,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
+
+import static com.yanzhenjie.permission.Permission.WRITE_EXTERNAL_STORAGE;
 
 
 public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
@@ -229,66 +236,69 @@ public class MainActivity extends BaseActivity<UpAppVersionPresenter> implements
             rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//
+//                                AndPermission.with(MainActivity.this)
+//                    .permission(Manifest.permission.REQUEST_INSTALL_PACKAGES,WRITE_EXTERNAL_STORAGE
+//                        )
+//            // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
+//                    .rationale((context, permissions, executor) -> {
+//                // 此处可以选择显示提示弹窗
+////                        executor.execute();
+//                UIUtils.showToast("请去权限管理页面授权相关权限");
+//            })
+//                    // 用户给权限了
+//                    .onGranted(permissions ->
+//
+//                    {
+//                        rxDialogSureCancel.cancel();
+//                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(), response.getAppForce());
+//                        rxAppVersionDialog.setCancelable(false);
+//                        rxAppVersionDialog.show();
+//                    })
+//                    // 用户拒绝权限，包括不再显示权限弹窗也在此列
+//                    .onDenied(permissions -> {
+//                        // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
+//                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+//                            UIUtils.showToast("请去权限管理页面授权安装权限");
+//                            // 打开权限设置页
+//                            AndPermission.permissionSetting(MainActivity.this).execute();
+//                            return;
+//                        }
+//                        UIUtils.showToast("用户拒绝权限");
+//                    })
+//                    .start();
 
-                                AndPermission.with(MainActivity.this)
-                    .permission(Manifest.permission.REQUEST_INSTALL_PACKAGES
-                        )
-            // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
-                    .rationale((context, permissions, executor) -> {
-                // 此处可以选择显示提示弹窗
-//                        executor.execute();
-                UIUtils.showToast("请去权限管理页面授权相关权限");
-            })
-                    // 用户给权限了
-                    .onGranted(permissions ->
+                    XXPermissions.with(MainActivity.this)
+                            .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                            .permission(Permission.REQUEST_INSTALL_PACKAGES,
+                                    Permission.SYSTEM_ALERT_WINDOW,
+                                    Permission.WRITE_EXTERNAL_STORAGE) //支持请求6.0悬浮窗权限8.0请求安装权限
+                            .request(new OnPermission() {
 
-                    {
-                        rxDialogSureCancel.cancel();
-                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(), response.getAppForce());
-                        rxAppVersionDialog.setCancelable(false);
-                        rxAppVersionDialog.show();
-                    })
-                    // 用户拒绝权限，包括不再显示权限弹窗也在此列
-                    .onDenied(permissions -> {
-                        // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
-                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                            UIUtils.showToast("请去权限管理页面授权安装权限");
-                            // 打开权限设置页
-                            AndPermission.permissionSetting(MainActivity.this).execute();
-                            return;
-                        }
-                        UIUtils.showToast("用户拒绝权限");
-                    })
-                    .start();
-//
-//                    XXPermissions.with(MainActivity.this)
-//                            .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-//                            .permission(Permission.) //支持请求6.0悬浮窗权限8.0请求安装权限
-//                            .request(new OnPermission() {
-//
-//                                @Override
-//                                public void hasPermission(List<String> granted, boolean isAll) {
-//                                    if (isAll) {
-//                                        rxDialogSureCancel.cancel();
-//                                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(), response.getAppForce());
-//                                        rxAppVersionDialog.setCancelable(false);
-//                                        rxAppVersionDialog.show();
-//                                    } else {
-//                                        UIUtils.showToast("获取权限成功，部分权限未正常授予");
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void noPermission(List<String> denied, boolean quick) {
-//                                    if (quick) {
-//                                        UIUtils.showToast("被永久拒绝授权，请手动授予权限");
-//                                        //如果是被永久拒绝就跳转到应用权限系统设置页面
-//                                        XXPermissions.gotoPermissionSettings(MainActivity.this);
-//                                    } else {
-//                                        UIUtils.showToast("获取权限失败");
-//                                    }
-//                                }
-//                            });
+                                @Override
+                                public void hasPermission(List<String> granted, boolean isAll) {
+                                    if (isAll) {
+                                        rxDialogSureCancel.cancel();
+                                        final AppVersionDialog rxAppVersionDialog = new AppVersionDialog(MainActivity.this, response.getAppDownloadUrl(), response.getAppForce());
+                                        rxAppVersionDialog.setCancelable(false);
+                                        rxAppVersionDialog.show();
+                                    } else {
+                                        UIUtils.showToast("获取权限成功，部分权限未正常授予");
+                                        XXPermissions.gotoPermissionSettings(MainActivity.this);
+                                    }
+                                }
+
+                                @Override
+                                public void noPermission(List<String> denied, boolean quick) {
+                                    if (quick) {
+                                        UIUtils.showToast("被永久拒绝授权，请手动授予权限");
+                                        //如果是被永久拒绝就跳转到应用权限系统设置页面
+                                        XXPermissions.gotoPermissionSettings(MainActivity.this);
+                                    } else {
+                                        UIUtils.showToast("获取权限失败");
+                                    }
+                                }
+                            });
 
                 }
             });
