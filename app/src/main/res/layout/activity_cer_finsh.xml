@@ -55,7 +55,7 @@
         android:layout_marginTop="68dp"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="4dp"
-        android:text="您可以查看我的申请"
+        android:text="您可以查看“我的申请”"
         android:textColor="@color/cl_4D4D4D"
         android:textSize="15sp" />
 

@@ -106,10 +106,10 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
         }
 
         if (isreloan) {
-            mMemberMoney.setText("本次应付费用：" + RxSPTool.getString(this, Constant.AUDIT_assessValue) + "元");
+            mMemberMoney.setText("委托代付第三方费用：" + RxSPTool.getString(this, Constant.AUDIT_assessValue) + "元");
             mOne.setVisibility(View.GONE);
         } else {
-            mMemberMoney.setText("本次应付费用：" + StringUtil.getRateMoney(moeny, beginPate) + "元");
+            mMemberMoney.setText("两年期服务费：" + StringUtil.getRateMoney(moeny, beginPate) + "元");
             mOne.setVisibility(View.VISIBLE);
         }
 

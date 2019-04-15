@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:size_title="19sp"
-        app:title="充值" />
+        app:title="第三方支付充值" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:text="会员费"
+                android:text="服务费"
                 android:textColor="@color/cl_080808"
                 android:textSize="16sp" />
 
@@ -87,7 +87,7 @@
             android:layout_margin="20dp"
             android:background="@drawable/shape_bg"
             android:gravity="center"
-            android:text="充值"
+            android:text="第三方支付充值"
             android:textColor="@color/white"
             android:textSize="20sp" />
 

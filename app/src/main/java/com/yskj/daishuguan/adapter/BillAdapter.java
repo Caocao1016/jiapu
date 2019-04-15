@@ -34,7 +34,7 @@ public class BillAdapter extends BaseQuickAdapter<BillResponse.ListBean, BaseVie
 
 
         if ( !StringUtil.isEmpty(item.getFlag()) && item.getFlag() .equals("1") ){
-            helper.setText(R.id.tv_start,"审核中");
+            helper.setText(R.id.tv_start,"审核已通过，次日放款");
             helper.setBackgroundColor(R.id.tv_start, Color.parseColor("#FF7B47"));
         }else {
             if (item.getStatus() == 0){

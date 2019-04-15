@@ -1,6 +1,7 @@
 package com.yskj.daishuguan.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
@@ -37,6 +38,11 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     TextView mContent;
     @BindView(R.id.tv_number)
     TextView mNumber;
+
+    @BindView(R.id.iv_youhui)
+    TextView iv_youhui;
+    @BindView(R.id.tv_old_price)
+    TextView mOldPrice;
     @BindView(R.id.tv_money)
     TextView mMoney;
     @BindView(R.id.tv_right)
@@ -74,24 +80,29 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
         finshDialog = new NoFinshDialog();
 
         if (type.equals("repeat")) {
-            setTitle("提款服务费");
-            mRight.setText("提款服务费");
+            setTitle("委托代付第三方费用");
+            mRight.setText("委托代付第三方费用");
             mPrice.setText("仅当次有效");
-            mContent.setText("提款服务费\n" +
-                    "1.保证本次放款成功\n" +
-                    "2.本次放款中的信息服务\n" +
-                    "3.代收本次放款的支付通道费用\n"
+            mOldPrice.setVisibility(View.GONE);
+            iv_youhui.setVisibility(View.GONE);
+            mContent.setText("委托代付第三方费用\n" +
+                    "1、代付第三方代扣费用\n" +
+                    "2、代收信息查询费用\n"
+
             );
         } else {
-            setTitle("授信服务费");
+            setTitle("两年期服务费");
             mRight.setText("授信服务");
+            mOldPrice.setVisibility(View.VISIBLE);
+            iv_youhui.setVisibility(View.VISIBLE);
+            mOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             mPrice.setText("有效期：2年");
-            mContent.setText("授信服务费\n" +
-                    "1.本次授信（有效期：2年）流程中的信息中介\n" +
-                    "2.本次授信及本次放款中的信息服务\n" +
-                    "3.授信期限内账户安全监管服务（有效期：2年）\n" +
-                    "4.授信期限内借款账户状态变更通知（有效期：2年）\n" +
-                    "5.代收本次放款的资金支付通道费用（本次）\n");
+            mContent.setText("两年期服务费\n" +
+                    "1、签约中介\n" +
+                    "2、授信及放款时的调查及信息服务\n" +
+                    "3、账户监管安全\n" +
+                    "4、账户状态变更通知\n"
+                   );
         }
 
 

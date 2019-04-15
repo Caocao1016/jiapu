@@ -117,12 +117,6 @@ public class MembershipFinshActivity extends BaseActivity<CommonDataPresenter>  
         return new CommonDataPresenter(this);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        timer.cancel();
-        task.cancel();
-    }
 
 
 

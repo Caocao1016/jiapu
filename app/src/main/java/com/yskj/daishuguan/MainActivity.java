@@ -1,11 +1,7 @@
 package com.yskj.daishuguan;
 
 
-import android.Manifest;
-import android.content.Intent;
 import android.location.Location;
-import android.os.Build;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -20,7 +16,6 @@ import com.hjq.permissions.XXPermissions;
 import com.vondear.rxtool.RxAppTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxui.view.dialog.RxDialogSureCancel;
-import com.yanzhenjie.permission.AndPermission;
 import com.yskj.daishuguan.activity.LoginActivity;
 import com.yskj.daishuguan.adapter.HomeViewPagerAdapter;
 import com.yskj.daishuguan.base.BaseActivity;

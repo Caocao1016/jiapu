@@ -110,6 +110,8 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
     TextView mTvAllMoney;
     @BindView(R.id.tv_title)
     TextView mTvTitle;
+    @BindView(R.id.tv_time_left)
+    TextView mTvTimeLeft;
     @BindView(R.id.rl_bar)
     LinearLayout mRlBar;
     @BindView(R.id.ll_window)
@@ -203,37 +205,39 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             mLocationClient.setLocOption(option);
         }
     }
-        public class MyLocationListener extends BDAbstractLocationListener {
-            @Override
-            public void onReceiveLocation(BDLocation location) {
-                if (locationGoole != null) {
-                    mLatitude = locationGoole.getLongitude() + "|" + locationGoole.getLatitude();
-                }
-                if (mLatitude != null) {
-                    RxSPTool.putString(getActivity(), Constant.GPS_LATITUDE, mLatitude);
-                }
-                BigDecimal bigDecimal = new BigDecimal(location.getLongitude());
-                BigDecimal bigDecima2 = new BigDecimal(location.getLatitude());
 
-                RxLogTool.e("TAG", "首页经纬度" + bigDecimal.setScale(5, BigDecimal.ROUND_UP)
-                        + "--" + bigDecima2.setScale(5, BigDecimal.ROUND_UP) + "--" + mAddress);
-                mAddress = location.getAddrStr();
-                RxSPTool.putString(getActivity(), Constant.GPS_ADDRESS, mAddress);
-                if (!mAddress.isEmpty() && mAddress != null) {
-                    if (mLocationClient != null && mLocationClient.isStarted()) {
-                        mLocationClient.stop();
-                    }
+    public class MyLocationListener extends BDAbstractLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (locationGoole != null) {
+                mLatitude = locationGoole.getLongitude() + "|" + locationGoole.getLatitude();
+            }
+            if (mLatitude != null) {
+                RxSPTool.putString(getActivity(), Constant.GPS_LATITUDE, mLatitude);
+            }
+            BigDecimal bigDecimal = new BigDecimal(location.getLongitude());
+            BigDecimal bigDecima2 = new BigDecimal(location.getLatitude());
+
+            RxLogTool.e("TAG", "首页经纬度" + bigDecimal.setScale(5, BigDecimal.ROUND_UP)
+                    + "--" + bigDecima2.setScale(5, BigDecimal.ROUND_UP) + "--" + mAddress);
+            mAddress = location.getAddrStr();
+            RxSPTool.putString(getActivity(), Constant.GPS_ADDRESS, mAddress);
+            if (!mAddress.isEmpty() && mAddress != null) {
+                if (mLocationClient != null && mLocationClient.isStarted()) {
+                    mLocationClient.stop();
                 }
             }
         }
+    }
+
     public void get() {
 
         AndPermission.with(getActivity())
 //
-                .permission(Permission.Group.STORAGE,Permission.Group.CONTACTS,Permission.Group.LOCATION
-                       )
-                .permission( "android.permission.READ_PHONE_NUMBERS",Permission.CALL_PHONE,Permission.READ_CALL_LOG,Permission.CAMERA,
-                        "android.permission.REQUEST_INSTALL_PACKAGES",  Permission.ACCESS_FINE_LOCATION,Permission.ACCESS_COARSE_LOCATION)
+                .permission(Permission.Group.STORAGE, Permission.Group.CONTACTS, Permission.Group.LOCATION
+                )
+                .permission("android.permission.READ_PHONE_NUMBERS", Permission.CALL_PHONE, Permission.READ_CALL_LOG, Permission.CAMERA,
+                        "android.permission.REQUEST_INSTALL_PACKAGES", Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION)
                 // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
                 .rationale((context, permissions, executor) -> {
                     // 此处可以选择显示提示弹窗
@@ -259,6 +263,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                 .start();
 
     }
+
     /**
      * 登录成功
      *
@@ -284,6 +289,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
             mPresenter.homeInfo(homeInfoRequest);
         }
     }
+
     /**
      * 认证完成后刷新
      *
@@ -291,11 +297,11 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void FinshCertificationEvenbus(FinshCertificationEvenbus event) {
-            BannerRequest homeInfoRequest = new BannerRequest();
-            homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
-            homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
-            homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
-            mPresenter.homeInfo(homeInfoRequest);
+        BannerRequest homeInfoRequest = new BannerRequest();
+        homeInfoRequest.token = RxSPTool.getString(getContext(), Constant.TOKEN);
+        homeInfoRequest.userid = RxSPTool.getString(getContext(), Constant.USER_ID);
+        homeInfoRequest.cycle = RxSPTool.getString(getContext(), Constant.AUTH_VALID_DAY);
+        mPresenter.homeInfo(homeInfoRequest);
     }
 
 
@@ -324,26 +330,27 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                 }
                 if (authJudge) {
                     if (creditJudge) {
-                        if (loanJudge) {
-                            if (member == 1) {
+
+                        if (member == 1) {
+
+                            if (loanJudge) {
+
                                 if (isreloan) {
-
                                     isReloan();
-
                                 } else {
                                     showDialog();
                                 }
-
                             } else {
-                                Intent intent = new Intent(getContext(), MembersActivity.class);
-                                intent.putExtra("moneyList", auditCreditLimit);
-                                intent.putExtra("type", "member");
-                                startActivity(intent);
+                                UIUtils.showToast("您还有未还订单,无法再次借款哦~");
                             }
-
                         } else {
-                            UIUtils.showToast("您还有未还订单,无法再次借款哦~");
+                            Intent intent = new Intent(getContext(), MembersActivity.class);
+                            intent.putExtra("moneyList", auditCreditLimit);
+                            intent.putExtra("type", "member");
+                            startActivity(intent);
                         }
+
+
                     } else {
                         Intent intent = new Intent(getContext(), AuthorizationActivity.class);
                         intent.putExtra("MONEY", mTvMoney.getText().toString());
@@ -521,7 +528,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                 mTure.setText("审核中，点击刷新审核结果");
                 mTure.setBackgroundResource(R.mipmap.ic_button_bg);
             } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("2")) {
-                mTure.setText("本次申请失败，请于"+ response.getIsReloanCreditDay()+"再试");
+                mTure.setText("本次申请失败，请于" + response.getIsReloanCreditDay() + "再试");
                 mTure.setBackgroundResource(R.mipmap.ic_button_no_bg);
             } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("3")) {
                 mTure.setText("立即提现");
@@ -539,14 +546,16 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
         }
         //判断已经购买会员卡
         if (auditCreditLimit > 0) {
-            mTvTitle.setText("最大提现金额(元)");
+            mTvTitle.setText("最大借款金额(元)/年化24%");
             mTvMoney.setText(auditCreditLimit + "");
             mTvAgent.setVisibility(View.VISIBLE);
             mRlNumber.setVisibility(View.GONE);
+            mTvTimeLeft.setText("用款期限：");
         } else {
-            mTvTitle.setText("申请授信金额(元)");
+            mTvTitle.setText("申请授信金额(元)/年化24%");
             mRlNumber.setVisibility(View.VISIBLE);
             mTvAgent.setVisibility(View.GONE);
+            mTvTimeLeft.setText("每次用款最少：");
         }
 
 
@@ -742,14 +751,14 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
 
         if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("0")) {
 
-            if (reloanMenber){
-                if (reloanLoanJudge){
+            if (reloanMenber) {
+                if (reloanLoanJudge) {
                     showDialog();
-                }else {
+                } else {
                     UIUtils.showToast("您还有未还订单,无法再次借款哦~");
                 }
 
-            }else {
+            } else {
                 Intent intent = new Intent(getContext(), MembersActivity.class);
                 intent.putExtra("moneyList", auditCreditLimit);
                 intent.putExtra("type", "repeat");

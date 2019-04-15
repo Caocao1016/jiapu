@@ -57,13 +57,13 @@ public class CerFinshActivity extends BaseActivity {
 
         if (what == 0) {
             mNext.setText("立即查看");
-            mNumber.setText("您的认证申请已提交在线审核，预计1小时完成（ 如遇节假日则安排至下一个负工作日审核");
+            mNumber.setText("您的认证申请已提交在线审核，预计1小时完成（ 如遇节假日则安排至下一个工作日审核）");
         } else if (what == 1) {
             mNext.setText("立即前往");
-            mNumber.setText("您的授信申请已提交在线审核，预计1小时完成（ 如遇节假日则安排至下一个负工作日审核");
+            mNumber.setText("您的授信申请已提交在线审核，预计1小时完成（ 如遇节假日则安排至下一个工作日审核）");
         } else if (what == 2) {
             mNext.setText("立即前往");
-            mNumber.setText("您的放款申请已提交在线审核，预计1小时完成（ 如遇节假日则安排至下一个负工作日审核");
+            mNumber.setText("您的放款申请已提交在线审核，预计1小时完成（ 如遇节假日则安排至下一个工作日审核）");
         }
     }
 

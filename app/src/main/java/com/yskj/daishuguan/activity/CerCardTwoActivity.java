@@ -182,6 +182,8 @@ public class CerCardTwoActivity extends BaseActivity<CardPresenter> implements C
                     intent2.putExtra(Constant.WEBVIEW_URL_TITLE,"用户服务协议");
                     startActivity(intent2);
                 break;
+                default:
+                    break;
         }
     }
 

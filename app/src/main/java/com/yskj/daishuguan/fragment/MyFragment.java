@@ -117,7 +117,6 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
             mLlName.setVisibility(View.GONE);
             mTvLogin.setVisibility(View.VISIBLE);
         }
-
         mTime.setText(RxSPTool.getString(getContext(), Constant.CONTACT_TIME) + " " + RxSPTool.getString(getContext(), Constant.CONTACT_WAY));
     }
 
@@ -323,7 +322,6 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
 
 
     /**
