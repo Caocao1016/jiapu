@@ -10,7 +10,7 @@ package com.yskj.daishuguan.api;
 
 public class ApiConstant {
     /**接口根地址*/
-//    public static final String BASE_SERVER_URL = "http://47.99.151.209:8181/rent-server/";
+//    public static final String BASE_SERVER_URL = "http://192.168.1.28:8181/rent-server/";
     public static final String BASE_SERVER_URL = "http://120.27.224.36:8181/rent-server/";
     public static final String FACE = "auth/livingbody/face";
     public static final String Idcardocr = "auth/livingbody/idcardocr";

@@ -44,6 +44,7 @@ import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.base.CommonLazyFragment;
 import com.yskj.daishuguan.entity.evbus.FinshCertificationEvenbus;
 import com.yskj.daishuguan.entity.evbus.FinshMoneyEvenbus;
+import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
 import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
 import com.yskj.daishuguan.entity.request.BannerRequest;
 import com.yskj.daishuguan.entity.request.SubmitRequest;
@@ -234,10 +235,11 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
 
         AndPermission.with(getActivity())
 //
+                //"android.permission.READ_PHONE_NUMBERS",   手机电话状态   Permission.READ_CALL_LOG,
                 .permission(Permission.Group.STORAGE, Permission.Group.CONTACTS, Permission.Group.LOCATION
                 )
-                .permission("android.permission.READ_PHONE_NUMBERS", Permission.CALL_PHONE, Permission.READ_CALL_LOG, Permission.CAMERA,
-                        "android.permission.REQUEST_INSTALL_PACKAGES", Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION)
+                .permission( Permission.CALL_PHONE,Permission.CAMERA,
+                        Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION)
                 // 准备方法，和 okhttp 的拦截器一样，在请求权限之前先运行改方法，已经拥有权限不会触发该方法
                 .rationale((context, permissions, executor) -> {
                     // 此处可以选择显示提示弹窗
@@ -254,6 +256,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
                 .onDenied(permissions -> {
                     // 判断用户是不是不再显示权限弹窗了，若不再显示的话进入权限设置页
                     if (AndPermission.hasAlwaysDeniedPermission(getActivity(), permissions)) {
+//                        RxLogTool.e("----",permissions);
                         // 打开权限设置页
                         AndPermission.permissionSetting(getActivity()).execute();
                         return;
@@ -270,7 +273,7 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void QuanxianEvenbus(QuanxianEvenbus event) {
+    public void LoginEvbusBean(LoginEvbusBean event) {
         initData();
     }
 

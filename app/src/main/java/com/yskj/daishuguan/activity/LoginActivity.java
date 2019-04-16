@@ -20,6 +20,7 @@ import com.yskj.daishuguan.R;
 import com.yskj.daishuguan.base.BaseActivity;
 import com.yskj.daishuguan.base.BaseResponse;
 import com.yskj.daishuguan.entity.evbus.LoginEvbusBean;
+import com.yskj.daishuguan.entity.evbus.QuanxianEvenbus;
 import com.yskj.daishuguan.entity.evbus.StickyEvenbus;
 import com.yskj.daishuguan.entity.request.LoginRequest;
 import com.yskj.daishuguan.entity.request.SmsCaptchaRequest;

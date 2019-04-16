@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vondear.rxtool.RxLogTool;
@@ -40,7 +41,7 @@ public class MembersActivity extends BaseActivity<MembersPresenter> implements M
     TextView mNumber;
 
     @BindView(R.id.iv_youhui)
-    TextView iv_youhui;
+    ImageView iv_youhui;
     @BindView(R.id.tv_old_price)
     TextView mOldPrice;
     @BindView(R.id.tv_money)
