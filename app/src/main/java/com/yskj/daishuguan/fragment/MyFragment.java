@@ -278,6 +278,8 @@ public class MyFragment extends CommonLazyFragment<UserInfoPresenter> implements
     @Override
     public void onSuccess(UserInfoResponse response) {
         bankcard = response.getBankcard();
+
+        RxSPTool.putString(getContext(),Constant.CARD_NUMBER,bankcard);
         bankName = response.getBankName();
         mTvMoney.setText("已贷金额：" + StringUtil.getValue(response.getLoanMoney()) + "元");
         mTvName.setText(StringUtil.isEmpty(response.getName()) ? StringUtil.getString(response.getMobile()) : response.getName());

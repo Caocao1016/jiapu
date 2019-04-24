@@ -524,16 +524,16 @@ public class HomeNewFragment extends CommonLazyFragment<CommonDataPresenter> imp
 
         if (isreloan) {
             mLlWindow.setVisibility(View.GONE);
-            if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("0")) {
+            if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("0")) {
                 mTure.setText("立即提现");
                 mTure.setBackgroundResource(R.mipmap.ic_button_bg);
-            } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("1")) {
+            } else if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("1")) {
                 mTure.setText("审核中，点击刷新审核结果");
                 mTure.setBackgroundResource(R.mipmap.ic_button_bg);
-            } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("2")) {
+            } else if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("2")) {
                 mTure.setText("本次申请失败，请于" + response.getIsReloanCreditDay() + "再试");
                 mTure.setBackgroundResource(R.mipmap.ic_button_no_bg);
-            } else if (StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("3")) {
+            } else if (!StringUtil.isEmpty(isReloanCredit) && isReloanCredit.equals("3")) {
                 mTure.setText("立即提现");
                 mTure.setBackgroundResource(R.mipmap.ic_button_bg);
             }

@@ -157,7 +157,7 @@ public class AuthorizationActivity extends BaseActivity<AuthoriztionPresenter> i
     public void onLeftClick(View v) {
         if (!isreloan) {
             finshDialog.show(getSupportFragmentManager(), "set");
-        }else {
+        } else {
             finish();
         }
 
