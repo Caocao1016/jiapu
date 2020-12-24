@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="64dp"
+    android:layout_height="83dp"
+    android:background="@drawable/shape_bg_male"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="2dp">
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_ac_f_dead"
+            android:layout_width="23dp"
+            android:layout_height="30dp"
+            tools:src="@drawable/ic_tag_dead"
+            />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_ac_f_avatar"
+            android:layout_marginTop="12dp"
+            android:layout_width="33dp"
+            android:layout_height="38dp"
+            android:layout_centerInParent="true"
+            tools:src="@drawable/ic_avatar_male" />
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_ac_f_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_ac_f_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center|center_horizontal"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="#0c0c0c"
+            android:textSize="7sp"
+            tools:text="囧恩" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
