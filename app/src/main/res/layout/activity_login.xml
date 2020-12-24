@@ -21,7 +21,7 @@
         android:layout_below="@+id/tb_login_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:src="@mipmap/ic_logo" />
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -44,12 +44,7 @@
         android:layout_marginRight="22dp"
         >
 
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_login_phone" />
+
 
         <com.hjq.baselibrary.widget.ClearEditText
             android:id="@+id/et_login_phone"
@@ -86,12 +81,6 @@
         android:layout_marginRight="22dp"
         >
 
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_login_number" />
 
         <com.hjq.baselibrary.widget.ClearEditText
             android:id="@+id/et_login_password"

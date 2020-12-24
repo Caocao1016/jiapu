@@ -4,5 +4,5 @@
     android:layout_height="match_parent"
     android:scaleType="centerCrop"
     android:adjustViewBounds="true"
-    android:src="@mipmap/ic_splash"
+    android:src="@mipmap/ic_launcher"
     />
