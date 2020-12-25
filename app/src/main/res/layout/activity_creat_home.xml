@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:color_title="@color/cl_f333333"
-        app:size_title="20sp"
+        app:size_title="18sp"
         app:title="创建家谱世家" />
 
 

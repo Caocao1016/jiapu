@@ -16,14 +16,12 @@ import com.demo.jiapu.widget.NewFamilyTreeView;
 
 import java.util.List;
 
-import butterknife.BindView;
 
 public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLongClickListener {
     private static final String MY_ID = "601";
 
     private MenuDialog menuDialog;
 
-    @BindView(R.id.tv_ac_f_tree)
     NewFamilyTreeView ftvTree;
 
     @Override
@@ -43,11 +41,18 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
 
     @Override
     protected void initView() {
-
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
+
+    @Override
     protected void initData() {
+        ftvTree = findViewById(R.id.tv_ac_f_tree);
         String json = test.test;
         List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
 
@@ -64,6 +69,7 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (null != ftvTree)
         ftvTree.destroyView();
     }
 

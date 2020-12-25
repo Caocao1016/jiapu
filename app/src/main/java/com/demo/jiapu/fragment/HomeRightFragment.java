@@ -64,8 +64,6 @@ public class HomeRightFragment extends CommonLazyFragment {
         mLust.add("1");
         mLust.add("1");
         mAdapter.setNewData(mLust);
-
-        Log.e("-----","initData"+mAdapter.getData().size());
         mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getContext(), EditHomeActivity.class)));
 
     }
@@ -73,7 +71,7 @@ public class HomeRightFragment extends CommonLazyFragment {
     @OnClick({R.id.baner})
     public void onClick(View view) {
         if (view.getId() == R.id.baner) {
-            startActivity(new Intent(getContext(), EditHomeActivity.class));
+            startActivity(new Intent(getContext(), CreatHomeActivity.class));
         }
     }
 

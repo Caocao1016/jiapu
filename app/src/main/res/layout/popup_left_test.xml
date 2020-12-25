@@ -1,36 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="201dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="right"
     android:gravity="center_vertical"
+    android:padding="20dp"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:id="@+id/tvAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_add"
-        android:drawablePadding="14dp"
-        android:gravity="center"
-        android:text="申请加入家谱"
-        android:textColor="#010101"
-        android:textSize="18sp" />
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/ic_add" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="申请加入家谱"
+            android:textColor="#010101"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <View
-        android:layout_width="180dp"
-        android:layout_height="1dp"
+        android:layout_width="140dp"
+        android:layout_height="1px"
         android:layout_marginTop="20dp"
+        android:background="@color/cl_f333333"
         android:layout_marginBottom="20dp" />
-
-    <TextView
+    <LinearLayout
         android:id="@+id/tv_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_report"
-        android:drawablePadding="14dp"
-        android:gravity="center"
-        android:text="举报"
-        android:textColor="#010101"
-        android:textSize="18sp" />
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/ic_report" />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="举报"
+            android:textColor="#010101"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
 </LinearLayout>

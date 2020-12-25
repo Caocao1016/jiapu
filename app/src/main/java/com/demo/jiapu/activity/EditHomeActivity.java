@@ -1,9 +1,9 @@
 package com.demo.jiapu.activity;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import androidx.core.widget.PopupWindowCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.demo.jiapu.R;
@@ -17,23 +17,19 @@ import com.demo.jiapu.dialog.TestLeftPopupWindow;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.widget.NewFamilyTreeView;
 import com.hjq.bar.TitleBar;
-import com.hjq.toast.ToastUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickListener {
     private static final String MY_ID = "601";
 
     private MenuDialog menuDialog;
 
-    @BindView(R.id.tv_ac_f_tree)
     NewFamilyTreeView ftvTree;
     @BindView(R.id.tb_title)
     TitleBar tbTitle;
-    private TestLeftPopupWindow testLeftPopupWindow;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -52,14 +48,19 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
 
     @Override
     protected void initView() {
+
+        ftvTree = findViewById(R.id.tv_ac_f_tree);
     }
 
     @Override
     public void onRightClick(View v) {
         super.onRightClick(v);
-        testLeftPopupWindow = new TestLeftPopupWindow(EditHomeActivity.this, tbTitle.getRightView());
-        testLeftPopupWindow.showConnectPopup();
+        TestLeftPopupWindow mWindow = new TestLeftPopupWindow(this);
+//根据指定View定位
+        PopupWindowCompat.showAsDropDown(mWindow, tbTitle.getRightView(), 0, 0, Gravity.BOTTOM);
+
     }
+
 
     @Override
     protected void initData() {
@@ -88,5 +89,6 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
         menuDialog = new MenuDialog(this, family);
         menuDialog.show();
     }
+
 
 }

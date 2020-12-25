@@ -1,13 +1,11 @@
 package com.demo.jiapu.dialog;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.demo.jiapu.R;
 import com.demo.jiapu.activity.ReportActivity;
@@ -21,42 +19,25 @@ import com.demo.jiapu.activity.ReportActivity;
  */
 public class TestLeftPopupWindow extends PopupWindow {
 
-    private PopupWindow UpdatePopup;
-    private Activity mContext;
-    private View mView;
-
-    public TestLeftPopupWindow(Activity context, View view) {
+    public TestLeftPopupWindow(Context context) {
         super(context);
-        mContext = context;
-        mView = view;
-    }
+        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        setOutsideTouchable(true);
+        setFocusable(true);
+        setBackgroundDrawable(context.getResources().getDrawable(R.drawable.shape_adapter_bg));
+        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_left_test,
+                null, false);
 
-    public void showConnectPopup() {
-        if (UpdatePopup == null) {
-            initView();
-        }
-        if (UpdatePopup.isShowing()) {
-            UpdatePopup.dismiss();
-        } else {
-            UpdatePopup.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
-        }
-    }
-
-    private void initView() {
-        View dialogView = LayoutInflater.from(mContext).inflate(R.layout.popup_left_test, null);
-        UpdatePopup = new PopupWindow(dialogView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView tvAdd = dialogView.findViewById(R.id.tvAdd);
-        TextView tv_report = dialogView.findViewById(R.id.tv_report);
-        tvAdd.setOnClickListener(v -> {
-
-            new JoinDialog(mContext).show();
-            UpdatePopup.dismiss();
+        contentView.findViewById(R.id.tvAdd).setOnClickListener(v -> {
+            new JoinDialog(context).show();
+            dismiss();
         });
-        tv_report.setOnClickListener(v -> {
-            mContext.startActivity(new Intent(mContext, ReportActivity.class));
-            UpdatePopup.dismiss();
-        });
+         contentView.findViewById(R.id.tv_report).setOnClickListener(v -> {
+             context.startActivity(new Intent(context, ReportActivity.class));
+             dismiss();
+         });
 
+        setContentView(contentView);
     }
-
 }
