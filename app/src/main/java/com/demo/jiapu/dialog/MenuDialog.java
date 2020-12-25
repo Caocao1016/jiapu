@@ -2,6 +2,7 @@ package com.demo.jiapu.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
+import com.demo.jiapu.activity.ViewHomeActivity;
 import com.demo.jiapu.bean.FamilyBean;
 
 
@@ -77,7 +79,7 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
 
                 break;
             case R.id.ll_menu_home:
-
+                getContext().startActivity(new Intent(getContext(), ViewHomeActivity.class));
                 dismiss();
                 break;
             case R.id.ll_menu_open:
@@ -85,6 +87,7 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
                 dismiss();
                 break;
             case R.id.rl_menu_my:
+
                 break;
             default:
                 dismiss();
