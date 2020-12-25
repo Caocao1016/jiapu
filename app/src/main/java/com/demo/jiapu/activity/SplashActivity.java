@@ -10,7 +10,7 @@ import butterknife.BindView;
 
 /**
  * CaoPengFei
- * 2019/1/24
+ * 2019/1/24s
  *
  * @ClassName: SplashActivity
  * @Description: 闪屏

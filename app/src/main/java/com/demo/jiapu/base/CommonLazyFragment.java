@@ -44,15 +44,11 @@ public abstract class CommonLazyFragment<T extends BasePresenter> extends UILazy
     @Override
     public void onResume() {
         super.onResume();
-        // 友盟统计
-//        MobclickAgent.onResume(getContext());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        // 友盟统计
-//        MobclickAgent.onPause(getContext());
     }
 
     @Override

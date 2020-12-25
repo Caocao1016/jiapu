@@ -14,8 +14,10 @@ android {
 }
 
 dependencies {
-    api "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    api "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    //noinspection GradleCompatible
+    api 'androidx.appcompat:appcompat:1.2.0'
+//noinspection GradleCompatible
+    api 'com.google.android.material:material:1.2.1'
 }
 
 publish {
