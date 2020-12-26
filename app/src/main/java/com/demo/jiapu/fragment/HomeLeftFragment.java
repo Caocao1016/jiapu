@@ -1,6 +1,8 @@
 package com.demo.jiapu.fragment;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import com.alibaba.fastjson.JSONObject;
 import com.demo.jiapu.R;
@@ -11,8 +13,12 @@ import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
+import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
-import com.demo.jiapu.widget.NewFamilyTreeView;
+import com.demo.jiapu.widget.FamilyTreeView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -22,7 +28,7 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
 
     private MenuDialog menuDialog;
 
-    NewFamilyTreeView ftvTree;
+    FamilyTreeView ftvTree;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -50,13 +56,14 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initData() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
         String json = test.test;
         List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
 
-        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance());
+        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
         dbHelper.save(mList);
         final FamilyBean my = dbHelper.findFamilyById(MY_ID);
         dbHelper.closeDB();
@@ -64,20 +71,27 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
         ftvTree.setShowBottomSpouse(false);
         ftvTree.drawFamilyTree(my);
         ftvTree.setOnFamilyLongClickListener(this);
+
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (null != ftvTree)
-        ftvTree.destroyView();
+            ftvTree.destroyView();
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void onFamilySelect(FamilyBean family) {
+    public void onFamilyLongClick(FamilyBean family) {
         menuDialog = new MenuDialog(getContext(), family);
+
         menuDialog.show();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void drawFamilyTree(OpenMemberTreeEventbus event) {
+        ftvTree.drawFamilyTree(event.getMember());
+    }
 }

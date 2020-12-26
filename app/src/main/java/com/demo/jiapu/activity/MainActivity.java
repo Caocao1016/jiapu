@@ -11,8 +11,10 @@ import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
-import com.demo.jiapu.widget.NewFamilyTreeView;
+import com.demo.jiapu.widget.FamilyTreeView;
 
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class MainActivity extends BaseActivity implements OnFamilyLongClickListe
     private MenuDialog menuDialog;
 
     @BindView(R.id.tv_ac_f_tree)
-    NewFamilyTreeView ftvTree;
+    FamilyTreeView ftvTree;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -51,7 +53,7 @@ public class MainActivity extends BaseActivity implements OnFamilyLongClickListe
         String json = test.test;
         List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
 
-        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance());
+        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
         dbHelper.save(mList);
         final FamilyBean my = dbHelper.findFamilyById(MY_ID);
         dbHelper.closeDB();
@@ -59,17 +61,20 @@ public class MainActivity extends BaseActivity implements OnFamilyLongClickListe
         ftvTree.setShowBottomSpouse(false);
         ftvTree.drawFamilyTree(my);
         ftvTree.setOnFamilyLongClickListener(this);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ftvTree.destroyView();
+
+
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void onFamilySelect(FamilyBean family) {
+    public void onFamilyLongClick(FamilyBean family) {
         menuDialog = new MenuDialog(MainActivity.this, family);
 
         menuDialog.show();

@@ -3,6 +3,7 @@ package com.demo.jiapu.activity;
 import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.view.View;
+
 import androidx.core.widget.PopupWindowCompat;
 
 import com.alibaba.fastjson.JSONObject;
@@ -15,7 +16,7 @@ import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.dialog.TestLeftPopupWindow;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
-import com.demo.jiapu.widget.NewFamilyTreeView;
+import com.demo.jiapu.widget.FamilyTreeView;
 import com.hjq.bar.TitleBar;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
 
     private MenuDialog menuDialog;
 
-    NewFamilyTreeView ftvTree;
+    FamilyTreeView ftvTree;
     @BindView(R.id.tb_title)
     TitleBar tbTitle;
 
@@ -67,7 +68,7 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
         String json = test.test;
         List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
 
-        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance());
+        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
         dbHelper.save(mList);
         final FamilyBean my = dbHelper.findFamilyById(MY_ID);
         dbHelper.closeDB();
@@ -85,7 +86,7 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void onFamilySelect(FamilyBean family) {
+    public void onFamilyLongClick(FamilyBean family) {
         menuDialog = new MenuDialog(this, family);
         menuDialog.show();
     }

@@ -143,8 +143,12 @@
         <attr name="editText" format="string" />
         <attr name="editTextWidth" format="dimension" />
         <attr name="checkSetChecked" format="boolean" />
-
     </declare-styleable>
+
+    <declare-styleable name="FamilyTreeView">
+        <attr name="dbName" format="string" />
+    </declare-styleable>
+
 </resources>
 
 

@@ -157,6 +157,8 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
         }
     }
 
+
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int left = (DisplayUtil.getScreenWidth() - mItemWidthPX) / 2;

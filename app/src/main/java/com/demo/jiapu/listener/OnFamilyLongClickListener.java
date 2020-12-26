@@ -7,5 +7,5 @@ import com.demo.jiapu.bean.FamilyBean;
  */
 
 public interface OnFamilyLongClickListener {
-    void onFamilySelect(FamilyBean family);
+    void onFamilyLongClick(FamilyBean family);
 }

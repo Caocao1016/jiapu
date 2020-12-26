@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.demo.jiapu.activity.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-        <com.demo.jiapu.widget.NewFamilyTreeView
+        <com.demo.jiapu.widget.FamilyTreeView
             android:id="@+id/tv_ac_f_tree"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F1F1F1" />
+            android:background="#F1F1F1"
+            app:dbName="Family_tree"/>
 
 </LinearLayout>

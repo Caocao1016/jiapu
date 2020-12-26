@@ -21,15 +21,16 @@ import java.util.Map;
 
 public class FamilyDBHelper {
 
-    private final String DB_NAME = "FamilyTree.db";
+    private String dbName = "FamilyTree.db";
     private final boolean DEBUGGABLE = true; // 是否输出log
 
     private LiteOrm liteOrm;
 
     private boolean mInquirySpouse = true;//是否查询配偶
 
-    public FamilyDBHelper(Context context) {
-        liteOrm = LiteOrm.newSingleInstance(context, DB_NAME);
+    public FamilyDBHelper(Context context, String dbname) {
+        this.dbName = dbname;
+        liteOrm = LiteOrm.newSingleInstance(context, dbName);
         liteOrm.setDebugged(DEBUGGABLE);
     }
 

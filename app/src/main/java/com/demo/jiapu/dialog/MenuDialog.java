@@ -12,6 +12,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
 import com.demo.jiapu.activity.ViewHomeActivity;
 import com.demo.jiapu.bean.FamilyBean;
+import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class MenuDialog extends BaseFullScreenDialog implements View.OnClickListener {
@@ -69,30 +72,27 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_menu_add:
+            case R.id.ll_menu_edit:
                 MenuAddDialog dialog = new MenuAddDialog(getContext(), familyBean);
                 dialog.show();
                 dismiss();
                 break;
-            case R.id.ll_menu_edit:
 
-                dismiss();
-
-                break;
             case R.id.ll_menu_home:
-                getContext().startActivity(new Intent(getContext(), ViewHomeActivity.class));
+
                 dismiss();
                 break;
             case R.id.ll_menu_open:
-
+                EventBus.getDefault().post(new OpenMemberTreeEventbus(familyBean));
                 dismiss();
                 break;
             case R.id.rl_menu_my:
-
                 break;
             default:
                 dismiss();
                 break;
         }
+
     }
 
 }

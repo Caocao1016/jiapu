@@ -1,38 +1,49 @@
 package com.demo.jiapu.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDBHelper;
+import com.demo.jiapu.listener.OnFamilyClickListener;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.util.DisplayUtil;
+import com.dinuscxj.gesture.MultiTouchGestureDetector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * 家谱树自定义ViewGroup
  */
 
-public class NewFamilyTreeView extends ViewGroup {
+public class FamilyTreeView extends ViewGroup {
+
 
     private static final int SPACE_WIDTH_DP = 20;//间距为20dp
     private static final int ITEM_WIDTH_DP = 61;//家庭成员View宽度50dp
@@ -51,6 +62,13 @@ public class NewFamilyTreeView extends ViewGroup {
     private static final int AVATAR_FEMALE = R.drawable.ic_avatar_female;//女性默认头像
 
     private OnFamilyLongClickListener mOnFamilyLongClickListener;
+    private OnFamilyClickListener mOnFamilyClickListener;
+
+    private float mScaleFactor = 1.0f;
+    private float mOffsetX = 0.f;
+    private float mOffsetY = 0.f;
+
+    private MultiTouchGestureDetector mMultiTouchGestureDetector;
 
     private int mItemWidthPX;//家庭成员View宽度PX
     private int mItemHeightPX;//家庭成员View高度PX
@@ -110,18 +128,28 @@ public class NewFamilyTreeView extends ViewGroup {
     private List<Pair<View, View>> mMyFaUncleView;//我的叔伯姑View
     private List<Pair<View, View>> mMyFaUncleChildrenView;//我的叔伯姑的子女View
 
+    private View lastSelectView;
+    private FamilyBean lastSelectFamilyBean;
+
     private FamilyDBHelper mDBHelper;
 
-    public NewFamilyTreeView(Context context) {
+    private String mDBName = "FamilyTree.db";
+
+    public FamilyTreeView(Context context) {
         this(context, null, 0);
     }
 
-    public NewFamilyTreeView(Context context, AttributeSet attrs) {
+    public FamilyTreeView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public NewFamilyTreeView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FamilyTreeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FamilyTreeView);
+
+        mDBName = a.getString(R.styleable.FamilyTreeView_dbName);
+        a.recycle();
 
         mScrollWidth = DisplayUtil.dip2px(SCROLL_WIDTH);
         mSpacePX = DisplayUtil.dip2px(SPACE_WIDTH_DP);
@@ -149,7 +177,7 @@ public class NewFamilyTreeView extends ViewGroup {
         mPath = new Path();
         mPath.reset();
 
-        mDBHelper = new FamilyDBHelper(context);
+        mDBHelper = new FamilyDBHelper(context, mDBName);
 
         mMyChildrenInfo = new ArrayList<>();
         mMyBrotherInfo = new ArrayList<>();
@@ -167,6 +195,8 @@ public class NewFamilyTreeView extends ViewGroup {
         mMyMoUncleChildrenView = new ArrayList<>();
         mMyFaUncleView = new ArrayList<>();
         mMyFaUncleChildrenView = new ArrayList<>();
+        mMultiTouchGestureDetector = new MultiTouchGestureDetector(context, new MultiTouchGestureDetectorListener());
+
     }
 
     public void drawFamilyTree(FamilyBean family) {
@@ -214,6 +244,8 @@ public class NewFamilyTreeView extends ViewGroup {
         mMyMoUncleChildrenView.clear();
         mMyFaUncleView.clear();
         mMyFaUncleChildrenView.clear();
+        lastSelectView = null;
+        lastSelectFamilyBean = null;
     }
 
     private void initData(FamilyBean family) {
@@ -579,7 +611,7 @@ public class NewFamilyTreeView extends ViewGroup {
 
         familyView.setTag(family);
 
-        final ImageView ivAvatar = familyView.findViewById(R.id.iv_ac_f_avatar);
+        final CircleImageView ivAvatar = familyView.findViewById(R.id.iv_ac_f_avatar);
 
         final TextView tvName = familyView.findViewById(R.id.tv_ac_f_name);
         tvName.setTextSize(NAME_TEXT_SIZE_SP);
@@ -597,15 +629,19 @@ public class NewFamilyTreeView extends ViewGroup {
                 .load(url)
                 .apply(requestOptions)
                 .into(ivAvatar);
+
         if (family.isSelect()) {
             familyView.setBackgroundResource(BACKGROUND_SELEDTED);
+            familyView.setScaleX(1.1f);
+            familyView.setScaleY(1.1f);
         } else {
-            familyView.setBackgroundResource(SEX_FEMALE.equals(sex) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
+            familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
         }
 
         final ImageView deadView = familyView.findViewById(R.id.iv_ac_f_dead);
         deadView.setImageResource(R.drawable.ic_tag_dead);
-        familyView.setOnLongClickListener(click);
+        familyView.setOnLongClickListener(longClick);
+        familyView.setOnClickListener(click);
 
         this.addView(familyView);
         return familyView;
@@ -890,39 +926,118 @@ public class NewFamilyTreeView extends ViewGroup {
         return mDBHelper.ismInquirySpouse();
     }
 
-    private OnLongClickListener click = new OnLongClickListener() {
+    private OnLongClickListener longClick = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             if (mOnFamilyLongClickListener != null) {
                 mCurrentWidth = v.getLeft() - getScrollX();
                 mCurrentHeight = v.getTop() - getScrollY();
-                mOnFamilyLongClickListener.onFamilySelect((FamilyBean) v.getTag());
+                mOnFamilyLongClickListener.onFamilyLongClick((FamilyBean) v.getTag());
             }
+            setItemBackground(v);
+
             return true;
         }
     };
 
+    private OnClickListener click = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            if (mOnFamilyClickListener != null) {
+                mCurrentWidth = v.getLeft() - getScrollX();
+                mCurrentHeight = v.getTop() - getScrollY();
+                mOnFamilyClickListener.onFamilyClick((FamilyBean) v.getTag());
+            }
+            setItemBackground(v);
+        }
+    };
+
+    public void setOnFamilyClickListener(OnFamilyClickListener onFamilyClickListener) {
+        this.mOnFamilyClickListener = onFamilyClickListener;
+    }
+
+    private void setItemBackground(View familyView) {
+
+
+        if (familyView == lastSelectView) return;
+
+        if (lastSelectFamilyBean == null || lastSelectView == null) {
+            lastSelectFamilyBean = mMyInfo;
+            lastSelectView = mOnlyMyView;
+        }
+
+        familyView.setBackgroundResource(BACKGROUND_SELEDTED);
+        familyView.setScaleX(1.1f);
+        familyView.setScaleY(1.1f);
+
+        lastSelectView.setBackgroundResource(SEX_FEMALE.equals(lastSelectFamilyBean.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
+        lastSelectView.setScaleX(1f);
+        lastSelectView.setScaleY(1f);
+
+        lastSelectView = familyView;
+        lastSelectFamilyBean = (FamilyBean) familyView.getTag();
+
+
+    }
+
+
+    private final class MultiTouchGestureDetectorListener extends MultiTouchGestureDetector.SimpleOnMultiTouchGestureListener {
+        private float mLastScaleFactor = 1.0f;
+        private float mLastScaleFactor2 = 1.0f;
+        private boolean mScaleOrientation;
+
+        @Override
+        public void onScale(MultiTouchGestureDetector detector) {
+
+            mScaleFactor *= detector.getScale();
+            mScaleFactor = Math.max(1f, Math.min(mScaleFactor, 3.0f));
+
+            if (mScaleFactor > mLastScaleFactor && mLastScaleFactor > mLastScaleFactor2) {
+                setScaleX(mScaleFactor);
+                setScaleY(mScaleFactor);
+                mScaleOrientation = true;
+            } else if (mScaleFactor < mLastScaleFactor && mLastScaleFactor < mLastScaleFactor2) {
+                setScaleX(mScaleFactor);
+                setScaleY(mScaleFactor);
+                mScaleOrientation = false;
+            }
+            if (mScaleOrientation) {
+                if (mLastScaleFactor < mScaleFactor) {
+                    setScaleX(mScaleFactor);
+                    setScaleY(mScaleFactor);
+                }
+            }
+            if (!mScaleOrientation) {
+                if (mLastScaleFactor > mScaleFactor) {
+                    setScaleX(mScaleFactor);
+                    setScaleY(mScaleFactor);
+                }
+            }
+
+
+            mLastScaleFactor2 = mLastScaleFactor;
+            mLastScaleFactor = mScaleFactor;
+
+        }
+
+        @Override
+        public void onMove(MultiTouchGestureDetector detector) {
+            mOffsetX -= detector.getMoveX();
+            mOffsetY -= detector.getMoveY();
+            scrollTo((int) mOffsetX, (int) mOffsetY);
+        }
+
+        @Override
+        public void onRotate(MultiTouchGestureDetector detector) {
+        }
+    }
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_UP:
-                break;
-            case MotionEvent.ACTION_MOVE:
-                final int currentTouchX = (int) event.getX();
-                final int currentTouchY = (int) event.getY();
+        mMultiTouchGestureDetector.onTouchEvent(event);
 
-                final int distanceX = currentTouchX - mLastTouchX;
-                final int distanceY = currentTouchY - mLastTouchY;
-
-                mCurrentX -= distanceX;
-                mCurrentY -= distanceY;
-
-                this.scrollTo(mCurrentX, mCurrentY);
-                mLastTouchX = currentTouchX;
-                mLastTouchY = currentTouchY;
-                break;
-        }
         return true;
     }
 
@@ -940,15 +1055,20 @@ public class NewFamilyTreeView extends ViewGroup {
                 intercerpt = false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                final int distanceX = Math.abs((int) event.getX() - mLastInterceptX);
-                final int distanceY = Math.abs((int) event.getY() - mLastInterceptY);
+                final int distanceX = Math.abs((int) event.getX(0) - mLastInterceptX);
+                final int distanceY = Math.abs((int) event.getY(0) - mLastInterceptY);
                 intercerpt = distanceX >= mScrollWidth || distanceY >= mScrollWidth;
+
                 break;
             case MotionEvent.ACTION_UP:
                 intercerpt = false;
                 break;
         }
         return intercerpt;
+    }
+
+    public String getDBName() {
+        return mDBName;
     }
 
 

@@ -21,14 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#000000"
-        android:fitsSystemWindows="true"
         >
-        <com.demo.jiapu.widget.NewFamilyTreeView
+        <com.demo.jiapu.widget.FamilyTreeView
             android:id="@+id/tv_ac_f_tree"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F1F1F1" />
+            android:background="#F1F1F1"
+            app:dbName="Family_tree2"/>
 
     </LinearLayout>
 

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbars="vertical">
 
     <com.hjq.bar.TitleBar
         android:id="@+id/tb_add_title"
@@ -237,6 +237,7 @@
             app:leftTvText="生辰" />
 
         <LinearLayout
+            android:id="@+id/ll_add_live"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -261,10 +262,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_add_not_live"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <com.demo.jiapu.widget.MoreEditView
                 android:layout_width="wrap_content"
