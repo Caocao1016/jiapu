@@ -1,6 +1,0 @@
-<resources>
-
-    <!-- Text Size -->
-    <dimen name="common_text_size_normal">20sp</dimen>
-
-</resources>

@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Common</string>
-    <string name="scan_tip_front">"请将身份证正面放入扫描框内"</string>
-    <string name="scan_tip_back">"请将身份证背面放入扫描框内"</string>
-    <string name="scan_tip_auto">"请将身份证任意面放入扫描框内"</string>
-    <string name="scan_success">"扫描成功"</string>
-</resources>
