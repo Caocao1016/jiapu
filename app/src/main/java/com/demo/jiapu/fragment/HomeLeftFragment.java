@@ -1,8 +1,6 @@
 package com.demo.jiapu.fragment;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
-import android.view.MotionEvent;
 
 import com.alibaba.fastjson.JSONObject;
 import com.demo.jiapu.R;
@@ -17,6 +15,7 @@ import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.widget.FamilyTreeView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -66,13 +65,13 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
         final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
         dbHelper.save(mList);
         final FamilyBean my = dbHelper.findFamilyById(MY_ID);
+        my.setSelect(true);
         dbHelper.closeDB();
-
+        ftvTree.setCanClick(true);
         ftvTree.setShowBottomSpouse(false);
         ftvTree.drawFamilyTree(my);
         ftvTree.setOnFamilyLongClickListener(this);
-
-
+        registerEventBus(this);
     }
 
     @Override
@@ -80,18 +79,20 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
         super.onDestroy();
         if (null != ftvTree)
             ftvTree.destroyView();
+
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onFamilyLongClick(FamilyBean family) {
+
         menuDialog = new MenuDialog(getContext(), family);
 
         menuDialog.show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void drawFamilyTree(OpenMemberTreeEventbus event) {
+    public void drawTree(OpenMemberTreeEventbus event) {
         ftvTree.drawFamilyTree(event.getMember());
     }
 }

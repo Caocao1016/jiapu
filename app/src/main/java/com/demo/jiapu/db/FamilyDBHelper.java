@@ -130,7 +130,7 @@ public class FamilyDBHelper {
         final FamilyBean male = findFamilyById(maleId);
         final FamilyBean female = findFamilyById(femaleId);
         if (male != null) {
-            male.setSpouse(female);
+            male.setHaveSpouse(female);
             return male;
         } else if (female != null) {
             return female;
@@ -146,6 +146,7 @@ public class FamilyDBHelper {
 
         return childrenList;
     }
+
 
     public List<FamilyBean> getMyBrothers(FamilyBean myInfo, boolean isLittle) {
         final String myId = myInfo.getMemberId();
@@ -165,6 +166,7 @@ public class FamilyDBHelper {
         return brotherList;
     }
 
+
     private void setChildren(List<FamilyBean> famliyList) {
         if (famliyList != null) {
             for (FamilyBean family : famliyList) {
@@ -174,6 +176,21 @@ public class FamilyDBHelper {
                     setSpouse(childrenList);
                 }
                 family.setChildren(childrenList);
+                setGrandChildrenType(childrenList);
+            }
+        }
+    }
+
+    private void setGrandChildrenType(List<FamilyBean> famliyList) {
+        if (famliyList != null) {
+            for (FamilyBean family : famliyList) {
+                final String familyId = family.getMemberId();
+                final List<FamilyBean> childrenList = findChildrenByParentId(familyId, "");
+                if (childrenList.size() > 0) {
+                    family.setGrandChildrenHaveSon(true);
+                    if (mInquirySpouse)
+                        setSpouse(childrenList);
+                }
             }
         }
     }
@@ -186,6 +203,10 @@ public class FamilyDBHelper {
 
     public void setSpouse(FamilyBean family) {
         final String spouseId = family.getSpouseId();
-        family.setSpouse(findFamilyById(spouseId));
+        family.setHaveSpouse(findFamilyById(spouseId));
+        if (family.getSpouse() != null)
+            family.getSpouse().setIsHaveSpouse(true);
     }
+
+
 }

@@ -26,4 +26,5 @@ public class MemberSmsRequest extends MapParamsRequest {
         params.put("type", type);
 
     }
+
 }

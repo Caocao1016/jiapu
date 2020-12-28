@@ -71,6 +71,7 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
         final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
         dbHelper.save(mList);
         final FamilyBean my = dbHelper.findFamilyById(MY_ID);
+        my.setSelect(true);
         dbHelper.closeDB();
 
         ftvTree.setShowBottomSpouse(false);

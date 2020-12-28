@@ -328,7 +328,7 @@ public class SwitchView extends View implements View.OnClickListener {
         return sb.toString();
     }
 
-    //********************************
+
 
     private onClickCheckedListener onClickCheckedListener;
 

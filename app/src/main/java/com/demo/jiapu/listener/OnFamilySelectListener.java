@@ -1,5 +1,6 @@
 package com.demo.jiapu.listener;
 
+import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.bean.FamilyMember;
 
 /**
@@ -7,5 +8,5 @@ import com.demo.jiapu.bean.FamilyMember;
  */
 
 public interface OnFamilySelectListener {
-    void onFamilySelect(FamilyMember family);
+    void onFamilySelect(FamilyBean family);
 }

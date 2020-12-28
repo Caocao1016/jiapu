@@ -1,6 +1,5 @@
 package com.demo.jiapu.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 家谱树自定义ViewGroup
  */
 
-public class FamilyTreeView extends ViewGroup {
+public class FamilyTreeView extends ViewGroup implements View.OnClickListener, View.OnLongClickListener {
 
 
     private static final int SPACE_WIDTH_DP = 20;//间距为20dp
@@ -53,10 +51,18 @@ public class FamilyTreeView extends ViewGroup {
     private static final int SCROLL_WIDTH = 5;//移动超过2dp，响应滑动，否则属于点击
     private static final String SEX_MALE = "1";//1为男性
     private static final String SEX_FEMALE = "2";//2为女性
+    private static final int BACKGROUND_MALE = R.drawable.shape_bg_male_selector;
+    private static final int BACKGROUND_FEMALE = R.drawable.shape_bg_female_selector;
 
-    private static final int BACKGROUND_MALE = R.drawable.shape_bg_male;
-    private static final int BACKGROUND_FEMALE = R.drawable.shape_bg_female;
-    private static final int BACKGROUND_SELEDTED = R.drawable.shape_bg_select;
+    private static final int BACKGROUND_OPEN_MALE = R.drawable.shape_bg_open_male_selector;
+    private static final int BACKGROUND_OPEN_FEMALE = R.drawable.shape_bg_open_female_selector;
+    private float mScaleFactor = 1.0f;
+    private float mOffsetX = 0.f;
+    private float mOffsetY = 0.f;
+
+    private final MultiTouchGestureDetector mMultiTouchGestureDetector;
+
+    private boolean canClick = false;
 
     private static final int AVATAR_MALE = R.drawable.ic_avatar_male;//男性默认头像
     private static final int AVATAR_FEMALE = R.drawable.ic_avatar_female;//女性默认头像
@@ -64,11 +70,8 @@ public class FamilyTreeView extends ViewGroup {
     private OnFamilyLongClickListener mOnFamilyLongClickListener;
     private OnFamilyClickListener mOnFamilyClickListener;
 
-    private float mScaleFactor = 1.0f;
-    private float mOffsetX = 0.f;
-    private float mOffsetY = 0.f;
-
-    private MultiTouchGestureDetector mMultiTouchGestureDetector;
+    private View lastSelectView;
+    private FamilyBean lastSelectFamilyBean;
 
     private int mItemWidthPX;//家庭成员View宽度PX
     private int mItemHeightPX;//家庭成员View高度PX
@@ -128,8 +131,6 @@ public class FamilyTreeView extends ViewGroup {
     private List<Pair<View, View>> mMyFaUncleView;//我的叔伯姑View
     private List<Pair<View, View>> mMyFaUncleChildrenView;//我的叔伯姑的子女View
 
-    private View lastSelectView;
-    private FamilyBean lastSelectFamilyBean;
 
     private FamilyDBHelper mDBHelper;
 
@@ -197,6 +198,7 @@ public class FamilyTreeView extends ViewGroup {
         mMyFaUncleChildrenView = new ArrayList<>();
         mMultiTouchGestureDetector = new MultiTouchGestureDetector(context, new MultiTouchGestureDetectorListener());
 
+
     }
 
     public void drawFamilyTree(FamilyBean family) {
@@ -244,16 +246,19 @@ public class FamilyTreeView extends ViewGroup {
         mMyMoUncleChildrenView.clear();
         mMyFaUncleView.clear();
         mMyFaUncleChildrenView.clear();
+
         lastSelectView = null;
         lastSelectFamilyBean = null;
+
     }
 
-    private void initData(FamilyBean family) {
+    public void initData(FamilyBean family) {
         mMyInfo = family;
         if (mMyInfo != null) {
-            mMyInfo.setSelect(true);
             mDBHelper.setSpouse(mMyInfo);
-
+            family.setSelect(true);
+            family.setIsHaveSpouse(false);
+            family.setGrandChildrenHaveSon(false);
             mMyChildrenInfo.addAll(mDBHelper.getChildrenAndGrandChildren(mMyInfo, ""));
 
             final String fatherId = mMyInfo.getFatherId();
@@ -604,6 +609,8 @@ public class FamilyTreeView extends ViewGroup {
 
 
     private View createFamilyView(FamilyBean family, int left, int top) {
+
+
         final View familyView = LayoutInflater.from(getContext()).inflate(R.layout.item_family, this, false);
         familyView.setLayoutParams(new LayoutParams(mItemWidthPX, mItemHeightPX));
         familyView.setLeft(left);
@@ -611,12 +618,11 @@ public class FamilyTreeView extends ViewGroup {
 
         familyView.setTag(family);
 
-        final CircleImageView ivAvatar = familyView.findViewById(R.id.iv_ac_f_avatar);
-
         final TextView tvName = familyView.findViewById(R.id.tv_ac_f_name);
         tvName.setTextSize(NAME_TEXT_SIZE_SP);
         tvName.setText(family.getMemberName());
 
+        final CircleImageView ivAvatar = familyView.findViewById(R.id.iv_ac_f_avatar);
 
         final String url = family.getMemberImg();
         final String sex = family.getSex();
@@ -630,21 +636,50 @@ public class FamilyTreeView extends ViewGroup {
                 .apply(requestOptions)
                 .into(ivAvatar);
 
-        if (family.isSelect()) {
-            familyView.setBackgroundResource(BACKGROUND_SELEDTED);
-            familyView.setScaleX(1.1f);
-            familyView.setScaleY(1.1f);
+        if (family.equals(mMyPGrandParentInfo) || family.isHaveSpouse()) {
+            if (!family.getFatherId().equals("") || !family.getMotherId().equals("")) {
+                familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
+            }
+        } else if (family.isGrandChildrenHaveSon()) {
+            familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
         } else {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
+        }
+        if (family.isSelect()) {
+            familyView.setSelected(true);
+            familyView.setScaleX(1.1f);
+            familyView.setScaleY(1.1f);
         }
 
         final ImageView deadView = familyView.findViewById(R.id.iv_ac_f_dead);
         deadView.setImageResource(R.drawable.ic_tag_dead);
-        familyView.setOnLongClickListener(longClick);
-        familyView.setOnClickListener(click);
-
+        familyView.setOnClickListener(this);
+        familyView.setOnLongClickListener(this::onLongClick);
         this.addView(familyView);
         return familyView;
+    }
+
+
+    private void setClickItem(View familyView) {
+
+
+        if (lastSelectFamilyBean == null || lastSelectView == null) {
+            lastSelectFamilyBean = mMyInfo;
+            lastSelectView = mOnlyMyView;
+        }
+        if (familyView == lastSelectView) return;
+        familyView.setScaleX(1.1f);
+        familyView.setScaleY(1.1f);
+        familyView.setSelected(!familyView.isSelected());
+        lastSelectView.setSelected(!lastSelectView.isSelected());
+        lastSelectView.setScaleX(1f);
+        lastSelectView.setScaleY(1f);
+
+
+        lastSelectView = familyView;
+        lastSelectFamilyBean = (FamilyBean) familyView.getTag();
+
+
     }
 
     @Override
@@ -673,11 +708,13 @@ public class FamilyTreeView extends ViewGroup {
             mCurrentWidth = (mShowWidthPX - mItemWidthPX) / 2;
             mCurrentHeight = (mShowHeightPX - mItemHeightPX) / 2;
         }
-
         if (mOnlyMyView != null) {
-            scrollTo(mOnlyMyView.getLeft() - mCurrentWidth, mOnlyMyView.getTop() - mCurrentHeight);
+            mOffsetX = mOnlyMyView.getLeft() - mCurrentWidth;
+            mOffsetY = mOnlyMyView.getTop() - mCurrentHeight;
+            scrollTo((int) mOffsetX, (int) mOffsetY);
         }
     }
+
 
     private void setChildViewFrame(View childView, int left, int top, int width, int height) {
         childView.layout(left, top, left + width, top + height);
@@ -926,61 +963,36 @@ public class FamilyTreeView extends ViewGroup {
         return mDBHelper.ismInquirySpouse();
     }
 
-    private OnLongClickListener longClick = new OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            if (mOnFamilyLongClickListener != null) {
-                mCurrentWidth = v.getLeft() - getScrollX();
-                mCurrentHeight = v.getTop() - getScrollY();
-                mOnFamilyLongClickListener.onFamilyLongClick((FamilyBean) v.getTag());
-            }
-            setItemBackground(v);
-
-            return true;
-        }
-    };
-
-    private OnClickListener click = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            if (mOnFamilyClickListener != null) {
-                mCurrentWidth = v.getLeft() - getScrollX();
-                mCurrentHeight = v.getTop() - getScrollY();
-                mOnFamilyClickListener.onFamilyClick((FamilyBean) v.getTag());
-            }
-            setItemBackground(v);
-        }
-    };
 
     public void setOnFamilyClickListener(OnFamilyClickListener onFamilyClickListener) {
         this.mOnFamilyClickListener = onFamilyClickListener;
     }
 
-    private void setItemBackground(View familyView) {
 
-
-        if (familyView == lastSelectView) return;
-
-        if (lastSelectFamilyBean == null || lastSelectView == null) {
-            lastSelectFamilyBean = mMyInfo;
-            lastSelectView = mOnlyMyView;
+    @Override
+    public void onClick(View v) {
+        if (mOnFamilyClickListener != null) {
+            mOnFamilyClickListener.onFamilyClick((FamilyBean) v.getTag());
         }
-
-        familyView.setBackgroundResource(BACKGROUND_SELEDTED);
-        familyView.setScaleX(1.1f);
-        familyView.setScaleY(1.1f);
-
-        lastSelectView.setBackgroundResource(SEX_FEMALE.equals(lastSelectFamilyBean.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
-        lastSelectView.setScaleX(1f);
-        lastSelectView.setScaleY(1f);
-
-        lastSelectView = familyView;
-        lastSelectFamilyBean = (FamilyBean) familyView.getTag();
-
-
+        if (canClick) {
+            mOffsetX = v.getLeft() - getScrollX();
+            mOffsetY = v.getTop() - getScrollY();
+            setClickItem(v);
+        }
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        if (mOnFamilyLongClickListener != null) {
+            mOnFamilyLongClickListener.onFamilyLongClick((FamilyBean) v.getTag());
+        }
+        if (canClick) {
+            mOffsetX = v.getLeft() - getScrollX();
+            mOffsetY = v.getTop() - getScrollY();
+            setClickItem(v);
+        }
+        return true;
+    }
 
     private final class MultiTouchGestureDetectorListener extends MultiTouchGestureDetector.SimpleOnMultiTouchGestureListener {
         private float mLastScaleFactor = 1.0f;
@@ -1030,14 +1042,21 @@ public class FamilyTreeView extends ViewGroup {
 
         @Override
         public void onRotate(MultiTouchGestureDetector detector) {
+
         }
+
+    }
+
+    @Override
+    public void scrollTo(int x, int y) {
+        Log.i("TAG", "x:" + x + "  y:" + y);
+        super.scrollTo(x, y);
     }
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mMultiTouchGestureDetector.onTouchEvent(event);
-
         return true;
     }
 
@@ -1055,8 +1074,9 @@ public class FamilyTreeView extends ViewGroup {
                 intercerpt = false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                final int distanceX = Math.abs((int) event.getX(0) - mLastInterceptX);
-                final int distanceY = Math.abs((int) event.getY(0) - mLastInterceptY);
+
+                final int distanceX = Math.abs((int) event.getX() - mLastInterceptX);
+                final int distanceY = Math.abs((int) event.getY() - mLastInterceptY);
                 intercerpt = distanceX >= mScrollWidth || distanceY >= mScrollWidth;
 
                 break;
@@ -1072,4 +1092,11 @@ public class FamilyTreeView extends ViewGroup {
     }
 
 
+    public boolean isCanClick() {
+        return canClick;
+    }
+
+    public void setCanClick(boolean canClick) {
+        this.canClick = canClick;
+    }
 }

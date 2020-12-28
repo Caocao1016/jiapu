@@ -1,17 +1,17 @@
 ﻿[
     {
-        "memberId": "1101",
-        "memberName": "吴亦凡",
-        "memberImg": "http://img4.imgtn.bdimg.com/it/u=1709400343,2447668899&fm=23&gp=0.jpg",
-        "call": "来孙",
-        "sex": "1",
-        "birthday": "",
-        "spouseId": "",
-        "fatherId": "1001",
-        "motherId": "",
-        "fathersId": "",
-        "mothersId": ""
-    },
+         "memberId": "1101",
+         "memberName": "吴亦凡",
+         "memberImg": "http://img4.imgtn.bdimg.com/it/u=1709400343,2447668899&fm=23&gp=0.jpg",
+         "call": "来孙",
+         "sex": "1",
+         "birthday": "",
+         "spouseId": "",
+         "fatherId": "1001",
+         "motherId": "",
+         "isHaveOthers":"",
+
+     },
     {
         "memberId": "1102",
         "memberName": "王尼美",
