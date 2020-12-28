@@ -1,7 +1,6 @@
 package com.demo.jiapu.entity.evbus;
 
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.bean.FamilyMember;
 
 public class OpenMemberTreeEventbus {
     private FamilyBean member;

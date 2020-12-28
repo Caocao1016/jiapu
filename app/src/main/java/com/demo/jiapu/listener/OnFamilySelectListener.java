@@ -1,7 +1,6 @@
 package com.demo.jiapu.listener;
 
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.bean.FamilyMember;
 
 /**
  * 家庭成员选中回调
