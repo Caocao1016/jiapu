@@ -78,6 +78,10 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     private int mSpacePX;//元素间距PX
     private int mLineWidthPX;//连线宽度PX
 
+    private int scrollMaxRight = -1;
+    private int scrollMaxLeft = -1;
+    private int scrollMaxSpace;
+
     private int[] mGenerationTop;//每代顶部位置
     private int[] mGenerationLeft;//每代左边位置
     private int[] mGenerationRight;//每代右边位置
@@ -91,8 +95,8 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     private int mScrollWidth;//移动范围
     private int mCurrentX;//当前X轴偏移量
     private int mCurrentY;//当前Y轴偏移量
-    private int mLastTouchX;//最后一次触摸的X坐标
-    private int mLastTouchY;//最后一次触摸的Y坐标
+    private float mLastTouchX;//最后一次触摸的X坐标
+    private float mLastTouchY;//最后一次触摸的Y坐标
     private int mLastInterceptX;
     private int mLastInterceptY;
 
@@ -201,11 +205,25 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
     }
 
+
     public void drawFamilyTree(FamilyBean family) {
         recycleAllView();
         initData(family);
         initView();
+        initScrollMax();
         invalidate();
+    }
+
+    private void initScrollMax() {
+        scrollMaxSpace = (mGenerationTop[0] + mGenerationTop[4] + mSpacePX) / 2;
+        for (int value : mGenerationLeft) {
+            if (value < scrollMaxLeft)
+                scrollMaxLeft = value;
+        }
+        for (int value : mGenerationRight) {
+            if (value > scrollMaxRight)
+                scrollMaxRight = value;
+        }
     }
 
     public void destroyView() {
@@ -220,6 +238,9 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         Arrays.fill(mGenerationLeft, 0);
         Arrays.fill(mGenerationRight, 0);
+
+        scrollMaxLeft = 0;
+        scrollMaxRight = 0;
 
         mMyInfo = null;
         mMyParentInfo = null;
@@ -751,6 +772,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         }
         drawOtherLine(canvas, mMyFaUncleInfo, mMyFaUncleView, mPGrandParentX);
         drawOtherLine(canvas, mMyMoUncleInfo, mMyMoUncleView, mMGrandParentX);
+
     }
 
     private void drawPart(Canvas canvas,
@@ -1035,9 +1057,29 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         @Override
         public void onMove(MultiTouchGestureDetector detector) {
+
             mOffsetX -= detector.getMoveX();
             mOffsetY -= detector.getMoveY();
+
+            boolean isYExceed = -scrollMaxSpace > mOffsetY || mOffsetY > scrollMaxSpace;
+            boolean isXExceed = scrollMaxLeft - scrollMaxSpace > mOffsetX || mOffsetX > scrollMaxRight - scrollMaxSpace;
+
+            if (isXExceed) {
+                if (isYExceed) {
+                    mOffsetY = mLastTouchY;
+                }
+
+                mOffsetX = mLastTouchX;
+            } else if (isYExceed) {
+                mOffsetY = mLastTouchY;
+            } else {
+                mLastTouchY = mOffsetY;
+                mLastTouchX = mOffsetX;
+            }
+
             scrollTo((int) mOffsetX, (int) mOffsetY);
+            Log.i("test", "x:" + mOffsetX + "    y:" + mOffsetY);
+
         }
 
         @Override
@@ -1045,12 +1087,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         }
 
-    }
-
-    @Override
-    public void scrollTo(int x, int y) {
-        Log.i("TAG", "x:" + x + "  y:" + y);
-        super.scrollTo(x, y);
     }
 
 
@@ -1067,10 +1103,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
             case MotionEvent.ACTION_DOWN:
                 mLastInterceptX = (int) event.getX();
                 mLastInterceptY = (int) event.getY();
-                mCurrentX = getScrollX();
-                mCurrentY = getScrollY();
-                mLastTouchX = (int) event.getX();
-                mLastTouchY = (int) event.getY();
                 intercerpt = false;
                 break;
             case MotionEvent.ACTION_MOVE:

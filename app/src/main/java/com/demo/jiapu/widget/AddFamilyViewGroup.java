@@ -262,6 +262,7 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
         mShowHeightPX = MeasureSpec.getSize(heightMeasureSpec);
 
         final int childCount = getChildCount();
+
         for (int i = 0; i < childCount; i++) {
             final View childView = getChildAt(i);
             childView.measure(mWidthMeasureSpec, mHeightMeasureSpec);
