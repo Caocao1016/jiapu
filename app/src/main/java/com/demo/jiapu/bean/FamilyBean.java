@@ -22,8 +22,6 @@ public class FamilyBean {
     private String motherId;//母亲ID
     private String spouseId;//配偶ID
 
-    private String mothersId;//养母ID
-    private String fathersId;//养父ID
 
 
     @Ignore
@@ -33,9 +31,9 @@ public class FamilyBean {
     @Ignore
     private boolean isSelect = false;//是否选中
     @Ignore
-    private boolean isHaveSpouse = false;//是否选中
+    private boolean isHaveSpouse = false;//是否有配偶
     @Ignore
-    private boolean isGrandChildrenHaveSon = false;//是否选中
+    private boolean isGrandChildrenHaveSon = false;//孙子是否有儿子
 
     public boolean isHaveSpouse() {
         return isHaveSpouse;
@@ -125,21 +123,6 @@ public class FamilyBean {
         this.spouseId = spouseId;
     }
 
-    public String getMothersId() {
-        return mothersId;
-    }
-
-    public void setMothersId(String mothersId) {
-        this.mothersId = mothersId;
-    }
-
-    public String getFathersId() {
-        return fathersId;
-    }
-
-    public void setFathersId(String fathersId) {
-        this.fathersId = fathersId;
-    }
 
     public FamilyBean getSpouse() {
         return spouse;

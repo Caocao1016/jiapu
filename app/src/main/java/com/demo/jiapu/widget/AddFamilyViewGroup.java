@@ -87,6 +87,7 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
         mPaint.reset();
         mPaint.setColor(0xFFBBBBBB);
         mPaint.setStrokeWidth(mLineWidthPX);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStyle(Paint.Style.STROKE);
 
         mPath = new Path();
@@ -158,7 +159,6 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
     }
 
 
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int left = (DisplayUtil.getScreenWidth() - mItemWidthPX) / 2;
@@ -228,7 +228,7 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
                 case ITEM_SON:
                 case ITEM_DAUGHTER:
                     drawVerticalLine(canvas, centerX, centerY + mItemHeightPX / 2, centerY + (mItemHeightPX + mSpacePX) / 2);
-                    drawVerticalLine(canvas, childView.getLeft() + mItemWidthPX / 2, childView.getBottom(), centerY + (mItemHeightPX + mSpacePX) / 2);
+                    drawVerticalLine(canvas, childView.getLeft() + mItemWidthPX / 2, childView.getTop(), childView.getTop() - mSpacePX / 2);
                     drawHorizontalLine(canvas, childView.getLeft() + mItemWidthPX / 2, centerX, childView.getTop() - mSpacePX / 2);
                     break;
 

@@ -167,9 +167,9 @@ public class FamilyDBHelper {
     }
 
 
-    private void setChildren(List<FamilyBean> famliyList) {
-        if (famliyList != null) {
-            for (FamilyBean family : famliyList) {
+    private void setChildren(List<FamilyBean> familyList) {
+        if (familyList != null) {
+            for (FamilyBean family : familyList) {
                 final String familyId = family.getMemberId();
                 final List<FamilyBean> childrenList = findChildrenByParentId(familyId, "");
                 if (childrenList != null && mInquirySpouse) {
@@ -181,9 +181,9 @@ public class FamilyDBHelper {
         }
     }
 
-    private void setGrandChildrenType(List<FamilyBean> famliyList) {
-        if (famliyList != null) {
-            for (FamilyBean family : famliyList) {
+    private void setGrandChildrenType(List<FamilyBean> familyList) {
+        if (familyList != null) {
+            for (FamilyBean family : familyList) {
                 final String familyId = family.getMemberId();
                 final List<FamilyBean> childrenList = findChildrenByParentId(familyId, "");
                 if (childrenList.size() > 0) {
@@ -195,8 +195,8 @@ public class FamilyDBHelper {
         }
     }
 
-    private void setSpouse(List<FamilyBean> famliyList) {
-        for (FamilyBean family : famliyList) {
+    private void setSpouse(List<FamilyBean> familyList) {
+        for (FamilyBean family : familyList) {
             setSpouse(family);
         }
     }

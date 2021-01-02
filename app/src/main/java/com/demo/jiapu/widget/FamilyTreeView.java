@@ -178,6 +178,8 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         mPaint.setColor(0xFFBBBBBB);
         mPaint.setStrokeWidth(mLineWidthPX);
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+
 
         mPath = new Path();
         mPath.reset();

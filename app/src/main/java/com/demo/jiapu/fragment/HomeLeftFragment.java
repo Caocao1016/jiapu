@@ -75,7 +75,6 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
         my.setSelect(true);
         dbHelper.closeDB();
         ftvTree.setCanClick(true);
-        ftvTree.setShowBottomSpouse(false);
         ftvTree.drawFamilyTree(my);
         ftvTree.setOnFamilyLongClickListener(this);
         registerEventBus(this);
@@ -84,7 +83,7 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        unregisterEventBus(this);
     }
 
     @SuppressLint("NonConstantResourceId")
