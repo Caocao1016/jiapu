@@ -1,11 +1,14 @@
 package com.demo.jiapu.widget;
 
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +30,8 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
     public static final int ITEM_SON = 5;
     public static final int ITEM_DAUGHTER = 6;
     public static final int ITEM_BROTHER = 7;
+    public static final int ITEM_OUT_SIDE = 8;
+
 
     private static final int AVATAR_MALE = R.drawable.ic_avatar_male;//男性默认头像
     private static final int AVATAR_FEMALE = R.drawable.ic_avatar_female;//女性默认头像
@@ -148,6 +153,7 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
         textView.setText(family.getMemberName());
         view.setTag(ITEM_MY);
         addView(view);
+
 
     }
 

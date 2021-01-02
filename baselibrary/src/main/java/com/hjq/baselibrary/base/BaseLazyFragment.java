@@ -101,6 +101,8 @@ public abstract class BaseLazyFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
+
+
     public boolean isVisibleToUser() {
         return isVisibleToUser;
     }

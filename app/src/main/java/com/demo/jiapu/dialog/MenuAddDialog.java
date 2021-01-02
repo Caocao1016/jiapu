@@ -2,7 +2,6 @@ package com.demo.jiapu.dialog;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.demo.jiapu.R;
 import com.demo.jiapu.activity.AddFamilyActivity;
@@ -33,12 +32,16 @@ public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupIt
     public void init() {
         AddFamilyViewGroup viewGroup = findViewById(R.id.vg_menu_add);
         viewGroup.addItemView(familyBean);
-        viewGroup.addItemView(2);
-        viewGroup.addItemView(3);
-        viewGroup.addItemView(4);
-        viewGroup.addItemView(5);
-        viewGroup.addItemView(6);
-        viewGroup.addItemView(7);
+        if (familyBean.getSpouseId().equals(""))
+            viewGroup.addItemView(AddFamilyViewGroup.ITEM_SPOUSE);
+        if (familyBean.getFatherId().equals(""))
+            viewGroup.addItemView(AddFamilyViewGroup.ITEM_FATHER);
+        if (familyBean.getMotherId().equals(""))
+            viewGroup.addItemView(AddFamilyViewGroup.ITEM_MOTHER);
+
+        viewGroup.addItemView(AddFamilyViewGroup.ITEM_BROTHER);
+        viewGroup.addItemView(AddFamilyViewGroup.ITEM_DAUGHTER);
+        viewGroup.addItemView(AddFamilyViewGroup.ITEM_SON);
         viewGroup.drawViewGroup();
         viewGroup.setOnItemClickListener(this);
 
@@ -47,7 +50,6 @@ public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupIt
 
     @Override
     public void onItemClick(int position) {
-        Log.i("TAG:", position + "");
         switch (position) {
             case AddFamilyViewGroup.ITEM_BROTHER:
                 getContext().startActivity(new Intent(getContext(), AddFamilyActivity.class));

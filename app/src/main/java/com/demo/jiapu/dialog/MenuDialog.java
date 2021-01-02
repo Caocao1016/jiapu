@@ -10,11 +10,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
+import com.demo.jiapu.activity.AddFamilyActivity;
 import com.demo.jiapu.activity.ViewHomeActivity;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Objects;
 
 
 public class MenuDialog extends BaseFullScreenDialog implements View.OnClickListener {
@@ -36,7 +39,6 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
         this.familyBean = familyBean;
     }
 
-    @SuppressLint("InflateParams")
     @Override
     public int getLayoutResId() {
         return R.layout.menu_main_family;
@@ -72,10 +74,14 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_menu_add:
-            case R.id.ll_menu_edit:
                 MenuAddDialog dialog = new MenuAddDialog(getContext(), familyBean);
                 dialog.show();
                 dismiss();
+                break;
+
+            case R.id.ll_menu_edit:
+                Intent intent= new Intent(getContext(), AddFamilyActivity.class);
+                getContext().startActivity(intent);
                 break;
 
             case R.id.ll_menu_home:

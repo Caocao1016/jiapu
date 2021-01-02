@@ -8,12 +8,11 @@ import com.litesuits.orm.db.enums.AssignType;
 import java.util.List;
 
 @Table("FamilyBean")
-public class FamilyBean {
+public class FamilyBean  {
 
     @PrimaryKey(AssignType.BY_MYSELF)
     private String memberId;//人员ID
     private String memberName;//姓名
-    private String call;//称呼
     private String memberImg;//头像
     private String sex;//性别：1男，2女
     private String birthday;//生日
@@ -67,13 +66,6 @@ public class FamilyBean {
         this.memberName = memberName;
     }
 
-    public String getCall() {
-        return call;
-    }
-
-    public void setCall(String call) {
-        this.call = call;
-    }
 
     public String getMemberImg() {
         return memberImg;
