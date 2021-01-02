@@ -1,8 +1,12 @@
 package com.demo.jiapu.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.demo.jiapu.R;
@@ -10,7 +14,11 @@ import com.demo.jiapu.activity.CreatHomeActivity;
 import com.demo.jiapu.activity.EditHomeActivity;
 import com.demo.jiapu.adapter.HomeRightAdapter;
 import com.demo.jiapu.base.BasePresenter;
+import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.base.CommonLazyFragment;
+import com.demo.jiapu.bean.JpsjListDataBean;
+import com.demo.jiapu.modle.HomeRigView;
+import com.demo.jiapu.presenter.HomeRigPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +26,21 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeRightFragment extends CommonLazyFragment {
+public class HomeRightFragment extends CommonLazyFragment<HomeRigPresenter> implements HomeRigView {
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private HomeRightAdapter mAdapter;
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initView();
         initData();
     }
-
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected HomeRigPresenter createPresenter() {
+        return new HomeRigPresenter(this);
     }
 
     @Override
@@ -66,13 +73,30 @@ public class HomeRightFragment extends CommonLazyFragment {
         mAdapter.setNewData(mLust);
         mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getContext(), EditHomeActivity.class)));
 
+        mPresenter.getLogin();
+//        mPresenter.addJpsj();
     }
 
     @OnClick({R.id.baner})
     public void onClick(View view) {
         if (view.getId() == R.id.baner) {
+
             startActivity(new Intent(getContext(), CreatHomeActivity.class));
         }
     }
 
+    @Override
+    public void onSuccess(List<JpsjListDataBean> response) {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
+
+    }
 }

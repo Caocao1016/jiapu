@@ -1,6 +1,8 @@
 package com.demo.jiapu.activity;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.widget.ImageView;
 
 import com.demo.jiapu.R;
@@ -17,6 +19,12 @@ import butterknife.BindView;
  */
 
 public class SplashActivity extends BaseActivity {
+
+
+    private final int TIMEALLLONG = 3000;
+    private final int TIMELONG = 100;
+
+    private TimeCount time;
 
 
     @BindView(R.id.iv)
@@ -39,19 +47,21 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        time = new TimeCount(TIMEALLLONG, TIMELONG);
+        time.start();
     }
 
     @Override
     protected void initView() {
-
+//        LayoutInflater.from(this).inflate()
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        time.cancel();
     }
-
     class TimeCount extends CountDownTimer {
 
         public TimeCount(long millisInFuture, long countDownInterval) {
@@ -65,6 +75,7 @@ public class SplashActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
+            startActivity(new Intent(SplashActivity.this, ViewHomeActivity.class));
         }
     }
 }

@@ -72,7 +72,6 @@ public class ViewHomeActivity extends BaseActivity {
 
         //默认设置为第0个
         setIndexSelected(0);
-
         mLeft.setBackgroundResource(R.drawable.icon_page_tab);
         mRig.setBackgroundColor(Color.WHITE);
     }
@@ -99,7 +98,7 @@ public class ViewHomeActivity extends BaseActivity {
         mIndex = index;
     }
 
-    @OnClick({R.id.rb_left, R.id.rb_right, R.id.iv})
+    @OnClick({R.id.rb_left, R.id.rb_right})
     public void onClick(View view) {
         if (view.getId() == R.id.rb_left) {
             setIndexSelected(0);
@@ -109,8 +108,6 @@ public class ViewHomeActivity extends BaseActivity {
             mRig.setBackgroundResource(R.drawable.icon_page_tab);
             mLeft.setBackgroundColor(Color.WHITE);
             setIndexSelected(1);
-        } else if (view.getId() == R.id.iv) {
-            finish();
         }
     }
 

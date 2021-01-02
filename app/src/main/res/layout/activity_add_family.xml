@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:orientation="vertical"
     android:scrollbars="vertical">
 
@@ -16,231 +18,202 @@
         app:title="我的家谱"
         app:title_right="刪除" />
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civ_add_avatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/ic_bg_add"
-                android:src="@drawable/ic_add_avatar" />
-
-            <TextView
-                android:id="@+id/tv_add_who"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="添加闷闷母亲"
-                android:textColor="#ff000000"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:orientation="horizontal"
-            android:paddingBottom="15dp">
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="30dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_add_avatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_head" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="*"
-                        android:textColor="@color/red"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:text="姓氏"
-                        android:textColor="#ff000000"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/et_add_family_name"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:background="@null"
-                        android:hint="姓氏"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_add_who"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="性別"
-                        android:textColor="#ff000000"
-                        android:textSize="16sp" />
-
-                    <com.demo.jiapu.widget.SwitchView
-                        android:id="@+id/swv_add_sex"
-                        android:layout_width="60dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
-                        app:bgColor="#B1B1B1"
-                        app:leftColor="#9A876A"
-                        app:padding="0dp"
-                        app:rightColor="#9A876A"
-                        app:setChecked="false"
-                        app:textLeft="男"
-                        app:textLeftClickColor="#FFFFFF"
-                        app:textLeftColor="#000000"
-                        app:textRight="女"
-                        app:textRightClickColor="#FFFFFF"
-                        app:textRightColor="#000000" />
-                </LinearLayout>
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="添加闷闷母亲"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textColor="@color/red"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:text="姓氏"
+                            android:textColor="#ff000000"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/et_add_family_name"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:hint="姓氏"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="*"
-                        android:textColor="@color/red"
-                        android:textSize="12sp" />
+                        android:layout_marginTop="30dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:text="名字"
-                        android:textColor="#ff000000"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="性別"
+                            android:textColor="#ff000000"
+                            android:textSize="16sp" />
 
-                    <EditText
-                        android:id="@+id/et_add_given_name"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:background="@null"
-                        android:hint="名字"
-                        android:textSize="12sp" />
+                        <com.demo.jiapu.widget.SwitchView
+                            android:id="@+id/swv_add_sex"
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            app:bgColor="#e6e6e6"
+                            app:leftColor="#9A876A"
+                            app:padding="0dp"
+                            app:rightColor="#9A876A"
+                            app:setChecked="false"
+                            app:textLeft="男"
+                            app:textLeftClickColor="#FFFFFF"
+                            app:textLeftColor="#000000"
+                            app:textRight="女"
+                            app:textRightClickColor="#FFFFFF"
+                            app:textRightColor="#000000" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textColor="@color/red"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:text="名字"
+                            android:textColor="#ff000000"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/et_add_given_name"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@null"
+                            android:hint="名字"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="*"
-                        android:textColor="@color/red"
-                        android:textSize="12sp" />
+                        android:layout_marginTop="30dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:text="在世"
-                        android:textColor="#ff000000"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textColor="@color/red"
+                            android:textSize="12sp" />
 
-                    <com.demo.jiapu.widget.SwitchView
-                        android:id="@+id/swv_add_live"
-                        android:layout_width="60dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
-                        app:bgColor="#B1B1B1"
-                        app:leftColor="#9A876A"
-                        app:padding="0dp"
-                        app:rightColor="#9A876A"
-                        app:setChecked="false"
-                        app:textLeft="是"
-                        app:textLeftClickColor="#FFFFFF"
-                        app:textLeftColor="#000000"
-                        app:textRight="否"
-                        app:textRightClickColor="#FFFFFF"
-                        app:textRightColor="#000000" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:text="在世"
+                            android:textColor="#ff000000"
+                            android:textSize="16sp" />
+
+                        <com.demo.jiapu.widget.SwitchView
+                            android:id="@+id/swv_add_live"
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            app:bgColor="#e6e6e6"
+                            app:leftColor="#9A876A"
+                            app:padding="0dp"
+                            app:rightColor="#9A876A"
+                            app:setChecked="false"
+                            app:textLeft="是"
+                            app:textLeftClickColor="#FFFFFF"
+                            app:textLeftColor="#000000"
+                            app:textRight="否"
+                            app:textRightClickColor="#FFFFFF"
+                            app:textRightColor="#000000" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <com.demo.jiapu.widget.RankCheckBoxView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            app:checkSetChecked="false" />
-
-        <com.demo.jiapu.widget.MoreEditView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            app:checkSetChecked="false"
-            app:editText="字辈"
-            app:leftTvText="字辈" />
-
-        <com.demo.jiapu.widget.MoreEditView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            app:checkSetChecked="false"
-            app:editText="生辰"
-            app:leftTvText="生辰" />
-
-        <LinearLayout
-            android:id="@+id/ll_add_live"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
             <com.demo.jiapu.widget.MoreEditView
                 android:layout_width="wrap_content"
@@ -248,54 +221,85 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 app:checkSetChecked="false"
-                app:editText="使者"
-                app:leftTvText="微信昵称" />
+                app:editText="字辈"
+                app:leftTvText="字辈" />
+
+            <com.demo.jiapu.widget.RankCheckBoxView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                app:checkSetChecked="false" />
 
             <com.demo.jiapu.widget.MoreEditView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                app:checkSetChecked="false"
+                app:editText="生辰"
+                app:leftTvText="籍贯" />
+
+            <com.demo.jiapu.widget.MoreEditView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                app:checkSetChecked="false"
+                app:editText="生辰"
+                app:leftTvText="生辰" />
+
+            <com.demo.jiapu.widget.MoreEditView
+                android:id="@+id/me_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 app:checkSetChecked="false"
                 app:editText="182********"
+                android:visibility="gone"
+                tools:visibility="visible"
                 app:leftTvText="手机号" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_add_not_live"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
 
-            <com.demo.jiapu.widget.MoreEditView
+            <LinearLayout
+                android:id="@+id/ll_add_not_live"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                app:checkSetChecked="false"
-                app:editText="诞辰"
-                app:leftTvText="诞辰" />
+                android:orientation="vertical"
+                tools:visibility="visible"
+                android:visibility="gone">
 
-            <com.demo.jiapu.widget.MoreEditView
-                android:layout_width="wrap_content"
+                <com.demo.jiapu.widget.MoreEditView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    app:checkSetChecked="false"
+                    app:editText="诞辰"
+                    app:leftTvText="诞辰" />
+
+                <com.demo.jiapu.widget.MoreEditView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    app:checkSetChecked="false"
+                    app:editText="如：xx省xx市xx陵园"
+                    app:leftTvText="埋葬地点" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                app:checkSetChecked="false"
-                app:editText="如：xx省xx市xx陵园"
-                app:leftTvText="埋葬地点" />
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/button_add_family"
+                android:text="添加"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
         </LinearLayout>
+    </ScrollView>
 
-        <Button
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/button_add_family"
-            android:text="添加"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 </LinearLayout>

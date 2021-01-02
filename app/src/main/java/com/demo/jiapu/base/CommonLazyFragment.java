@@ -2,13 +2,12 @@ package com.demo.jiapu.base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,12 +21,12 @@ import butterknife.Unbinder;
  *    desc   : 项目中Fragment懒加载基类
  */
 public abstract class CommonLazyFragment<T extends BasePresenter> extends UILazyFragment {
-
     private Unbinder mButterKnife;// View注解
     protected T mPresenter;
     private View rootView;
-//    protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
+    //    protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     protected Activity mActivity;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

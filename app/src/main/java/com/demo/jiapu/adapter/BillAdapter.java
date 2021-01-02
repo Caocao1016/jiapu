@@ -5,13 +5,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
-/**
- * CaoPengFei
- * 2018/11/26
- *
- * @ClassName: AuthorizationAdapter
- * @Description:
- */
+
 
 public class BillAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 

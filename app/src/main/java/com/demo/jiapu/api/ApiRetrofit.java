@@ -89,7 +89,7 @@ public class ApiRetrofit {
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
 
         mClient = new OkHttpClient.Builder()
-//                .addInterceptor(mHeaderInterceptor)//添加头部信息拦截器
+                .addInterceptor(mHeaderInterceptor)//添加头部信息拦截器
                 .addInterceptor(mLogInterceptor)//添加log拦截器
                 .cache(cache)
                 .connectTimeout(20, TimeUnit.SECONDS)
@@ -106,6 +106,14 @@ public class ApiRetrofit {
 
         mApiService = mRetrofit.create(ApiService.class);
     }
+
+
+    /**增加头部信息的拦截器*/
+    private Interceptor mHeaderInterceptor = chain -> {
+        Request.Builder builder = chain.request().newBuilder();
+        builder.addHeader("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpc3MiLCJhdWQiOiJhdWQiLCJqdGkiOiI5NGNhZTYwMDI1NGFiMTlmNmE1ZjAxMTM4MzZkZmJjMiIsImlhdCI6MTYwOTIxOTAzNSwibmJmIjoxNjA5MjE5MDM1LCJleHAiOjE2ODEyMTkwMzUsInVpZCI6NX0.6ETFpOfArpSSakQRZnJQ9y4o-SXIyaPH8Dgi3gwA7zI");
+        return chain.proceed(builder.build());
+    };
 
     public static ApiRetrofit getInstance() {
         if (mApiRetrofit == null) {
