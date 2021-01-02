@@ -60,7 +60,7 @@
         android:theme="@style/AppTheme">
 
 
-        <activity android:name="com.demo.jiapu.activity.ViewHomeActivity">
+        <activity android:name="com.demo.jiapu.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -68,6 +68,10 @@
         </activity>
         <activity
             android:name=".activity.CreatHomeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ViewHomeActivity"
             android:screenOrientation="portrait" />
 
         <activity

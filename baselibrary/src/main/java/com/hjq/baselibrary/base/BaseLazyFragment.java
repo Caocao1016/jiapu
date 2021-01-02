@@ -108,16 +108,6 @@ public abstract class BaseLazyFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        //解决java.lang.IllegalStateException: Activity has been destroyed 的错误
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     protected void init() {
@@ -154,7 +144,9 @@ public abstract class BaseLazyFragment extends Fragment {
      * @param cls          目标Activity的Class
      */
     public void startActivity(Class<? extends Activity> cls) {
-        startActivity(new Intent(getContext(), cls));
+        Intent intent = new Intent(getContext(), cls);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
     }
 
     /**

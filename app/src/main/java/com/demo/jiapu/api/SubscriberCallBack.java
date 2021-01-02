@@ -16,11 +16,11 @@ public abstract class SubscriberCallBack<T> extends Subscriber<BaseResponse<T>> 
 
     @Override
     public void onNext(BaseResponse response) {
-        boolean isSuccess = (response.getRetcode() == 1000);
+        boolean isSuccess = (response.getCode() == 200);
         if (isSuccess) {
             onSuccess((T) response.getData());
         } else {
-            UIUtils.showToast(response.getRetmsg());
+            UIUtils.showToast(response.getMsg());
             onFailure(response);
         }
     }

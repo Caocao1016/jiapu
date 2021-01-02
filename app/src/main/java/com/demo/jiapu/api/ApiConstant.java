@@ -10,7 +10,7 @@ package com.demo.jiapu.api;
 
 public class ApiConstant {
     /**接口根地址*/
-    public static final String BASE_SERVER_URL = "http://app.shundatech.net:8181/rent-server/";
+    public static final String BASE_SERVER_URL = "http://test.nwyp123.com/api/";
 
 
 }

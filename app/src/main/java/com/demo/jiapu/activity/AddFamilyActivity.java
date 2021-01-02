@@ -6,7 +6,9 @@ import android.widget.LinearLayout;
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BasePresenter;
+import com.demo.jiapu.widget.MoreEditView;
 import com.demo.jiapu.widget.SwitchView;
+import com.hjq.bar.TitleBar;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -16,8 +18,10 @@ public class AddFamilyActivity extends BaseActivity implements SwitchView.onClic
 
     @BindView(R.id.swv_add_live)
     SwitchView switchView;
-    @BindView(R.id.ll_add_live)
-    LinearLayout liveLayout;
+    @BindView(R.id.tb_add_title)
+    TitleBar mTitleBar;
+    @BindView(R.id.me_phone)
+    MoreEditView mePhone;
     @BindView(R.id.ll_add_not_live)
     LinearLayout unLiveLayout;
 
@@ -43,17 +47,21 @@ public class AddFamilyActivity extends BaseActivity implements SwitchView.onClic
 
     @Override
     protected void initData() {
+//        mTitleBar.getRightView().setVisibility("有子女"?View.GONE:View.VISIBLE);
+
+
+//        if (逝者){
+//            unLiveLayout.setVisibility(View.VISIBLE);
+//            mePhone.setVisibility(View.GONE);
+//        }else {
+//            unLiveLayout.setVisibility(View.GONE);
+//            mePhone.setVisibility(View.VISIBLE);
+//        }
 
     }
 
     @Override
     public void onClick(boolean isChecked) {
-        if (!isChecked){
-            liveLayout.setVisibility(View.VISIBLE);
-            unLiveLayout.setVisibility(View.GONE);
-        }else if(isChecked){
-            liveLayout.setVisibility(View.GONE);
-            unLiveLayout.setVisibility(View.VISIBLE);
-        }
+
     }
 }

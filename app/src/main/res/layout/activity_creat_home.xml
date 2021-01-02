@@ -74,7 +74,7 @@
             android:layout_below="@+id/tvAdd"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:background="@color/black" />
+            android:src="@drawable/ic_add_photo" />
 
         <TextView
             android:id="@+id/send"

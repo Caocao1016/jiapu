@@ -1,6 +1,13 @@
 package com.demo.jiapu.fragment;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.alibaba.fastjson.JSONObject;
 import com.demo.jiapu.R;
@@ -45,17 +52,17 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
     }
 
     @Override
-    protected void initView() {
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
         initData();
     }
 
+    @Override
+    protected void initView() {
+    }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     @Override
     protected void initData() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
@@ -77,8 +84,6 @@ public class HomeLeftFragment extends CommonLazyFragment implements OnFamilyLong
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null != ftvTree)
-            ftvTree.destroyView();
 
     }
 

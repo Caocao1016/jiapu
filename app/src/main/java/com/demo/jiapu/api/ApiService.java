@@ -2,6 +2,7 @@ package com.demo.jiapu.api;
 
 
 import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.response.JpsjListResponse;
 import com.demo.jiapu.response.LoginResponse;
 import java.util.Map;
 
@@ -22,14 +23,14 @@ public interface ApiService {
     /**
      * 用户登陆
      */
-    @POST("user/signin")
-    Observable<BaseResponse<LoginResponse>> login(@QueryMap Map<String, Object> params);
+    @GET("Jpsj_List/selList")
+    Observable<BaseResponse<JpsjListResponse>> selList();
 
     /**
      * 请求验证码接口
      */
-    @GET("common/requestSmsCode")
-    Observable<BaseResponse> getLoginCode(@QueryMap Map<String, Object> params);
+    @POST("Jpsj_List/addJpsj")
+    Observable<BaseResponse> addJpsj(@QueryMap Map<String, Object> params);
 
 }
 

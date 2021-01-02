@@ -9,24 +9,24 @@ package com.demo.jiapu.base;
  */
 
 public class BaseResponse<T>{
-    private int retcode;
-    private String retmsg;
+    private int code;
+    private String msg;
     private T data;
 
-    public int getRetcode() {
-        return retcode;
+    public int getCode() {
+        return code;
     }
 
-    public void setRetcode(int retcode) {
-        this.retcode = retcode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getRetmsg() {
-        return retmsg;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setRetmsg(String retmsg) {
-        this.retmsg = retmsg;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public T getData() {
@@ -40,8 +40,8 @@ public class BaseResponse<T>{
     @Override
     public String toString() {
         return "BaseResponse{" +
-                "returnCode=" + retcode +
-                ", msg='" + retmsg + '\'' +
+                "returnCode=" + code +
+                ", msg='" + msg + '\'' +
                 ", data=" + data +
                 '}';
     }

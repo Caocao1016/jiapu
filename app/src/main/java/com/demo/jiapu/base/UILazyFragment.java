@@ -1,13 +1,12 @@
 package com.demo.jiapu.base;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.gyf.barlibrary.ImmersionBar;
-import com.hjq.bar.OnTitleBarListener;
-import com.hjq.bar.TitleBar;
 import com.hjq.baselibrary.base.BaseLazyFragment;
 
 /**
@@ -16,7 +15,7 @@ import com.hjq.baselibrary.base.BaseLazyFragment;
  *    time   : 2018/10/18
  *    desc   : 支持沉浸式Fragment懒加载基类（默认不开启沉浸式）
  */
-public abstract class UILazyFragment extends BaseLazyFragment implements OnTitleBarListener {
+public abstract class UILazyFragment extends BaseLazyFragment {
 
     private ImmersionBar mImmersionBar;//状态栏沉浸
 
@@ -28,12 +27,7 @@ public abstract class UILazyFragment extends BaseLazyFragment implements OnTitle
         if (isVisibleToUser() && isStatusBarEnabled() && isLazyLoad()) {
             statusBarConfig().init();
         }
-        //初始化标题栏的监听
-        if (getTitleBarId() > 0) {
-            if (findViewById(getTitleBarId()) instanceof TitleBar) {
-                ((TitleBar) findViewById(getTitleBarId())).setOnTitleBarListener(this);
-            }
-        }
+
         //设置标题栏
         if (getTitleBarId() > 0) {
             ImmersionBar.setTitleBar(mActivity, findViewById(getTitleBarId()));
@@ -87,25 +81,4 @@ public abstract class UILazyFragment extends BaseLazyFragment implements OnTitle
             statusBarConfig().init();
         }
     }
-
-    /**
-     * 标题栏左边的View被点击了
-     */
-    @Override
-    public void onLeftClick(View v) {
-
-    }
-
-
-    /**
-     * 标题栏中间的View被点击了
-     */
-    @Override
-    public void onTitleClick(View v) {}
-
-    /**
-     * 标题栏右边的View被点击了
-     */
-    @Override
-    public void onRightClick(View v) {}
 }
