@@ -30,17 +30,11 @@ public class FamilyBean  {
     @Ignore
     private boolean isSelect = false;//是否选中
     @Ignore
-    private boolean isHaveSpouse = false;//是否有配偶
+    private boolean isMemberSpouse = false;//是否为直系亲属的配偶
     @Ignore
     private boolean isGrandChildrenHaveSon = false;//孙子是否有儿子
 
-    public boolean isHaveSpouse() {
-        return isHaveSpouse;
-    }
 
-    public void setIsHaveSpouse(boolean spouse) {
-        isHaveSpouse = spouse;
-    }
 
     public boolean isGrandChildrenHaveSon() {
         return isGrandChildrenHaveSon;
@@ -120,8 +114,8 @@ public class FamilyBean  {
         return spouse;
     }
 
-    public void setHaveSpouse(FamilyBean haveSpouse) {
-        this.spouse = haveSpouse;
+    public void setSpouse(FamilyBean spouse) {
+        this.spouse = spouse;
     }
 
     public List<FamilyBean> getChildren() {
@@ -141,4 +135,11 @@ public class FamilyBean  {
     }
 
 
+    public boolean isMemberSpouse() {
+        return isMemberSpouse;
+    }
+
+    public void setMemberSpouse(boolean memberSpouse) {
+        isMemberSpouse = memberSpouse;
+    }
 }

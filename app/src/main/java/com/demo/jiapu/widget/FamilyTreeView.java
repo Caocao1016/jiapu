@@ -279,9 +279,9 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         mMyInfo = family;
         if (mMyInfo != null) {
             mDBHelper.setSpouse(mMyInfo);
-            family.setSelect(true);
-            family.setIsHaveSpouse(false);
+            family.setSelect(canClick);
             family.setGrandChildrenHaveSon(false);
+            family.setMemberSpouse(false);
             mMyChildrenInfo.addAll(mDBHelper.getChildrenAndGrandChildren(mMyInfo, ""));
 
             final String fatherId = mMyInfo.getFatherId();
@@ -659,7 +659,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                 .apply(requestOptions)
                 .into(ivAvatar);
 
-        if (family.equals(mMyPGrandParentInfo) || family.isHaveSpouse()) {
+        if (family.equals(mMyPGrandParentInfo) || family.isMemberSpouse()) {
             if (!family.getFatherId().equals("") || !family.getMotherId().equals("")) {
                 familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
             }

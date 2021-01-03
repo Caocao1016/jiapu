@@ -130,7 +130,7 @@ public class FamilyDBHelper {
         final FamilyBean male = findFamilyById(maleId);
         final FamilyBean female = findFamilyById(femaleId);
         if (male != null) {
-            male.setHaveSpouse(female);
+            male.setSpouse(female);
             return male;
         } else if (female != null) {
             return female;
@@ -203,9 +203,9 @@ public class FamilyDBHelper {
 
     public void setSpouse(FamilyBean family) {
         final String spouseId = family.getSpouseId();
-        family.setHaveSpouse(findFamilyById(spouseId));
+        family.setSpouse(findFamilyById(spouseId));
         if (family.getSpouse() != null)
-            family.getSpouse().setIsHaveSpouse(true);
+            family.getSpouse().setMemberSpouse(true);
     }
 
 
