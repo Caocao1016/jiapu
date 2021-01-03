@@ -9,16 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="26dp"
         android:background="@drawable/ic_seach_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
         <ImageView
             android:layout_width="22dp"
             android:layout_height="22dp"
@@ -39,6 +39,9 @@
         android:id="@+id/baner"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_marginLeft="20dp"
+        android:scaleType="fitXY"
+        android:layout_marginRight="20dp"
         android:src="@drawable/ic_banner" />
 
     <TextView
@@ -47,7 +50,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="13dp"
         android:layout_marginBottom="13dp"
-        android:text="以下随机家谱展示"
+        android:text="我创建的家谱世家"
         android:textColor="#373737"
         android:textSize="14sp" />
 
@@ -55,7 +58,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_weight="1" />
 </LinearLayout>
