@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.demo.jiapu"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0.2"
@@ -35,7 +35,8 @@ dependencies {
 
 
     api 'androidx.constraintlayout:constraintlayout:2.0.4'
-
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    api 'com.hjq:xxpermissions:5.2'
 
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha08'
     implementation 'com.google.android.material:material:1.2.1'
@@ -43,9 +44,6 @@ dependencies {
 
     // 状态栏沉浸：https://github.com/gyf-dev/ImmersionBar
     api 'com.gyf.barlibrary:barlibrary:2.3.0'
-
-    // 权限请求框架：https://github.com/getActivity/XXPermissions
-    api 'com.hjq:xxpermissions:5.2'
 
     // 标题栏：https://github.com/getActivity/TitleBar
     api 'com.hjq:titlebar:3.2'
@@ -72,7 +70,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     implementation 'io.reactivex:rxandroid:1.2.0'
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.github.zhaokaiqiang.klog:library:1.6.0'
     implementation 'com.alibaba:fastjson:1.2.33'
@@ -80,5 +78,6 @@ dependencies {
 
 
     implementation files('libs/lite-orm-1.9.2.jar')
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9'
 
 }

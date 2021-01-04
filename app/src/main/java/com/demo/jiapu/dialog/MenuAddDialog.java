@@ -2,13 +2,17 @@ package com.demo.jiapu.dialog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import com.demo.jiapu.R;
 import com.demo.jiapu.activity.AddFamilyActivity;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.listener.OnViewGroupItemClickListener;
 import com.demo.jiapu.widget.AddFamilyViewGroup;
+import com.demo.jiapu.widget.SwitchView;
+import com.hjq.toast.ToastUtils;
 
+import butterknife.BindView;
 
 public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupItemClickListener {
 
@@ -45,8 +49,11 @@ public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupIt
         viewGroup.drawViewGroup();
         viewGroup.setOnItemClickListener(this);
 
-    }
+        findViewById(R.id.vg_menu_add).setOnClickListener(v -> {
+            dismiss();
+        });
 
+    }
 
     @Override
     public void onItemClick(int position) {

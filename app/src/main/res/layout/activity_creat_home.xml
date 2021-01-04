@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="27dp"
             android:layout_marginTop="27dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:text="家谱名称："
             android:textColor="@color/cl_f333333"
             android:textSize="14sp" />
@@ -68,17 +68,19 @@
             android:textColor="@color/cl_f333333"
             android:textSize="14sp" />
 
-        <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_below="@+id/tvAdd"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/ic_add_photo" />
+
+            <com.demo.jiapu.util.RoundImageView
+                android:id="@+id/select"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_below="@+id/tvAdd"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_add_photo" />
 
         <TextView
             android:id="@+id/send"
-            android:layout_width="161dp"
+            android:layout_width="140dp"
             android:layout_height="33dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"

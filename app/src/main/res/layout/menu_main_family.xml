@@ -60,7 +60,7 @@
         <ImageView
             android:layout_width="41dp"
             android:layout_height="41dp"
-            android:src="@drawable/ic_menu_add" />
+            android:src="@drawable/ic_add_people" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
         <ImageView
             android:layout_width="41dp"
             android:layout_height="41dp"
-            android:src="@drawable/ic_menu_add" />
+            android:src="@drawable/ic_dialog_open" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
         <ImageView
             android:layout_width="41dp"
             android:layout_height="41dp"
-            android:src="@drawable/ic_menu_add" />
+            android:src="@drawable/ic_dialog_home" />
 
         <TextView
             android:layout_width="wrap_content"
