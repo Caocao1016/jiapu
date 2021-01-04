@@ -36,6 +36,10 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
     private static final int AVATAR_MALE = R.drawable.ic_avatar_male;//男性默认头像
     private static final int AVATAR_FEMALE = R.drawable.ic_avatar_female;//女性默认头像
 
+    private static final int BACKGROUND_MALE = R.drawable.shape_bg_male_selector;
+    private static final int BACKGROUND_FEMALE = R.drawable.shape_bg_female_selector;
+
+
     private static final String SEX_MALE = "1";//1为男性
     private static final String SEX_FEMALE = "2";//2为女性
 
@@ -55,8 +59,8 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
 
     private static final int LINE_WIDTH_DP = 2;//连线宽度2dp
     private static final int SPACE_WIDTH_DP = 20;//间距为20dp
-    private static final int ITEM_WIDTH_DP = 100;
-    private static final int ITEM_HEIGHT_DP = 141;
+    private static final int ITEM_WIDTH_DP = 85;
+    private static final int ITEM_HEIGHT_DP = 114;
 
     private OnViewGroupItemClickListener onViewGroupItemClickListener;
 
@@ -148,6 +152,8 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
                 .load(family.getMemberImg())
                 .apply(requestOptions)
                 .into(imageView);
+        view.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
+
         TextView textView = view.findViewById(R.id.tv_menu_add__name);
         textView.setTextSize(15);
         textView.setText(family.getMemberName());

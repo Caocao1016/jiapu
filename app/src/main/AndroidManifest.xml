@@ -69,7 +69,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CreatHomeActivity"
+            android:name=".activity.CreateHomeActivity"
             android:screenOrientation="portrait" />
 
         <activity

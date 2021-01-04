@@ -2,7 +2,6 @@ package com.demo.jiapu.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -10,10 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.demo.jiapu.R;
-import com.demo.jiapu.activity.CreatHomeActivity;
+import com.demo.jiapu.activity.CreateHomeActivity;
 import com.demo.jiapu.activity.EditHomeActivity;
 import com.demo.jiapu.adapter.HomeRightAdapter;
-import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.base.CommonLazyFragment;
 import com.demo.jiapu.bean.JpsjListDataBean;
@@ -81,7 +79,7 @@ public class HomeRightFragment extends CommonLazyFragment<HomeRigPresenter> impl
     public void onClick(View view) {
         if (view.getId() == R.id.baner) {
 
-            startActivity(new Intent(getContext(), CreatHomeActivity.class));
+            startActivity(new Intent(getContext(), CreateHomeActivity.class));
         }
     }
 

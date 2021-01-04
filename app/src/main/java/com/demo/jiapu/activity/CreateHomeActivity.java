@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.load.engine.GlideException;
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BasePresenter;
@@ -26,9 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CreatHomeActivity extends BaseActivity {
+public class CreateHomeActivity extends BaseActivity {
 
-    private static final String TAG = "CreatHomeActivity";
+    private static final String TAG = "CreateHomeActivity";
     @BindView(R.id.select)
     RoundImageView roundImageView;
 
@@ -69,7 +67,7 @@ public class CreatHomeActivity extends BaseActivity {
                         @Override
                         public void hasPermission(List<String> granted, boolean isAll) {
 
-                            PictureSelector.create(CreatHomeActivity.this)
+                            PictureSelector.create(CreateHomeActivity.this)
                                     .openGallery(PictureMimeType.ofImage())
                                     .imageEngine(GlideEngine.createGlideEngine())
                                     .isPreviewImage(true) // 是否可预览图片
@@ -81,7 +79,7 @@ public class CreatHomeActivity extends BaseActivity {
                         @Override
                         public void noPermission(List<String> denied, boolean quick) {
                             //可以给toast提示 或其他
-                            XXPermissions.gotoPermissionSettings(CreatHomeActivity.this);
+                            XXPermissions.gotoPermissionSettings(CreateHomeActivity.this);
                         }
                     });
 
