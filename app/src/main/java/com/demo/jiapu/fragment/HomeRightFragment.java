@@ -18,7 +18,6 @@ import com.demo.jiapu.bean.JpsjListDataBean;
 import com.demo.jiapu.modle.HomeRigView;
 import com.demo.jiapu.presenter.HomeRigPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,21 +56,12 @@ public class HomeRightFragment extends CommonLazyFragment<HomeRigPresenter> impl
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mAdapter = new HomeRightAdapter(null);
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void initData() {
-        List<String> mLust= new ArrayList<>();
-        mLust.add("1");
-        mLust.add("1");
-        mLust.add("1");
-        mLust.add("1");
-        mLust.add("1");
-        mAdapter.setNewData(mLust);
-        mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getContext(), EditHomeActivity.class)));
 
-        mPresenter.getLogin();
+        mPresenter.getList();
 //        mPresenter.addJpsj();
     }
 
@@ -85,6 +75,10 @@ public class HomeRightFragment extends CommonLazyFragment<HomeRigPresenter> impl
 
     @Override
     public void onSuccess(List<JpsjListDataBean> response) {
+
+        mAdapter.setNewData(response);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getContext(), EditHomeActivity.class)));
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 

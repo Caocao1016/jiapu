@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.OverScroller;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.util.DisplayUtil;
 import com.dinuscxj.gesture.MultiTouchGestureDetector;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,8 +59,8 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     private static final int BACKGROUND_OPEN_MALE = R.drawable.shape_bg_open_male_selector;
     private static final int BACKGROUND_OPEN_FEMALE = R.drawable.shape_bg_open_female_selector;
     private float mScaleFactor = 1.0f;
-    private float mOffsetX = 0.f;
-    private float mOffsetY = 0.f;
+    private int mOffsetX = 0;
+    private int mOffsetY = 0;
 
     private final MultiTouchGestureDetector mMultiTouchGestureDetector;
 
@@ -95,8 +97,8 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     private int mScrollWidth;//移动范围
     private int mCurrentX;//当前X轴偏移量
     private int mCurrentY;//当前Y轴偏移量
-    private float mLastTouchX;//最后一次触摸的X坐标
-    private float mLastTouchY;//最后一次触摸的Y坐标
+    private int mLastTouchX;//最后一次触摸的X坐标
+    private int mLastTouchY;//最后一次触摸的Y坐标
     private int mLastInterceptX;
     private int mLastInterceptY;
 
@@ -137,6 +139,8 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
 
     private FamilyDBHelper mDBHelper;
+
+    private OverScroller mScroller;
 
     private String mDBName = "FamilyTree.db";
 
@@ -204,7 +208,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         mMyFaUncleChildrenView = new ArrayList<>();
         mMultiTouchGestureDetector = new MultiTouchGestureDetector(context, new MultiTouchGestureDetectorListener());
 
-
+        mScroller = new OverScroller(context);
     }
 
 
@@ -643,7 +647,9 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         final TextView tvName = familyView.findViewById(R.id.tv_ac_f_name);
         tvName.setTextSize(NAME_TEXT_SIZE_SP);
-        tvName.setText(family.getMemberName());
+        if (!family.getNickname().equals(""))
+            tvName.setText(family.getNickname());
+        else tvName.setText(family.getSurname() + family.getNames());
 
         final CircleImageView ivAvatar = familyView.findViewById(R.id.iv_ac_f_avatar);
 
@@ -734,7 +740,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         if (mOnlyMyView != null) {
             mOffsetX = mOnlyMyView.getLeft() - mCurrentWidth;
             mOffsetY = mOnlyMyView.getTop() - mCurrentHeight;
-            scrollTo((int) mOffsetX, (int) mOffsetY);
+            smoothScrollTo((int) mOffsetX, (int) mOffsetY);
         }
     }
 
@@ -774,7 +780,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         }
         drawOtherLine(canvas, mMyFaUncleInfo, mMyFaUncleView, mPGrandParentX);
         drawOtherLine(canvas, mMyMoUncleInfo, mMyMoUncleView, mMGrandParentX);
-
     }
 
     private void drawPart(Canvas canvas,
@@ -1022,11 +1027,21 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         private float mLastScaleFactor = 1.0f;
         private float mLastScaleFactor2 = 1.0f;
         private boolean mScaleOrientation;
+        private NumberFormat numberFormat;
+
+
+        public MultiTouchGestureDetectorListener() {
+            numberFormat = NumberFormat.getNumberInstance();
+            numberFormat.setMaximumFractionDigits(2);
+        }
 
         @Override
         public void onScale(MultiTouchGestureDetector detector) {
 
             mScaleFactor *= detector.getScale();
+
+            mScaleFactor = Float.parseFloat(numberFormat.format(mScaleFactor));
+
             mScaleFactor = Math.max(1f, Math.min(mScaleFactor, 3.0f));
 
             if (mScaleFactor > mLastScaleFactor && mLastScaleFactor > mLastScaleFactor2) {
@@ -1059,12 +1074,12 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         @Override
         public void onMove(MultiTouchGestureDetector detector) {
+            mOffsetX -= (int) ((detector.getMoveX() - 0.5) * 2);
+            mOffsetY -= (int) ((detector.getMoveY() - 0.5) * 2);
 
-            mOffsetX -= detector.getMoveX();
-            mOffsetY -= detector.getMoveY();
 
             boolean isYExceed = -scrollMaxSpace > mOffsetY || mOffsetY > scrollMaxSpace;
-            boolean isXExceed = scrollMaxLeft - scrollMaxSpace > mOffsetX || mOffsetX > scrollMaxRight - scrollMaxSpace;
+            boolean isXExceed = scrollMaxLeft - scrollMaxSpace / 2 > mOffsetX || mOffsetX > scrollMaxRight - scrollMaxSpace;
 
             if (isXExceed) {
                 if (isYExceed) {
@@ -1078,11 +1093,12 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                 mLastTouchY = mOffsetY;
                 mLastTouchX = mOffsetX;
             }
+            smoothScrollTo(mOffsetX, mOffsetY);
 
-            scrollTo((int) mOffsetX, (int) mOffsetY);
             Log.i("test", "x:" + mOffsetX + "    y:" + mOffsetY);
 
         }
+
 
         @Override
         public void onRotate(MultiTouchGestureDetector detector) {
@@ -1092,8 +1108,40 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     }
 
 
+    //调用此方法滚动到目标位置
+    public void smoothScrollTo(int fx, int fy) {
+        int dx = fx - mScroller.getFinalX();
+        int dy = fy - mScroller.getFinalY();
+        smoothScrollBy(dx, dy);
+    }
+
+    //调用此方法设置滚动的相对偏移
+    public void smoothScrollBy(int dx, int dy) {
+
+        //设置mScroller的滚动偏移量
+        mScroller.startScroll(mScroller.getFinalX(), mScroller.getFinalY(), dx, dy);
+        invalidate();//这里必须调用invalidate()才能保证computeScroll()会被调用，否则不一定会刷新界面，看不到滚动效果
+    }
+
+
+    @Override
+    public void computeScroll() {
+
+        //先判断mScroller滚动是否完成
+        if (mScroller.computeScrollOffset()) {
+
+            //这里调用View的scrollTo()完成实际的滚动
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+
+            //必须调用该方法，否则不一定能看到滚动效果
+            invalidate();
+        }
+        super.computeScroll();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         mMultiTouchGestureDetector.onTouchEvent(event);
         return true;
     }
@@ -1116,6 +1164,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                 break;
             case MotionEvent.ACTION_UP:
                 intercerpt = false;
+
                 break;
         }
         return intercerpt;

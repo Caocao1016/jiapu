@@ -3,12 +3,10 @@ package com.demo.jiapu.presenter;
 import android.util.Log;
 
 import com.demo.jiapu.api.SubscriberCallBack;
-import com.demo.jiapu.base.BaseParams;
 import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.entity.JpsjAddRequest;
 import com.demo.jiapu.modle.HomeRigView;
-import com.demo.jiapu.modle.LoginView;
 import com.demo.jiapu.response.JpsjListResponse;
 
 public class HomeRigPresenter extends BasePresenter<HomeRigView> {
@@ -16,7 +14,7 @@ public class HomeRigPresenter extends BasePresenter<HomeRigView> {
         super(view);
     }
 
-    public void getLogin() {
+    public void getList() {
 
         addSubscription(mApiService.selList(), new SubscriberCallBack<JpsjListResponse>() {
 

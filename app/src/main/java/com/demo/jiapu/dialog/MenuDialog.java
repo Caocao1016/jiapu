@@ -1,6 +1,5 @@
 package com.demo.jiapu.dialog;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -11,13 +10,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
 import com.demo.jiapu.activity.AddFamilyActivity;
-import com.demo.jiapu.activity.ViewHomeActivity;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.Objects;
 
 
 public class MenuDialog extends BaseFullScreenDialog implements View.OnClickListener {
@@ -48,7 +44,9 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
     public void init() {
 
         final TextView textView = findViewById(R.id.tv_menu_name);
-        textView.setText(familyBean.getMemberName());
+        if (!familyBean.getNickname().equals(""))
+            textView.setText(familyBean.getNickname());
+        else textView.setText(familyBean.getSurname() + familyBean.getNames());
         final ImageView imageView = findViewById(R.id.iv_menu_avatar);
 
         RequestOptions requestOptions = new RequestOptions()

@@ -1,14 +1,11 @@
 package com.demo.jiapu.widget;
 
-import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -156,7 +153,10 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
 
         TextView textView = view.findViewById(R.id.tv_menu_add__name);
         textView.setTextSize(15);
-        textView.setText(family.getMemberName());
+        if (!family.getNickname().equals(""))
+            textView.setText(family.getNickname());
+        else textView.setText(family.getSurname() + family.getNames());
+        textView.setText(family.getNickname());
         view.setTag(ITEM_MY);
         addView(view);
 

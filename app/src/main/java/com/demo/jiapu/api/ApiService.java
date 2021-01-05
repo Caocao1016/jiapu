@@ -2,8 +2,10 @@ package com.demo.jiapu.api;
 
 
 import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.response.JpsjListResponse;
-import com.demo.jiapu.response.LoginResponse;
+
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.http.GET;
@@ -31,6 +33,13 @@ public interface ApiService {
      */
     @POST("Jpsj_List/addJpsj")
     Observable<BaseResponse> addJpsj(@QueryMap Map<String, Object> params);
+
+    @GET("Gr_Jp/selGrjp")
+    Observable<BaseResponse<List<FamilyBean>>> selGrjp(@QueryMap Map<String, Object> params);
+
+    @GET("Gr_Jp/addGrjp")
+    Observable<BaseResponse> addGrjp(@QueryMap Map<String, Object> params);
+
 
 }
 
