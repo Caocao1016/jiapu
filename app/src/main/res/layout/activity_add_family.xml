@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical"
     android:scrollbars="vertical">
@@ -249,17 +249,38 @@
                 app:editText="生辰"
                 app:leftTvText="生辰" />
 
-            <com.demo.jiapu.widget.MoreEditView
-                android:id="@+id/me_phone"
+            <LinearLayout
+                android:id="@+id/ll_add_live"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                app:checkSetChecked="false"
-                app:editText="182********"
-                android:visibility="gone"
-                tools:visibility="visible"
-                app:leftTvText="手机号" />
+                android:orientation="vertical"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <com.demo.jiapu.widget.MoreEditView
+                    android:id="@+id/me_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:visibility="gone"
+                    app:checkSetChecked="false"
+                    app:editText="182********"
+                    app:leftTvText="手机号"
+                    tools:visibility="visible" />
+
+                <com.demo.jiapu.widget.MoreEditView
+                    android:id="@+id/me_weixin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:visibility="gone"
+                    app:checkSetChecked="false"
+                    app:editText="微信昵称"
+                    app:leftTvText="微信昵称"
+                    tools:visibility="visible" />
+            </LinearLayout>
 
 
             <LinearLayout
@@ -267,8 +288,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:visibility="visible"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <com.demo.jiapu.widget.MoreEditView
                     android:layout_width="wrap_content"

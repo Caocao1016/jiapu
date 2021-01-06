@@ -34,7 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 
-public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter>  implements OnFamilyLongClickListener,HomeLeftView {
+public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> implements OnFamilyLongClickListener, HomeLeftView {
     private static final String MY_ID = "601";
 
     private MenuDialog menuDialog;
@@ -104,7 +104,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter>  imp
     @Override
     public void onSuccess(List<FamilyBean> response) {
         List<FamilyBean> mList = response;
-        if (mList!=null){
+        if (mList != null) {
             final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
             dbHelper.save(mList);
             final FamilyBean my = dbHelper.findFamilyById(MY_ID);

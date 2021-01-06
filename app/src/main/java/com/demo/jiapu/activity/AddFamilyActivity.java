@@ -20,10 +20,10 @@ public class AddFamilyActivity extends BaseActivity implements SwitchView.onClic
     SwitchView switchView;
     @BindView(R.id.tb_add_title)
     TitleBar mTitleBar;
-    @BindView(R.id.me_phone)
-    MoreEditView mePhone;
     @BindView(R.id.ll_add_not_live)
     LinearLayout unLiveLayout;
+    @BindView(R.id.ll_add_live)
+    LinearLayout liveLayout;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -42,7 +42,7 @@ public class AddFamilyActivity extends BaseActivity implements SwitchView.onClic
 
     @Override
     protected void initView() {
-       switchView.setOnClickCheckedListener(this);
+        switchView.setOnClickCheckedListener(this);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class AddFamilyActivity extends BaseActivity implements SwitchView.onClic
 
 //        if (逝者){
 //            unLiveLayout.setVisibility(View.VISIBLE);
-//            mePhone.setVisibility(View.GONE);
+//            liveLayout.setVisibility(View.GONE);
 //        }else {
 //            unLiveLayout.setVisibility(View.GONE);
-//            mePhone.setVisibility(View.VISIBLE);
+//            liveLayout.setVisibility(View.VISIBLE);
 //        }
 
     }

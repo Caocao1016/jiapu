@@ -12,7 +12,7 @@ import java.util.List;
 public class FamilyBean {
 
 
-    @PrimaryKey(AssignType.BY_MYSELF)
+//    @PrimaryKey(AssignType.BY_MYSELF)
     @JSONField(name = "id")
     private String memberId;//人员ID
     @JSONField(name = "avatar")
