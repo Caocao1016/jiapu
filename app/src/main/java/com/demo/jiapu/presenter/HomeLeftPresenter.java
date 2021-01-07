@@ -1,9 +1,11 @@
 package com.demo.jiapu.presenter;
 
+import android.util.Log;
+
 import com.demo.jiapu.api.SubscriberCallBack;
 import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
-import com.demo.jiapu.bean.FamilyBean;
+import com.demo.jiapu.bean.MemberBean;
 import com.demo.jiapu.entity.SelGrjpRequest;
 import com.demo.jiapu.modle.HomeLeftView;
 
@@ -19,11 +21,10 @@ public class HomeLeftPresenter extends BasePresenter<HomeLeftView> {
 
         request.userId = "5";
 
-        addSubscription(mApiService.selGrjp(request.params()), new SubscriberCallBack<List<FamilyBean>>() {
+        addSubscription(mApiService.selGrjp(request.params()), new SubscriberCallBack<List<MemberBean>>() {
 
             @Override
-            protected void onSuccess(List<FamilyBean> response) {
-
+            protected void onSuccess(List<MemberBean> response) {
                 mView.onSuccess(response);
             }
 

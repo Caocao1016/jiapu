@@ -1,15 +1,14 @@
 package com.demo.jiapu.modle;
 
 import com.demo.jiapu.base.BaseResponse;
-import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.bean.JpsjListDataBean;
+import com.demo.jiapu.bean.MemberBean;
 
 import java.util.List;
 
 
 public interface HomeLeftView {
 
-    void onSuccess(List<FamilyBean> response);
+    void onSuccess(List<MemberBean> response);
 
 
     void onError();

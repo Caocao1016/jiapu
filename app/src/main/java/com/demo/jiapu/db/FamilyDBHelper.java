@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.demo.jiapu.bean.FamilyBean;
+import com.demo.jiapu.bean.MemberBean;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
@@ -82,11 +83,11 @@ public class FamilyDBHelper {
                 .where(sql, parentId, parentId, ignoreChildId, birthday));
     }
 
-    public int save(List<FamilyBean> families) {
+    public int save(List<MemberBean> families) {
         return liteOrm.save(families);
     }
 
-    public long save(FamilyBean family) {
+    public long save(MemberBean family) {
         return liteOrm.save(family);
     }
 

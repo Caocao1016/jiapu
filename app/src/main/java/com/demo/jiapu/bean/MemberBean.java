@@ -1,24 +1,25 @@
 package com.demo.jiapu.bean;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.litesuits.orm.db.annotation.Ignore;
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
 import com.litesuits.orm.db.enums.AssignType;
 
-import java.util.List;
-
 @Table("FamilyBean")
-public class FamilyBean {
-
-
+public class MemberBean {
+    @PrimaryKey(AssignType.BY_MYSELF)
+    @SerializedName("id")
     private String memberId;//人员ID
+    @SerializedName("avatar")
     private String memberImg;//头像
+    @SerializedName("father_id")
     private String fatherId;//父亲ID
+    @SerializedName("mother_id")
     private String motherId;//母亲ID
+    @SerializedName("spouse_id")
     private String spouseId;//配偶ID
+    @SerializedName("birthdate")
     private String birthday;//生日
 
     private String sex;//性别：1男，2女
@@ -37,26 +38,8 @@ public class FamilyBean {
     private String native_place;//籍贯
     private String nickname;//微信名
 
+    @Ignore
     private String create_time;
-
-    private  FamilyBean spouse;//配偶
-
-    private  List<FamilyBean> children;//儿女
-
-    private  boolean select = false;//是否选中
-
-    private  boolean isMemberSpouse = false;//是否为直系亲属的配偶
-
-    private  boolean isGrandChildrenHaveSon = false;//孙子是否有儿子
-
-
-    public boolean isGrandChildrenHaveSon() {
-        return isGrandChildrenHaveSon;
-    }
-
-    public void setGrandChildrenHaveSon(boolean grandChildrenHaveSon) {
-        isGrandChildrenHaveSon = grandChildrenHaveSon;
-    }
 
     public String getMemberId() {
         return memberId;
@@ -66,37 +49,12 @@ public class FamilyBean {
         this.memberId = memberId;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-
     public String getMemberImg() {
         return memberImg;
     }
 
     public void setMemberImg(String memberImg) {
         this.memberImg = memberImg;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
     }
 
     public String getFatherId() {
@@ -123,46 +81,20 @@ public class FamilyBean {
         this.spouseId = spouseId;
     }
 
-
-    public FamilyBean getSpouse() {
-        return spouse;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setSpouse(FamilyBean spouse) {
-        this.spouse = spouse;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
-    public List<FamilyBean> getChildren() {
-        return children;
+    public String getSex() {
+        return sex;
     }
 
-    public void setChildren(List<FamilyBean> children) {
-        this.children = children;
-    }
-
-    public boolean getSelect() {
-        return select;
-    }
-
-    public void setSelect(boolean select) {
-        this.select = select;
-    }
-
-
-    public boolean isMemberSpouse() {
-        return isMemberSpouse;
-    }
-
-    public void setMemberSpouse(boolean memberSpouse) {
-        isMemberSpouse = memberSpouse;
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public void setNames(String names) {
-        this.names = names;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public int getTx_userid() {
@@ -179,6 +111,22 @@ public class FamilyBean {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getNames() {
+        return names;
+    }
+
+    public void setNames(String names) {
+        this.names = names;
     }
 
     public String getSeniority() {
@@ -245,19 +193,19 @@ public class FamilyBean {
         this.native_place = native_place;
     }
 
-    public String getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
-    }
-
     public String getNickname() {
         return nickname;
     }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 }

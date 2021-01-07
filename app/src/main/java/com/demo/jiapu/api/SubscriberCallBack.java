@@ -43,6 +43,8 @@ public abstract class SubscriberCallBack<T> extends Subscriber<BaseResponse<T>> 
     protected abstract void onError();
 
     protected void onFailure(BaseResponse response) {
+//        KLog.e("ApiRetrofit",response.getMsg());
+
     }
 
 }

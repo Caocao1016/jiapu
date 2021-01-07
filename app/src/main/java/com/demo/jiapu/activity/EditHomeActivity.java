@@ -65,18 +65,18 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
 
     @Override
     protected void initData() {
-        String json = test.test;
-        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
-
-        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
-        dbHelper.save(mList);
-        final FamilyBean my = dbHelper.findFamilyById(MY_ID);
-        my.setSelect(true);
-        dbHelper.closeDB();
-
-        ftvTree.setShowBottomSpouse(false);
-        ftvTree.drawFamilyTree(my);
-        ftvTree.setOnFamilyLongClickListener(this);
+//        String json = test.test;
+//        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
+//
+//        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
+//        dbHelper.save(mList);
+//        final FamilyBean my = dbHelper.findFamilyById(MY_ID);
+//        my.setSelect(true);
+//        dbHelper.closeDB();
+//
+//        ftvTree.setShowBottomSpouse(false);
+//        ftvTree.drawFamilyTree(my);
+//        ftvTree.setOnFamilyLongClickListener(this);
     }
 
     @Override

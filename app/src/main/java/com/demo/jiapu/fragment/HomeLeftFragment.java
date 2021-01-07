@@ -2,32 +2,28 @@ package com.demo.jiapu.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.alibaba.fastjson.JSONObject;
 import com.demo.jiapu.R;
-import com.demo.jiapu.activity.test;
-import com.demo.jiapu.base.BasePresenter;
+
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.base.CommonLazyFragment;
 import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.bean.JpsjListDataBean;
+import com.demo.jiapu.bean.MemberBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.modle.HomeLeftView;
 import com.demo.jiapu.presenter.HomeLeftPresenter;
-import com.demo.jiapu.presenter.HomeRigPresenter;
 import com.demo.jiapu.widget.FamilyTreeView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -78,6 +74,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 //        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
         mPresenter.getLogin();
 
+        registerEventBus(this);
 
     }
 
@@ -102,18 +99,19 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     }
 
     @Override
-    public void onSuccess(List<FamilyBean> response) {
-        List<FamilyBean> mList = response;
-        if (mList != null) {
-            final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
-            dbHelper.save(mList);
-            final FamilyBean my = dbHelper.findFamilyById(MY_ID);
-            my.setSelect(true);
-            dbHelper.closeDB();
-            ftvTree.drawFamilyTree(my);
-        }
+    public void onSuccess(List<MemberBean> response) {
+        List<MemberBean> mList = response;
+        Log.i("tag", mList.get(1).getNickname());
+        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
+        dbHelper.save(mList);
+        final FamilyBean my = dbHelper.findFamilyById("3");
+        Log.i("tag", my.getNickname());
 
-        registerEventBus(this);
+        my.setSelect(true);
+        dbHelper.closeDB();
+        ftvTree.drawFamilyTree(my);
+
+
     }
 
     @Override
@@ -123,6 +121,5 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
     @Override
     public void onFailure(BaseResponse response) {
-
     }
 }

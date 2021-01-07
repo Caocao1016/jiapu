@@ -3,6 +3,7 @@ package com.demo.jiapu.api;
 
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.FamilyBean;
+import com.demo.jiapu.bean.MemberBean;
 import com.demo.jiapu.response.JpsjListResponse;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface ApiService {
     Observable<BaseResponse> addJpsj(@QueryMap Map<String, Object> params);
 
     @GET("Gr_Jp/selGrjp")
-    Observable<BaseResponse<List<FamilyBean>>> selGrjp(@QueryMap Map<String, Object> params);
+    Observable<BaseResponse<List<MemberBean>>> selGrjp(@QueryMap Map<String, Object> params);
 
     @GET("Gr_Jp/addGrjp")
     Observable<BaseResponse> addGrjp(@QueryMap Map<String, Object> params);

@@ -50,17 +50,17 @@ public class MainActivity extends BaseActivity implements OnFamilyLongClickListe
 
     @Override
     protected void initData() {
-        String json = test.test;
-        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
-
-        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
-        dbHelper.save(mList);
-        final FamilyBean my = dbHelper.findFamilyById(MY_ID);
-        dbHelper.closeDB();
-
-        ftvTree.setShowBottomSpouse(false);
-        ftvTree.drawFamilyTree(my);
-        ftvTree.setOnFamilyLongClickListener(this);
+//        String json = test.test;
+//        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
+//
+//        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
+//        dbHelper.save(mList);
+//        final FamilyBean my = dbHelper.findFamilyById(MY_ID);
+//        dbHelper.closeDB();
+//
+//        ftvTree.setShowBottomSpouse(false);
+//        ftvTree.drawFamilyTree(my);
+//        ftvTree.setOnFamilyLongClickListener(this);
 
     }
 

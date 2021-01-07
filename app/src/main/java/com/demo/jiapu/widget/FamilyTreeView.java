@@ -650,6 +650,9 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         if (!family.getNickname().equals(""))
             tvName.setText(family.getNickname());
         else tvName.setText(family.getSurname() + family.getNames());
+        final ImageView ivDead=familyView.findViewById(R.id.iv_ac_f_dead);
+        if(family.getDie_status()==1)
+            ivDead.setVisibility(View.GONE);
 
         final CircleImageView ivAvatar = familyView.findViewById(R.id.iv_ac_f_avatar);
 
@@ -674,7 +677,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         } else {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
         }
-        if (family.isSelect()) {
+        if (family.getSelect()) {
             familyView.setSelected(true);
             familyView.setScaleX(1.1f);
             familyView.setScaleY(1.1f);
