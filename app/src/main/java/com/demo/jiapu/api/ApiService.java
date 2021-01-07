@@ -42,5 +42,9 @@ public interface ApiService {
     Observable<BaseResponse> addGrjp(@QueryMap Map<String, Object> params);
 
 
+    @GET("Gr_Jp/editGrjp")
+    Observable<BaseResponse> editGrjp(@QueryMap Map<String, Object> params);
+
+
 }
 

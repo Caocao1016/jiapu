@@ -27,7 +27,6 @@ import com.demo.jiapu.widget.FamilyTreeView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -63,6 +62,8 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     @Override
     protected void initView() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
+
+
     }
 
 
@@ -98,15 +99,11 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
     @Override
     public void onSuccess(List<MemberBean> response) {
-
-//        Log.e("Tag", response.get(0).getNickname());
-        List<MemberBean> mList = new ArrayList<>();
-        mList.addAll(response);
+        List<MemberBean> mList = response;
         final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
         dbHelper.save(mList);
-        final FamilyBean my = dbHelper.findFamilyById("1");
+        final FamilyBean my = dbHelper.findFamilyById("3");
 
-//
         dbHelper.closeDB();
         my.setSelect(true);
 
