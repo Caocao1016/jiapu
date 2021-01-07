@@ -11,6 +11,7 @@ package com.demo.jiapu.api;
 public class ApiConstant {
     /**接口根地址*/
     public static final String BASE_SERVER_URL = "http://test.nwyp123.com/api/";
+    public static final String BASE_PHOTO_URL = "https://test.nwyp123.com";
 
 
 }

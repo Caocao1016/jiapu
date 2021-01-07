@@ -54,6 +54,7 @@
         android:textColor="#373737"
         android:textSize="14sp" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

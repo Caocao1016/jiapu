@@ -1,14 +1,21 @@
 package com.demo.jiapu.activity;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
 import com.demo.jiapu.R;
+import com.demo.jiapu.api.ApiConstant;
 import com.demo.jiapu.base.BaseActivity;
-import com.demo.jiapu.base.BasePresenter;
+import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.entity.JpsjAddRequest;
+import com.demo.jiapu.entity.evbus.CreateHomeEventbus;
+import com.demo.jiapu.modle.CreateHomeView;
+import com.demo.jiapu.presenter.CreateHomePresenter;
+import com.demo.jiapu.util.FileUtil;
 import com.demo.jiapu.util.GlideEngine;
 import com.demo.jiapu.util.RoundImageView;
 import com.hjq.permissions.OnPermission;
@@ -18,21 +25,28 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CreateHomeActivity extends BaseActivity {
+public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implements CreateHomeView {
 
     private static final String TAG = "CreateHomeActivity";
     @BindView(R.id.select)
     RoundImageView roundImageView;
+    @BindView(R.id.et_title)
+    EditText mTitle;
+    private String url;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected CreateHomePresenter createPresenter() {
+        return new CreateHomePresenter(this);
     }
 
     @Override
@@ -55,7 +69,7 @@ public class CreateHomeActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.select})
+    @OnClick({R.id.select,R.id.send})
     public void onClick(View view) {
         if (view.getId() == R.id.select) {
             XXPermissions.with(this)
@@ -83,7 +97,28 @@ public class CreateHomeActivity extends BaseActivity {
                         }
                     });
 
+        } else if (view.getId() == R.id.send) {
+            create();
         }
+    }
+
+    private void create() {
+        String title = mTitle.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            ToastUtils.s(this,"请填写家谱名称");
+            return;
+        }
+        if (TextUtils.isEmpty(url)) {
+            ToastUtils.s(this,"请添加家谱图");
+            return;
+        }
+
+        JpsjAddRequest request = new JpsjAddRequest();
+        request.create_time = System.currentTimeMillis();
+        request.title = title;
+        request.jp_img = url;
+
+        mPresenter.addJpsj(request);
     }
 
     @Override
@@ -115,16 +150,50 @@ public class CreateHomeActivity extends BaseActivity {
 
                         // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息
                     }
-
-                    //此处最大未1张 所以直接获取0
-                    Glide.with(this)
-                            .load( Uri.parse(selectList.get(0).getPath()))
-                            .into(roundImageView);
                     //然后直接上传
-
+                    putFile(selectList.get(0).getCompressPath());
                     break;
             }
         }
     }
 
+    private void putFile(String path) {
+        File file = FileUtil.createNewFile(this, path);
+        if (null != file) {
+            mPresenter.sendMsgfile(file);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.ic_add_photo)
+                    .into(roundImageView);
+          ToastUtils.s(this,"图片上传失败,请稍后再试");
+        }
+    }
+
+    @Override
+    public void onSuccess(String response) {
+        url = String.format("%s%s", ApiConstant.BASE_PHOTO_URL, response);
+        Glide.with(this)
+                .load(url)
+                .into(roundImageView);
+    }
+
+    @Override
+    public void onAddSuccess() {
+        EventBus.getDefault().post(new CreateHomeEventbus());
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
+    }
 }

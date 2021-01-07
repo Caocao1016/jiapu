@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/title_iv"
+            android:id="@+id/iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -25,77 +26,88 @@
             android:paddingRight="15dp"
             android:src="@drawable/bar_arrow_bg" />
 
-        <RadioGroup
-            android:id="@+id/rgTools"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@+id/title_iv"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <RadioButton
-                android:id="@+id/rb_left"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:checked="true"
+            <RadioGroup
+                android:id="@+id/rgTools"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:gravity="center"
-                android:paddingLeft="0dp"
-                android:text="我的家谱"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_left"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:paddingLeft="0dp"
+                    android:text="我的家谱"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
 
-            <RadioButton
-                android:id="@+id/rb_right"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:checked="false"
-                android:gravity="center"
-                android:text="家谱世家"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                <RadioButton
+                    android:id="@+id/rb_right"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:text="家谱世家"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-        </RadioGroup>
+            </RadioGroup>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rgTools"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_left"
+                        android:layout_width="30dp"
+                        android:layout_height="4dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_rig"
+                        android:layout_width="30dp"
+                        android:layout_height="4dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rgTools"
-            android:layout_toRightOf="@+id/title_iv"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/tv_left"
-                    android:layout_width="30dp"
-                    android:layout_height="4dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/tv_rig"
-                    android:layout_width="30dp"
-                    android:layout_height="4dp" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </RelativeLayout>
+            android:layout_marginTop="12dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:visibility="invisible"
+            android:src="@drawable/bar_arrow_bg" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_all"
