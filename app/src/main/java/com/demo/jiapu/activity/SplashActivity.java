@@ -2,7 +2,6 @@ package com.demo.jiapu.activity;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.view.LayoutInflater;
 import android.widget.ImageView;
 
 import com.demo.jiapu.R;
@@ -27,7 +26,7 @@ public class SplashActivity extends BaseActivity {
     private TimeCount time;
 
 
-    @BindView(R.id.iv)
+    @BindView(R.id.title_iv)
     ImageView iv;
 
     @Override

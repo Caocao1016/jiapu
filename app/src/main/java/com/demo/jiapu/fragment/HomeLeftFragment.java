@@ -72,7 +72,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     protected void initData() {
 //        String json = test.test;
 //        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
-        mPresenter.getLogin();
+        mPresenter.getList();
 
         registerEventBus(this);
 

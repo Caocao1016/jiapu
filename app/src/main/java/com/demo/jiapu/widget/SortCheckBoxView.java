@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.demo.jiapu.R;
 
-public class RankCheckBoxView extends LinearLayout implements View.OnClickListener {
+public class SortCheckBoxView extends LinearLayout implements View.OnClickListener {
     private String leftTvText;
     private int leftTvColor;
     private String editText;
@@ -27,12 +27,12 @@ public class RankCheckBoxView extends LinearLayout implements View.OnClickListen
     private View view;
 
 
-    public RankCheckBoxView(Context context) {
+    public SortCheckBoxView(Context context) {
         super(context);
     }
 
-    public RankCheckBoxView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs,0);
+    public SortCheckBoxView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs, 0);
         initView(context);
     }
 
@@ -50,7 +50,7 @@ public class RankCheckBoxView extends LinearLayout implements View.OnClickListen
     }
 
 
-    public RankCheckBoxView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SortCheckBoxView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -74,5 +74,9 @@ public class RankCheckBoxView extends LinearLayout implements View.OnClickListen
         } else {
             return 0;
         }
+    }
+
+    public void setValue(int i) {
+        numberAddSubView.setValue(i);
     }
 }

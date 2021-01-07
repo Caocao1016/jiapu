@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
-import com.demo.jiapu.activity.AddFamilyActivity;
+import com.demo.jiapu.activity.AddMemberActivity;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 
@@ -78,8 +78,11 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
                 break;
 
             case R.id.ll_menu_edit:
-                Intent intent= new Intent(getContext(), AddFamilyActivity.class);
+                Intent intent = new Intent(getContext(), AddMemberActivity.class);
+                intent.putExtra("type", 2);
+                intent.putExtra("bean", familyBean);
                 getContext().startActivity(intent);
+                dismiss();
                 break;
 
             case R.id.ll_menu_home:

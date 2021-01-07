@@ -27,7 +27,6 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
     public static final int ITEM_SON = 5;
     public static final int ITEM_DAUGHTER = 6;
     public static final int ITEM_BROTHER = 7;
-    public static final int ITEM_OUT_SIDE = 8;
 
 
     private static final int AVATAR_MALE = R.drawable.ic_avatar_male;//男性默认头像

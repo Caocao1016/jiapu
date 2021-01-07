@@ -11,13 +11,13 @@ public class AddGrjpRequest extends MapParamsRequest {
     public String names;
     public String seniority;
     public int sex;
-    public long birthday;
+    public String birthday;
     public int sort;
     public String phone;
     public int dieStatus;
-    public long dieTime;
+    public String dieTime;
     public String burialSite;
-    public String isHave;
+    public int isHave;
     public String nativePlace;
     public long create_time;
 

@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -344,12 +343,12 @@ public class SwitchView extends View implements View.OnClickListener {
         this.checked = checked;
         initAnim();
         if (onClickCheckedListener != null) {
-            onClickCheckedListener.onClick(isChecked());
+            onClickCheckedListener.onClickChecked(isChecked());
         }
     }
 
     public interface onClickCheckedListener {
-        void onClick(boolean isChecked);
+        void onClickChecked(boolean isChecked);
     }
 
     public void setOnClickCheckedListener(SwitchView.onClickCheckedListener onClickCheckedListener) {

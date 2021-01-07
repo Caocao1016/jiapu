@@ -83,7 +83,7 @@
             android:name=".activity.EditHomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AddFamilyActivity"
+            android:name=".activity.AddMemberActivity"
             android:screenOrientation="portrait" />
     </application>
 

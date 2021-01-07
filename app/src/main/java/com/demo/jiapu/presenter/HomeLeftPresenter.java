@@ -16,7 +16,7 @@ public class HomeLeftPresenter extends BasePresenter<HomeLeftView> {
         super(view);
     }
 
-    public void getLogin() {
+    public void getList() {
         SelGrjpRequest request = new SelGrjpRequest();
 
         request.userId = "5";

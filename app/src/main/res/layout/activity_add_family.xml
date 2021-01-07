@@ -87,7 +87,7 @@
                             android:textSize="16sp" />
 
                         <EditText
-                            android:id="@+id/et_add_family_name"
+                            android:id="@+id/et_add_family_surname"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -159,7 +159,7 @@
                             android:textSize="16sp" />
 
                         <EditText
-                            android:id="@+id/et_add_given_name"
+                            android:id="@+id/et_add_family_names"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -216,6 +216,7 @@
 
 
             <com.demo.jiapu.widget.MoreEditView
+                android:id="@+id/mev_add_family_seniority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
@@ -224,7 +225,8 @@
                 app:editText="字辈"
                 app:leftTvText="字辈" />
 
-            <com.demo.jiapu.widget.RankCheckBoxView
+            <com.demo.jiapu.widget.SortCheckBoxView
+                android:id="@+id/mev_add_family_sort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
@@ -232,6 +234,7 @@
                 app:checkSetChecked="false" />
 
             <com.demo.jiapu.widget.MoreEditView
+                android:id="@+id/mev_add_family_native_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
@@ -241,6 +244,7 @@
                 app:leftTvText="籍贯" />
 
             <com.demo.jiapu.widget.MoreEditView
+                android:id="@+id/mev_add_family_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
@@ -263,7 +267,6 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
-                    android:visibility="gone"
                     app:checkSetChecked="false"
                     app:editText="182********"
                     app:leftTvText="手机号"
@@ -275,7 +278,6 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
-                    android:visibility="gone"
                     app:checkSetChecked="false"
                     app:editText="微信昵称"
                     app:leftTvText="微信昵称"
@@ -292,6 +294,8 @@
                 tools:visibility="visible">
 
                 <com.demo.jiapu.widget.MoreEditView
+                    android:id="@+id/mev_add_family_die_time"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
@@ -301,6 +305,7 @@
                     app:leftTvText="诞辰" />
 
                 <com.demo.jiapu.widget.MoreEditView
+                    android:id="@+id/mev_add_family_burial_site"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
@@ -311,6 +316,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/bt_add_family"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

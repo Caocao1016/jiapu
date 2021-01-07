@@ -118,4 +118,8 @@ public class MoreEditView extends LinearLayout implements View.OnClickListener {
         }
     }
 
+    public void setText(String text) {
+        editTextView.setText(text);
+    }
+
 }

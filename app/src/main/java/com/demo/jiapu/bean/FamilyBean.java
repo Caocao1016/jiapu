@@ -8,10 +8,10 @@ import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
 import com.litesuits.orm.db.enums.AssignType;
 
+import java.io.Serializable;
 import java.util.List;
-
 @Table("FamilyBean")
-public class FamilyBean {
+public class FamilyBean implements Serializable {
 
 
     private String memberId;//人员ID
