@@ -49,5 +49,9 @@ public interface ApiService {
     @POST("upload/index")
     Observable<BaseResponse<String>> sendMsgfile(@Part MultipartBody.Part file);
 
+    @GET("Gr_Jp/editGrjp")
+    Observable<BaseResponse> editGrjp(@QueryMap Map<String, Object> params);
+
+
 }
 
