@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public abstract class AddMemberActivity extends BaseActivity<AddMemberPresenter> implements SwitchView.onClickCheckedListener, AddMemberView {
+public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implements SwitchView.onClickCheckedListener, AddMemberView {
 
     @BindView(R.id.swv_add_live)
     SwitchView dieStatusView;
@@ -101,9 +101,11 @@ public abstract class AddMemberActivity extends BaseActivity<AddMemberPresenter>
         mTitleBar.getRightView().setVisibility(type == 1 ? View.GONE : View.VISIBLE);
 
         button.setText(type == 1 ? "添加" : "保存");
+        button.setTag(type);
+
         dieStatusView.setOnClickCheckedListener(this);
 
-//        addWhoTextView.setText("添加" + familyBean.getNickname() + "的" + intent.getStringExtra("itemName"));
+        addWhoTextView.setText("添加" + familyBean.getNickname() + "的" + intent.getStringExtra("itemName"));
 
         if (type == 2) {
             Glide.with(this).load(familyBean.getMemberImg()).into(avatarView);
@@ -164,23 +166,31 @@ public abstract class AddMemberActivity extends BaseActivity<AddMemberPresenter>
 
     @OnClick(R.id.bt_add_family)
     public void onClick(View v) {
-        AddGrjpRequest addGrjpRequest = new AddGrjpRequest();
-        addGrjpRequest.birthday = birthdayView.getValue();
-        addGrjpRequest.burialSite = burialSiteView.getValue();
-        addGrjpRequest.create_time = System.currentTimeMillis();
-        addGrjpRequest.dieStatus = dieStatusView.isChecked() ? 2 : 1;
-        addGrjpRequest.dieTime = dieTimeView.getValue();
-        addGrjpRequest.names = String.valueOf(namesEditView.getText());
-        addGrjpRequest.nativePlace = placeView.getValue();
-        addGrjpRequest.phone = phoneView.getValue();
-        addGrjpRequest.sex = sexView.isChecked() ? 2 : 1;
-        addGrjpRequest.seniority = seniorityView.getValue();
-        addGrjpRequest.sort = sortView.getValue();
-        addGrjpRequest.surName = String.valueOf(surEditView.getText());
-        addGrjpRequest.typeId = intent.getStringExtra("itemID");
-        addGrjpRequest.userId = familyBean.getMemberId();
-        addGrjpRequest.isHave = 0;
-        mPresenter.addMember(addGrjpRequest);
+        switch ((int)v.getTag()) {
+            case 1:
+                AddGrjpRequest addGrjpRequest = new AddGrjpRequest();
+                addGrjpRequest.birthday = birthdayView.getValue();
+                addGrjpRequest.burialSite = burialSiteView.getValue();
+                addGrjpRequest.create_time = System.currentTimeMillis();
+                addGrjpRequest.dieStatus = dieStatusView.isChecked() ? 2 : 1;
+                addGrjpRequest.dieTime = dieTimeView.getValue();
+                addGrjpRequest.names = String.valueOf(namesEditView.getText());
+                addGrjpRequest.nativePlace = placeView.getValue();
+                addGrjpRequest.phone = phoneView.getValue();
+                addGrjpRequest.sex = sexView.isChecked() ? 2 : 1;
+                addGrjpRequest.seniority = seniorityView.getValue();
+                addGrjpRequest.sort = sortView.getValue();
+                addGrjpRequest.surName = String.valueOf(surEditView.getText());
+                addGrjpRequest.typeId = intent.getStringExtra("itemID");
+                addGrjpRequest.userId = familyBean.getMemberId();
+                addGrjpRequest.isHave = 0;
+                mPresenter.addMember(addGrjpRequest);
+                break;
+            case 2:
+                Log.i("---","保存");
+                break;
+        }
+
     }
 
 }

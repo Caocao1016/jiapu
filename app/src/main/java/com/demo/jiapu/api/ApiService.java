@@ -38,7 +38,7 @@ public interface ApiService {
     @GET("Gr_Jp/selGrjp")
     Observable<BaseResponse<List<MemberBean>>> selGrjp(@QueryMap Map<String, Object> params);
 
-    @GET("Gr_Jp/addGrjp")
+    @POST("Gr_Jp/addGrjp")
     Observable<BaseResponse> addGrjp(@QueryMap Map<String, Object> params);
 
 

@@ -1,5 +1,7 @@
 package com.demo.jiapu.presenter;
 
+import android.util.Log;
+
 import com.demo.jiapu.api.SubscriberCallBack;
 import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
@@ -12,11 +14,11 @@ public class AddMemberPresenter extends BasePresenter<AddMemberView> {
     }
 
     public void addMember(AddGrjpRequest addGrjpRequest) {
-        addSubscription(mApiService.addGrjp(addGrjpRequest.params()), new SubscriberCallBack<BaseResponse>() {
+        addSubscription(mApiService.addGrjp(addGrjpRequest.params()), new SubscriberCallBack<String>() {
             @Override
-            protected void onSuccess(BaseResponse response) {
+            protected void onSuccess(String response) {
 
-                mView.onSuccess(response);
+                Log.e("---",response);
             }
 
             @Override
