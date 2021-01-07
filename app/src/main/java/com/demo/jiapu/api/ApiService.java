@@ -9,8 +9,12 @@ import com.demo.jiapu.response.JpsjListResponse;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -27,13 +31,13 @@ public interface ApiService {
      * 用户登陆
      */
     @GET("Jpsj_List/selList")
-    Observable<BaseResponse<JpsjListResponse>> selList();
+    Observable<BaseResponse<JpsjListResponse>> selList(@QueryMap Map<String, Object> params);
 
     /**
      * 请求验证码接口
      */
     @POST("Jpsj_List/addJpsj")
-    Observable<BaseResponse> addJpsj(@QueryMap Map<String, Object> params);
+    Observable<BaseResponse<String>> addJpsj(@QueryMap Map<String, Object> params);
 
     @GET("Gr_Jp/selGrjp")
     Observable<BaseResponse<List<MemberBean>>> selGrjp(@QueryMap Map<String, Object> params);
@@ -41,6 +45,9 @@ public interface ApiService {
     @GET("Gr_Jp/addGrjp")
     Observable<BaseResponse> addGrjp(@QueryMap Map<String, Object> params);
 
+    @Multipart
+    @POST("upload/index")
+    Observable<BaseResponse<String>> sendMsgfile(@Part MultipartBody.Part file);
 
 }
 

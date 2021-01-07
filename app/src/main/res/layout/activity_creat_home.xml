@@ -34,6 +34,7 @@
             android:textSize="14sp" />
 
         <EditText
+            android:id="@+id/et_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -114,6 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
             android:lineSpacingExtra="4dp"
             android:text="创建家谱世家条件：\n
 1、我的家谱人数达到200人以上。\n
