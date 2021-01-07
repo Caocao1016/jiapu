@@ -15,6 +15,7 @@ import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.entity.AddGrjpRequest;
+import com.demo.jiapu.entity.EditGrjpRequest;
 import com.demo.jiapu.modle.AddMemberView;
 import com.demo.jiapu.presenter.AddMemberPresenter;
 import com.demo.jiapu.widget.MoreEditView;
@@ -166,7 +167,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
 
     @OnClick(R.id.bt_add_family)
     public void onClick(View v) {
-        switch ((int)v.getTag()) {
+        switch ((int) v.getTag()) {
             case 1:
                 AddGrjpRequest addGrjpRequest = new AddGrjpRequest();
                 addGrjpRequest.birthday = birthdayView.getValue();
@@ -187,7 +188,20 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
                 mPresenter.addMember(addGrjpRequest);
                 break;
             case 2:
-                Log.i("---","保存");
+                EditGrjpRequest editGrjpRequest = new EditGrjpRequest();
+                editGrjpRequest.birthday = birthdayView.getValue();
+                editGrjpRequest.burialSite = burialSiteView.getValue();
+                editGrjpRequest.dieStatus = dieStatusView.isChecked() ? 2 : 1;
+                editGrjpRequest.dieTime = dieTimeView.getValue();
+                editGrjpRequest.names = String.valueOf(namesEditView.getText());
+                editGrjpRequest.surName = String.valueOf(surEditView.getText());
+                editGrjpRequest.nativePlace = placeView.getValue();
+                editGrjpRequest.phone = phoneView.getValue();
+                editGrjpRequest.sex = sexView.isChecked() ? 2 : 1;
+                editGrjpRequest.seniority = seniorityView.getValue();
+                editGrjpRequest.sort = sortView.getValue();
+                editGrjpRequest.userId = familyBean.getMemberId();
+                mPresenter.editMember(editGrjpRequest);
                 break;
         }
 

@@ -1,12 +1,7 @@
 package com.demo.jiapu.bean;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.litesuits.orm.db.annotation.Ignore;
-import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
-import com.litesuits.orm.db.enums.AssignType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,16 +32,22 @@ public class FamilyBean implements Serializable {
     private String native_place;//籍贯
     private String nickname;//微信名
 
+    @Ignore
     private String create_time;
 
+    @Ignore
     private  FamilyBean spouse;//配偶
 
+    @Ignore
     private  List<FamilyBean> children;//儿女
 
-    private  boolean select = false;//是否选中
+    @Ignore
+    private  boolean isSelect = false;//是否选中
 
+    @Ignore
     private  boolean isMemberSpouse = false;//是否为直系亲属的配偶
 
+    @Ignore
     private  boolean isGrandChildrenHaveSon = false;//孙子是否有儿子
 
 
@@ -140,12 +141,12 @@ public class FamilyBean implements Serializable {
         this.children = children;
     }
 
-    public boolean getSelect() {
-        return select;
+    public boolean isSelect() {
+        return isSelect;
     }
 
     public void setSelect(boolean select) {
-        this.select = select;
+        this.isSelect = select;
     }
 
 

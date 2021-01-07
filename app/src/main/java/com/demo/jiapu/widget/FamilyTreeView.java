@@ -677,7 +677,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         } else {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
         }
-        if (family.getSelect()) {
+        if (family.isSelect()) {
             familyView.setSelected(true);
             familyView.setScaleX(1.1f);
             familyView.setScaleY(1.1f);

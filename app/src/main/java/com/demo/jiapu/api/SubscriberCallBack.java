@@ -32,7 +32,6 @@ public abstract class SubscriberCallBack<T> extends Subscriber<BaseResponse<T>> 
 
     @Override
     public void onError(Throwable e) {
-
         KLog.e("ApiRetrofit",e.getLocalizedMessage());
         KLog.e("ApiRetrofit",e);
         onError();

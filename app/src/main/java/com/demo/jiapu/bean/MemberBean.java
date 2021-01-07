@@ -23,6 +23,7 @@ public class MemberBean {
     private String birthday;//生日
 
     private String sex;//性别：1男，2女
+    private String delete_time;
 
     private int tx_userid;
     private int user_id;
@@ -207,5 +208,13 @@ public class MemberBean {
 
     public void setCreate_time(String create_time) {
         this.create_time = create_time;
+    }
+
+    public String getDelete_time() {
+        return delete_time;
+    }
+
+    public void setDelete_time(String delete_time) {
+        this.delete_time = delete_time;
     }
 }

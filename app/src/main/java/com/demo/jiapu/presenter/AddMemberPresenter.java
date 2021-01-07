@@ -6,6 +6,7 @@ import com.demo.jiapu.api.SubscriberCallBack;
 import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.entity.AddGrjpRequest;
+import com.demo.jiapu.entity.EditGrjpRequest;
 import com.demo.jiapu.modle.AddMemberView;
 
 public class AddMemberPresenter extends BasePresenter<AddMemberView> {
@@ -15,6 +16,25 @@ public class AddMemberPresenter extends BasePresenter<AddMemberView> {
 
     public void addMember(AddGrjpRequest addGrjpRequest) {
         addSubscription(mApiService.addGrjp(addGrjpRequest.params()), new SubscriberCallBack<String>() {
+            @Override
+            protected void onSuccess(String response) {
+
+                Log.e("---",response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(BaseResponse response) {
+                mView.onFailure(response);
+            }
+        });
+    }
+    public void editMember(EditGrjpRequest editGrjpRequest) {
+        addSubscription(mApiService.editGrjp(editGrjpRequest.params()), new SubscriberCallBack<String>() {
             @Override
             protected void onSuccess(String response) {
 
