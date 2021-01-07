@@ -9,8 +9,11 @@ import com.demo.jiapu.response.JpsjListResponse;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -38,12 +41,17 @@ public interface ApiService {
     @GET("Gr_Jp/selGrjp")
     Observable<BaseResponse<List<MemberBean>>> selGrjp(@QueryMap Map<String, Object> params);
 
-    @GET("Gr_Jp/addGrjp")
+    @POST("Gr_Jp/addGrjp")
     Observable<BaseResponse> addGrjp(@QueryMap Map<String, Object> params);
 
 
-    @GET("Gr_Jp/editGrjp")
+    @POST("Gr_Jp/editGrjp")
     Observable<BaseResponse> editGrjp(@QueryMap Map<String, Object> params);
+
+
+    @Multipart
+    @POST("upload/index")
+    Observable<BaseResponse<String>> sendMsgfile(@Part MultipartBody.Part file);
 
 
 }
