@@ -18,10 +18,12 @@ import com.demo.jiapu.entity.AddGrjpRequest;
 import com.demo.jiapu.entity.EditGrjpRequest;
 import com.demo.jiapu.modle.AddMemberView;
 import com.demo.jiapu.presenter.AddMemberPresenter;
+import com.demo.jiapu.util.StringUtil;
 import com.demo.jiapu.widget.MoreEditView;
 import com.demo.jiapu.widget.SortCheckBoxView;
 import com.demo.jiapu.widget.SwitchView;
 import com.hjq.bar.TitleBar;
+import com.luck.picture.lib.tools.StringUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -101,12 +103,12 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
 
         mTitleBar.getRightView().setVisibility(type == 1 ? View.GONE : View.VISIBLE);
 
-        button.setText(type == 1 ? "添加" : "保存");
+        button.setText(1 == type ? "添加" : "保存");
         button.setTag(type);
 
         dieStatusView.setOnClickCheckedListener(this);
-
-        addWhoTextView.setText("添加" + familyBean.getNickname() + "的" + intent.getStringExtra("itemName"));
+        String name = StringUtil.isEmpty(familyBean.getNickname()) ? familyBean.getSurname() + familyBean.getNames() : familyBean.getNickname();
+        addWhoTextView.setText("添加" + name + "的" + intent.getStringExtra("itemName"));
 
         if (type == 2) {
             Glide.with(this).load(familyBean.getMemberImg()).into(avatarView);
@@ -128,6 +130,11 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     public void onSuccess(BaseResponse response) {
         Log.i("tag", response.getMsg());
     }
@@ -139,11 +146,6 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
 
     @Override
     public void onFailure(BaseResponse response) {
-
-    }
-
-    @Override
-    protected void initData() {
 
     }
 
@@ -162,6 +164,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
         } else {
             unLiveLayout.setVisibility(View.GONE);
             liveLayout.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -184,6 +187,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
                 addGrjpRequest.surName = String.valueOf(surEditView.getText());
                 addGrjpRequest.typeId = intent.getStringExtra("itemID");
                 addGrjpRequest.userId = familyBean.getMemberId();
+                Log.e("Tag", familyBean.getMemberId());
                 addGrjpRequest.isHave = 0;
                 mPresenter.addMember(addGrjpRequest);
                 break;

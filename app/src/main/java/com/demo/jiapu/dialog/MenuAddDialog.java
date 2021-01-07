@@ -7,6 +7,7 @@ import com.demo.jiapu.R;
 import com.demo.jiapu.activity.AddMemberActivity;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.listener.OnViewGroupItemClickListener;
+import com.demo.jiapu.util.StringUtil;
 import com.demo.jiapu.widget.AddFamilyViewGroup;
 
 public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupItemClickListener {
@@ -31,17 +32,18 @@ public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupIt
     public void init() {
         AddFamilyViewGroup viewGroup = findViewById(R.id.vg_menu_add);
         viewGroup.addItemView(familyBean);
-        if (familyBean.getSpouseId().equals(""))
+        if (StringUtil.isEmpty(familyBean.getSpouseId()))
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_SPOUSE);
-        if (familyBean.getFatherId().equals(""))
+        if (StringUtil.isEmpty(familyBean.getFatherId()))
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_FATHER);
-        if (familyBean.getMotherId().equals(""))
-            viewGroup.addItemView(AddFamilyViewGroup.ITEM_MOTHER);
-        if (!familyBean.getFatherId().equals("") && !familyBean.getMotherId().equals("")) {
+        else {
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_BROTHER);
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_DAUGHTER);
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_SON);
         }
+        if (StringUtil.isEmpty(familyBean.getMotherId()))
+            viewGroup.addItemView(AddFamilyViewGroup.ITEM_MOTHER);
+
 
         viewGroup.drawViewGroup();
         viewGroup.setOnItemClickListener(this);

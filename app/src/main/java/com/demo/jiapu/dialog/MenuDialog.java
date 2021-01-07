@@ -12,6 +12,7 @@ import com.demo.jiapu.R;
 import com.demo.jiapu.activity.AddMemberActivity;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
+import com.demo.jiapu.util.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,9 +45,9 @@ public class MenuDialog extends BaseFullScreenDialog implements View.OnClickList
     public void init() {
 
         final TextView textView = findViewById(R.id.tv_menu_name);
-        if (!familyBean.getNickname().equals(""))
-            textView.setText(familyBean.getNickname());
-        else textView.setText(familyBean.getSurname() + familyBean.getNames());
+        if (StringUtil.isEmpty(familyBean.getNickname()))
+            textView.setText(familyBean.getSurname() + familyBean.getNames());
+        else textView.setText(familyBean.getNickname());
         final ImageView imageView = findViewById(R.id.iv_menu_avatar);
 
         RequestOptions requestOptions = new RequestOptions()

@@ -28,6 +28,7 @@ import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.listener.OnFamilyClickListener;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.util.DisplayUtil;
+import com.demo.jiapu.util.StringUtil;
 import com.dinuscxj.gesture.MultiTouchGestureDetector;
 
 import java.text.NumberFormat;
@@ -647,11 +648,12 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         final TextView tvName = familyView.findViewById(R.id.tv_ac_f_name);
         tvName.setTextSize(NAME_TEXT_SIZE_SP);
-        if (!family.getNickname().equals(""))
-            tvName.setText(family.getNickname());
-        else tvName.setText(family.getSurname() + family.getNames());
-        final ImageView ivDead=familyView.findViewById(R.id.iv_ac_f_dead);
-        if(family.getDie_status()==1)
+        if (StringUtil.isEmpty(family.getNickname()))
+            tvName.setText(family.getSurname() + family.getNames());
+        else tvName.setText(family.getNickname());
+
+        final ImageView ivDead = familyView.findViewById(R.id.iv_ac_f_dead);
+        if (family.getDie_status() == 1)
             ivDead.setVisibility(View.GONE);
 
         final CircleImageView ivAvatar = familyView.findViewById(R.id.iv_ac_f_avatar);
@@ -669,7 +671,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                 .into(ivAvatar);
 
         if (family.equals(mMyPGrandParentInfo) || family.isMemberSpouse()) {
-            if (!family.getFatherId().equals("") || !family.getMotherId().equals("")) {
+            if (StringUtil.isEmpty(family.getFatherId()) || StringUtil.isEmpty(family.getMotherId())) {
                 familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
             }
         } else if (family.isGrandChildrenHaveSon()) {

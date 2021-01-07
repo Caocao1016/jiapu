@@ -17,6 +17,7 @@ import com.demo.jiapu.R;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.listener.OnViewGroupItemClickListener;
 import com.demo.jiapu.util.DisplayUtil;
+import com.demo.jiapu.util.StringUtil;
 
 
 public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListener {
@@ -152,14 +153,12 @@ public class AddFamilyViewGroup extends ViewGroup implements View.OnClickListene
 
         TextView textView = view.findViewById(R.id.tv_menu_add__name);
         textView.setTextSize(15);
-        if (!family.getNickname().equals(""))
-            textView.setText(family.getNickname());
-        else textView.setText(family.getSurname() + family.getNames());
-        textView.setText(family.getNickname());
+        if (StringUtil.isEmpty(family.getNickname()))
+            textView.setText(family.getSurname() + family.getNames());
+        else textView.setText(family.getNickname());
+
         view.setTag(ITEM_MY);
         addView(view);
-
-
     }
 
     @Override
