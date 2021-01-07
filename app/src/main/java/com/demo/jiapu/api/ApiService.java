@@ -30,7 +30,7 @@ public interface ApiService {
      * 用户登陆
      */
     @GET("Jpsj_List/selList")
-    Observable<BaseResponse<JpsjListResponse>> selList();
+    Observable<BaseResponse<JpsjListResponse>> selList(@QueryMap Map<String, Object> params);
 
     /**
      * 请求验证码接口
