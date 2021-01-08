@@ -1,6 +1,7 @@
 package com.demo.jiapu.api;
 
-import com.socks.library.KLog;
+import android.util.Log;
+
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.util.UIUtils;
 
@@ -32,8 +33,8 @@ public abstract class SubscriberCallBack<T> extends Subscriber<BaseResponse<T>> 
 
     @Override
     public void onError(Throwable e) {
-        KLog.e("ApiRetrofit",e.getLocalizedMessage());
-        KLog.e("ApiRetrofit",e);
+        Log.e("ApiRetrofit",e.getLocalizedMessage());
+        Log.e("ApiRetrofit",e.toString());
         onError();
     }
 

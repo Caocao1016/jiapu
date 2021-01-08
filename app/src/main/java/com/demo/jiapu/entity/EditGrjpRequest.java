@@ -1,7 +1,8 @@
 package com.demo.jiapu.entity;
 
-import com.demo.jiapu.base.MapParamsRequest;
+import android.text.TextUtils;
 
+import com.demo.jiapu.base.MapParamsRequest;
 
 public class EditGrjpRequest extends MapParamsRequest {
 
@@ -18,21 +19,33 @@ public class EditGrjpRequest extends MapParamsRequest {
     public String burialSite;
     public String nativePlace;
 
-
     @Override
     protected void putParams() {
         params.put("uid", userId);
         params.put("surname", surName);
         params.put("names", names);
-        params.put("seniority", seniority);
+
+        if (!TextUtils.isEmpty(seniority)) {
+            params.put("seniority", seniority);
+        }
+
         params.put("sex", sex);
-        params.put("birthdate", birthday);
+
+        if (!TextUtils.isEmpty(birthday)) {
+            params.put("birthdate", birthday);
+        }
         params.put("sort", sort);
-        params.put("phone", phone);
+        if (!TextUtils.isEmpty(phone)) {
+            params.put("phone", phone);
+        }
         params.put("die_status", dieStatus);
         params.put("dietime", dieTime);
-        params.put("burial_site", burialSite);
-        params.put("native_place", nativePlace);
+        if (!TextUtils.isEmpty(burialSite)) {
+            params.put("burial_site", burialSite);
+        }
+        if (!TextUtils.isEmpty(nativePlace)) {
+            params.put("native_place", nativePlace);
+        }
 
     }
 

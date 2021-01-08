@@ -110,6 +110,9 @@ public class MoreEditView extends LinearLayout implements View.OnClickListener {
         checkBox.setChecked(this.checked);
     }
 
+    public void  setFocusable (){
+        editTextView.setFocusable(false);
+    }
     public String getValue() {
         if (!checked) {
             return editTextView.getText().toString();

@@ -2,6 +2,7 @@ package com.demo.jiapu.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +15,10 @@ import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.FamilyBean;
+import com.demo.jiapu.dialog.SelectPhotoDialog;
 import com.demo.jiapu.entity.AddGrjpRequest;
 import com.demo.jiapu.entity.EditGrjpRequest;
+import com.demo.jiapu.entity.evbus.AddMemberEventbus;
 import com.demo.jiapu.modle.AddMemberView;
 import com.demo.jiapu.presenter.AddMemberPresenter;
 import com.demo.jiapu.util.StringUtil;
@@ -23,7 +26,9 @@ import com.demo.jiapu.widget.MoreEditView;
 import com.demo.jiapu.widget.SortCheckBoxView;
 import com.demo.jiapu.widget.SwitchView;
 import com.hjq.bar.TitleBar;
-import com.luck.picture.lib.tools.StringUtils;
+import com.luck.picture.lib.tools.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -68,11 +73,9 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     @BindView(R.id.bt_add_family)
     Button button;
 
-
     private Intent intent;
     private FamilyBean familyBean;
     private int type;
-
 
     @Override
     protected AddMemberPresenter createPresenter() {
@@ -105,7 +108,8 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
 
         button.setText(1 == type ? "添加" : "保存");
         button.setTag(type);
-
+        dieTimeView.setFocusable();
+        birthdayView.setFocusable();
         dieStatusView.setOnClickCheckedListener(this);
         String name = StringUtil.isEmpty(familyBean.getNickname()) ? familyBean.getSurname() + familyBean.getNames() : familyBean.getNickname();
         addWhoTextView.setText("添加" + name + "的" + intent.getStringExtra("itemName"));
@@ -135,8 +139,10 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     }
 
     @Override
-    public void onSuccess(BaseResponse response) {
-        Log.i("tag", response.getMsg());
+    public void onSuccess(String response) {
+        ToastUtils.s(this, response);
+        EventBus.getDefault().post(new AddMemberEventbus());
+        finish();
     }
 
     @Override
@@ -148,7 +154,6 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     public void onFailure(BaseResponse response) {
 
     }
-
 
     @Override
     public void onLeftClick(View v) {
@@ -168,37 +173,57 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
         }
     }
 
-    @OnClick(R.id.bt_add_family)
+    @OnClick({R.id.bt_add_family, R.id.mev_add_family_birthday,R.id.mev_add_family_die_time})
     public void onClick(View v) {
-        switch ((int) v.getTag()) {
-            case 1:
+        if (v.getId() == R.id.bt_add_family) {
+            if (1 == type) {
+
+                if (TextUtils.isEmpty(surEditView.getText().toString())) {
+                    ToastUtils.s(this, "请填写姓氏");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(namesEditView.getText().toString())) {
+                    ToastUtils.s(this, "请填写名字");
+                    return;
+                }
+
                 AddGrjpRequest addGrjpRequest = new AddGrjpRequest();
                 addGrjpRequest.birthday = birthdayView.getValue();
                 addGrjpRequest.burialSite = burialSiteView.getValue();
                 addGrjpRequest.create_time = System.currentTimeMillis();
                 addGrjpRequest.dieStatus = dieStatusView.isChecked() ? 2 : 1;
                 addGrjpRequest.dieTime = dieTimeView.getValue();
-                addGrjpRequest.names = String.valueOf(namesEditView.getText());
+                addGrjpRequest.names = namesEditView.getText().toString();
                 addGrjpRequest.nativePlace = placeView.getValue();
                 addGrjpRequest.phone = phoneView.getValue();
                 addGrjpRequest.sex = sexView.isChecked() ? 2 : 1;
                 addGrjpRequest.seniority = seniorityView.getValue();
                 addGrjpRequest.sort = sortView.getValue();
-                addGrjpRequest.surName = String.valueOf(surEditView.getText());
+                addGrjpRequest.surName = surEditView.getText().toString();
                 addGrjpRequest.typeId = intent.getStringExtra("itemID");
                 addGrjpRequest.userId = familyBean.getMemberId();
                 Log.e("Tag", familyBean.getMemberId());
                 addGrjpRequest.isHave = 0;
                 mPresenter.addMember(addGrjpRequest);
-                break;
-            case 2:
+            } else {
+
+                if (TextUtils.isEmpty(surEditView.getText().toString())) {
+                    ToastUtils.s(this, "请填写姓氏");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(namesEditView.getText().toString())) {
+                    ToastUtils.s(this, "请填写名字");
+                    return;
+                }
                 EditGrjpRequest editGrjpRequest = new EditGrjpRequest();
                 editGrjpRequest.birthday = birthdayView.getValue();
                 editGrjpRequest.burialSite = burialSiteView.getValue();
                 editGrjpRequest.dieStatus = dieStatusView.isChecked() ? 2 : 1;
                 editGrjpRequest.dieTime = dieTimeView.getValue();
-                editGrjpRequest.names = String.valueOf(namesEditView.getText());
-                editGrjpRequest.surName = String.valueOf(surEditView.getText());
+                editGrjpRequest.names = namesEditView.getText().toString();
+                editGrjpRequest.surName = surEditView.getText().toString();
                 editGrjpRequest.nativePlace = placeView.getValue();
                 editGrjpRequest.phone = phoneView.getValue();
                 editGrjpRequest.sex = sexView.isChecked() ? 2 : 1;
@@ -206,8 +231,24 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
                 editGrjpRequest.sort = sortView.getValue();
                 editGrjpRequest.userId = familyBean.getMemberId();
                 mPresenter.editMember(editGrjpRequest);
-                break;
+            }
+        } else if (v.getId() == R.id.mev_add_family_birthday) {
+            createDialog(0);
+        } else if (v.getId() == R.id.mev_add_family_die_time) {
+            createDialog(1);
         }
+    }
+    private void createDialog(int type) {
+        SelectPhotoDialog selectPhotoDialog = new SelectPhotoDialog(this);
+        selectPhotoDialog.setOnClickListener(date -> {
+            //此处数据需要根据实际情况填写
+            if (type == 0){
+                birthdayView.setText(date);
+            }else {
+                dieTimeView.setText(date);
+            }
+        });
+        selectPhotoDialog.show();
 
     }
 

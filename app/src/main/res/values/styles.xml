@@ -4,6 +4,14 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
     </style>
+
+    <style name="dialogStyle" parent="android:style/Theme.Dialog">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
     <!-- 解决启动页白屏的问题 -->
     <style name="LauncherTheme" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>

@@ -10,13 +10,6 @@ import android.widget.PopupWindow;
 import com.demo.jiapu.R;
 import com.demo.jiapu.activity.ReportActivity;
 
-/**
- * CaoPengFei
- * 2019/6/21
- *
- * @ClassName:
- * @Description:
- */
 public class TestLeftPopupWindow extends PopupWindow {
 
     public TestLeftPopupWindow(Context context) {

@@ -6,7 +6,7 @@ import com.demo.jiapu.bean.MemberBean;
 import java.util.List;
 
 public interface AddMemberView {
-    void onSuccess(BaseResponse response);
+    void onSuccess(String response);
 
 
     void onError();
