@@ -671,10 +671,11 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                 .into(ivAvatar);
 
         if (family.equals(mMyPGrandParentInfo) || family.isMemberSpouse()) {
-            if (StringUtil.isEmpty(family.getFatherId()) || StringUtil.isEmpty(family.getMotherId())) {
+            if (!TextUtils.isEmpty(family.getFatherId()) || !TextUtils.isEmpty(family.getMotherId())) {
                 familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
             }
-        } else if (family.isGrandChildrenHaveSon()) {
+        }
+        if (family.isGrandChildrenHaveSon()) {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
         } else {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
@@ -1009,8 +1010,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
             mOnFamilyClickListener.onFamilyClick((FamilyBean) v.getTag());
         }
         if (canClick) {
-            mOffsetX = v.getLeft() - getScrollX();
-            mOffsetY = v.getTop() - getScrollY();
             setClickItem(v);
         }
     }
