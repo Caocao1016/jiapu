@@ -107,8 +107,8 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
         button.setTag(type);
 
         dieStatusView.setOnClickCheckedListener(this);
-        String name = StringUtil.isEmpty(familyBean.getNickname()) ? familyBean.getSurname() + familyBean.getNames() : familyBean.getNickname();
-        addWhoTextView.setText("添加" + name + "的" + intent.getStringExtra("itemName"));
+        String str = StringUtil.isEmpty(familyBean.getNickname()) ? familyBean.getSurname() + familyBean.getNames() : familyBean.getNickname();
+        addWhoTextView.setText("添加" + str + "的" + intent.getStringExtra("itemName"));
 
         if (type == 2) {
             Glide.with(this).load(familyBean.getMemberImg()).into(avatarView);
