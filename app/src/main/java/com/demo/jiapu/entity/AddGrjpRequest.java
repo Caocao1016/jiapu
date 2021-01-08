@@ -12,11 +12,11 @@ public class AddGrjpRequest extends MapParamsRequest {
     public String names;
     public String seniority;
     public int sex;
-    public String birthday;
+    public long birthday;
     public int sort;
     public String phone;
     public int dieStatus;
-    public String dieTime;
+    public long dieTime;
     public String burialSite;
     public int isHave;
     public String nativePlace;
@@ -35,15 +35,17 @@ public class AddGrjpRequest extends MapParamsRequest {
 
         params.put("sex", sex);
 
-        if (!TextUtils.isEmpty(birthday)) {
+        if (birthday != 0L) {
             params.put("birthdate", birthday);
+        }
+        if (dieTime != 0L) {
+            params.put("dietime", dieTime);
         }
         params.put("sort", sort);
         if (!TextUtils.isEmpty(phone)) {
             params.put("phone", phone);
         }
         params.put("die_status", dieStatus);
-        params.put("dietime", dieTime);
         if (!TextUtils.isEmpty(burialSite)) {
             params.put("burial_site", burialSite);
         }

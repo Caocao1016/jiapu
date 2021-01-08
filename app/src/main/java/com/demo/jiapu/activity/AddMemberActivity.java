@@ -189,11 +189,12 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
                 }
 
                 AddGrjpRequest addGrjpRequest = new AddGrjpRequest();
-                addGrjpRequest.birthday = birthdayView.getValue();
+
+                addGrjpRequest.birthday = StringUtil.stringToLong(birthdayView.getValue());
+                addGrjpRequest.dieTime = StringUtil.stringToLong(dieTimeView.getValue());
                 addGrjpRequest.burialSite = burialSiteView.getValue();
                 addGrjpRequest.create_time = System.currentTimeMillis();
                 addGrjpRequest.dieStatus = dieStatusView.isChecked() ? 2 : 1;
-                addGrjpRequest.dieTime = dieTimeView.getValue();
                 addGrjpRequest.names = namesEditView.getText().toString();
                 addGrjpRequest.nativePlace = placeView.getValue();
                 addGrjpRequest.phone = phoneView.getValue();
@@ -218,10 +219,11 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
                     return;
                 }
                 EditGrjpRequest editGrjpRequest = new EditGrjpRequest();
-                editGrjpRequest.birthday = birthdayView.getValue();
+
+                editGrjpRequest.birthday = StringUtil.stringToLong(birthdayView.getValue());
+                editGrjpRequest.dieTime = StringUtil.stringToLong(dieTimeView.getValue());
                 editGrjpRequest.burialSite = burialSiteView.getValue();
                 editGrjpRequest.dieStatus = dieStatusView.isChecked() ? 2 : 1;
-                editGrjpRequest.dieTime = dieTimeView.getValue();
                 editGrjpRequest.names = namesEditView.getText().toString();
                 editGrjpRequest.surName = surEditView.getText().toString();
                 editGrjpRequest.nativePlace = placeView.getValue();
@@ -241,7 +243,6 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     private void createDialog(int type) {
         SelectPhotoDialog selectPhotoDialog = new SelectPhotoDialog(this);
         selectPhotoDialog.setOnClickListener(date -> {
-            //此处数据需要根据实际情况填写
             if (type == 0){
                 birthdayView.setText(date);
             }else {
