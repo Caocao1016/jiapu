@@ -18,6 +18,7 @@ import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.bean.MemberBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
+import com.demo.jiapu.entity.evbus.AddMemberEventbus;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.modle.HomeLeftView;
@@ -29,7 +30,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> implements OnFamilyLongClickListener, HomeLeftView {
     private static final String MY_ID = "601";
@@ -56,6 +56,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        registerEventBus(this);
         initView();
         initData();
     }
@@ -64,9 +65,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     protected void initView() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
 
-
     }
-
 
     @Override
     protected void initData() {
@@ -74,7 +73,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 //        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
         mPresenter.getList();
 
-        registerEventBus(this);
+
 
     }
 
@@ -98,6 +97,11 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
         ftvTree.drawFamilyTree(event.getMember());
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addMember(AddMemberEventbus event) {
+        initData();
+    }
+
     @Override
     public void onSuccess(List<MemberBean> response) {
         List<MemberBean> mList = new ArrayList<>();
@@ -113,7 +117,6 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
         ftvTree.setCanClick(true);
         ftvTree.setOnFamilyLongClickListener(this);
         ftvTree.drawFamilyTree(my);
-
 
     }
 

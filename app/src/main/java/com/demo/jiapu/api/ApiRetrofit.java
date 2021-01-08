@@ -1,8 +1,9 @@
 package com.demo.jiapu.api;
 
 
+import android.util.Log;
+
 import com.google.gson.GsonBuilder;
-import com.socks.library.KLog;
 import com.demo.jiapu.base.MyApp;
 
 import java.io.File;
@@ -70,10 +71,10 @@ public class ApiRetrofit {
         long duration = endTime - startTime;
         okhttp3.MediaType mediaType = response.body().contentType();
         String content = response.body().string();
-        KLog.e("----------Request Start----------------");
-        KLog.e("| " + request.toString());
-        KLog.json("| Response:" + content);
-        KLog.e("----------Request End:" + duration + "毫秒----------");
+        Log.e("---","----------Request Start----------------");
+        Log.e("---","| " + request.toString());
+        Log.e("---","| Response:" + content);
+        Log.e("---","----------Request End:" + duration + "毫秒----------");
         return response.newBuilder()
                 .body(okhttp3.ResponseBody.create(mediaType, content))
                 .build();

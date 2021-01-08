@@ -9,11 +9,15 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.widget.TextView;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -344,4 +348,36 @@ public class StringUtil {
         }
         return false ;
     }
+
+
+    /**
+     * 日期转化为时间戳
+     *
+     * @param time   年月日
+     */
+    public static long stringToLong(String time) {
+        if (TextUtils.isEmpty(time)){
+            return 0L;
+        }
+        Date date = stringToDate(time, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
+        if (date == null) {
+            return 0;
+        }
+        return date.getTime();
+    }
+
+    /**
+     * 日期转化为date
+     *
+     * @param time   年月日
+     * @param format 格式
+     */
+    public static Date stringToDate(String time, SimpleDateFormat format) {
+        try {
+            return format.parse(time);
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
 }

@@ -9,7 +9,6 @@ buildscript {
             url "https://maven.google.com"
 
         }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
@@ -25,20 +24,8 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
-        flatDir {
-            dirs '../repositories'
-        }
     }
 
-    //解决app:mockableAndroidJar错误的问题
-    gradle.taskGraph.whenReady {
-        tasks.each { task ->
-            if (task.name.equals('mockableAndroidJar')) {
-                task.enabled = false
-            }
-        }
-    }
 }
 
 

@@ -19,7 +19,7 @@ public class AddMemberPresenter extends BasePresenter<AddMemberView> {
             @Override
             protected void onSuccess(String response) {
 
-                Log.e("---",response);
+                mView.onSuccess("添加成功");
             }
 
             @Override
@@ -37,8 +37,7 @@ public class AddMemberPresenter extends BasePresenter<AddMemberView> {
         addSubscription(mApiService.editGrjp(editGrjpRequest.params()), new SubscriberCallBack<String>() {
             @Override
             protected void onSuccess(String response) {
-
-                Log.e("---",response);
+                mView.onSuccess("编辑成功");
             }
 
             @Override

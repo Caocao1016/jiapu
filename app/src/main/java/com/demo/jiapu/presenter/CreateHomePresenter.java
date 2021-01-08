@@ -7,11 +7,7 @@ import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.MemberBean;
 import com.demo.jiapu.entity.JpsjAddRequest;
-import com.demo.jiapu.entity.SelGrjpRequest;
 import com.demo.jiapu.modle.CreateHomeView;
-import com.demo.jiapu.modle.HomeLeftView;
-import com.demo.jiapu.util.FileUtil;
-import com.hjq.toast.ToastUtils;
 
 import java.io.File;
 import java.util.List;
