@@ -1,5 +1,6 @@
 package com.demo.jiapu.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -143,7 +144,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
     private OverScroller mScroller;
 
-    private String mDBName = "FamilyTree.db";
+    private String mDBName;
 
     public FamilyTreeView(Context context) {
         this(context, null, 0);
@@ -378,8 +379,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                          List<Pair<View, View>> childrenViewList) {
         final FamilyBean familySpouseInfo = familyInfo.getSpouse();
         final String familySex = familyInfo.getSex();
-        final List<FamilyBean> childList = new ArrayList<>();
-        childList.addAll(familyInfo.getChildren());
+        final List<FamilyBean> childList = new ArrayList<>(familyInfo.getChildren());
         if (!isRight) {
             Collections.reverse(childList);
         }
@@ -636,6 +636,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     }
 
 
+    @SuppressLint("SetTextI18n")
     private View createFamilyView(FamilyBean family, int left, int top) {
 
 
@@ -652,7 +653,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
             tvName.setText(family.getSurname() + family.getNames());
         else tvName.setText(family.getNickname());
 
-        final ImageView ivDead = familyView.findViewById(R.id.iv_ac_f_dead);
+        ImageView ivDead = familyView.findViewById(R.id.iv_ac_f_dead);
         if (family.getDie_status() == 1)
             ivDead.setVisibility(View.GONE);
 
@@ -671,7 +672,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                 .into(ivAvatar);
 
         if (family.equals(mMyPGrandParentInfo) || family.isMemberSpouse()) {
-            if (!TextUtils.isEmpty(family.getFatherId()) || !TextUtils.isEmpty(family.getMotherId())) {
+            if (!StringUtil.isEmpty(family.getFatherId()) || !StringUtil.isEmpty(family.getMotherId())) {
                 familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
             }
         }
@@ -689,7 +690,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         final ImageView deadView = familyView.findViewById(R.id.iv_ac_f_dead);
         deadView.setImageResource(R.drawable.ic_tag_dead);
         familyView.setOnClickListener(this);
-        familyView.setOnLongClickListener(this::onLongClick);
+        familyView.setOnLongClickListener(this);
         this.addView(familyView);
         return familyView;
     }
@@ -1020,8 +1021,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
             mOnFamilyLongClickListener.onFamilyLongClick((FamilyBean) v.getTag());
         }
         if (canClick) {
-            mOffsetX = v.getLeft() - getScrollX();
-            mOffsetY = v.getTop() - getScrollY();
             setClickItem(v);
         }
         return true;
@@ -1143,6 +1142,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         super.computeScroll();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
