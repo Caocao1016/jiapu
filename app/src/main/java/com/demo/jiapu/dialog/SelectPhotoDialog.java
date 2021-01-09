@@ -3,22 +3,13 @@ package com.demo.jiapu.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.demo.jiapu.R;
-import com.demo.jiapu.util.StringUtil;
-
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
-
 import top.defaults.view.DateTimePickerView;
 
 public class SelectPhotoDialog extends Dialog {
