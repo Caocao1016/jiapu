@@ -27,7 +27,6 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
     private static final String MY_ID = "601";
 
     private MenuDialog menuDialog;
-
     FamilyTreeView ftvTree;
     @BindView(R.id.tb_title)
     TitleBar tbTitle;
