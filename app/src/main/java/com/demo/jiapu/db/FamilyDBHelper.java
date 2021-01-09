@@ -83,6 +83,10 @@ public class FamilyDBHelper {
                 .where(sql, parentId, parentId, ignoreChildId, birthday));
     }
 
+    public int deleteAll() {
+        return liteOrm.deleteAll(MemberBean.class);
+    }
+
     public int save(List<MemberBean> families) {
         return liteOrm.save(families);
     }

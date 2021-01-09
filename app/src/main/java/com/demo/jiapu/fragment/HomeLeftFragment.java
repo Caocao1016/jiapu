@@ -74,7 +74,6 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
         mPresenter.getList();
 
 
-
     }
 
     @Override
@@ -104,9 +103,9 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
     @Override
     public void onSuccess(List<MemberBean> response) {
-        List<MemberBean> mList = new ArrayList<>();
-        mList.addAll(response);
+        List<MemberBean> mList = new ArrayList<>(response);
         final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
+        dbHelper.deleteAll();
         dbHelper.save(mList);
         final FamilyBean my = dbHelper.findFamilyById("1");
 

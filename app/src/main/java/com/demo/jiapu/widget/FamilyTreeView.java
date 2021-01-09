@@ -674,13 +674,15 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         if (family.equals(mMyPGrandParentInfo) || family.isMemberSpouse()) {
             if (!StringUtil.isEmpty(family.getFatherId()) || !StringUtil.isEmpty(family.getMotherId())) {
                 familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
+            } else {
+                familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
             }
-        }
-        if (family.isGrandChildrenHaveSon()) {
+        } else if (family.isGrandChildrenHaveSon()) {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
         } else {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
         }
+        
         if (family.isSelect()) {
             familyView.setSelected(true);
             familyView.setScaleX(1.1f);

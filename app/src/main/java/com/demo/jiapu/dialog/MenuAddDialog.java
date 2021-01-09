@@ -38,12 +38,12 @@ public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupIt
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_FATHER);
         else {
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_BROTHER);
-            viewGroup.addItemView(AddFamilyViewGroup.ITEM_DAUGHTER);
-            viewGroup.addItemView(AddFamilyViewGroup.ITEM_SON);
         }
         if (StringUtil.isEmpty(familyBean.getMotherId()))
             viewGroup.addItemView(AddFamilyViewGroup.ITEM_MOTHER);
 
+        viewGroup.addItemView(AddFamilyViewGroup.ITEM_DAUGHTER);
+        viewGroup.addItemView(AddFamilyViewGroup.ITEM_SON);
 
         viewGroup.drawViewGroup();
         viewGroup.setOnItemClickListener(this);
