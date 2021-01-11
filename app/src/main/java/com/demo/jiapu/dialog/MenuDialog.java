@@ -89,6 +89,11 @@ public class MenuDialog extends BaseFullScreenDialog {
                 .load(familyBean.getMemberImg())
                 .apply(requestOptions)
                 .into(imageView);
+
+        mLlMenuAdd.setVisibility(View.VISIBLE);
+        mLlMenuEdit.setVisibility(View.VISIBLE);
+        mLlMenuHome.setVisibility(View.VISIBLE);
+        mLlMenuOpen.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.rl_menu_my, R.id.ll_menu_open, R.id.ll_menu_home, R.id.ll_menu_add,

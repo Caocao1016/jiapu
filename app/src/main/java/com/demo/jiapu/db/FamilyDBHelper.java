@@ -3,8 +3,8 @@ package com.demo.jiapu.db;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.bean.MemberBean;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
@@ -25,14 +25,31 @@ public class FamilyDBHelper {
     private String dbName = "FamilyTree.db";
     private final boolean DEBUGGABLE = true; // 是否输出log
 
-    private LiteOrm liteOrm;
+    private static LiteOrm liteOrm;
 
     private boolean mInquirySpouse = true;//是否查询配偶
+    private static FamilyDBHelper INStANCE;
 
-    public FamilyDBHelper(Context context, String dbname) {
-        this.dbName = dbname;
-        liteOrm = LiteOrm.newSingleInstance(context, dbName);
+    public static FamilyDBHelper getInstance() {
+        if (INStANCE == null) {
+            synchronized (FamilyDBHelper.class) {
+                if (INStANCE == null) {
+                    INStANCE = new FamilyDBHelper(MyApp.getInstance());
+                }
+            }
+        }
+        return INStANCE;
+    }
+
+
+
+    private FamilyDBHelper(Context context) {
+
+        if (null == liteOrm) {
+            liteOrm = LiteOrm.newSingleInstance(context, dbName);
+        }
         liteOrm.setDebugged(DEBUGGABLE);
+
     }
 
     public void setInquirySpouse(boolean inquirySpouse) {
@@ -83,15 +100,34 @@ public class FamilyDBHelper {
                 .where(sql, parentId, parentId, ignoreChildId, birthday));
     }
 
-    public int deleteAll() {
-        return liteOrm.deleteAll(MemberBean.class);
+    private List<FamilyBean> findChildrenByParentId(String parentId, String ignoreChildId, int sort, boolean isLittle) {
+        String sql;
+        if (!TextUtils.isEmpty(parentId)) {
+            sql = "(fatherId = ? or motherId = ?) and memberId != ?";
+        } else {
+            return new ArrayList<>();
+        }
+
+        if (isLittle) {
+            sql += " and sort > ?";
+        } else {
+            sql += " and sort <= ?";
+        }
+
+        return liteOrm.query(new QueryBuilder<>(FamilyBean.class)
+                .appendOrderAscBy("sort")
+                .where(sql, parentId, parentId, ignoreChildId, sort));
     }
 
-    public int save(List<MemberBean> families) {
+    public int deleteAll() {
+        return liteOrm.deleteAll(FamilyBean.class);
+    }
+
+    public int save(List<FamilyBean> families) {
         return liteOrm.save(families);
     }
 
-    public long save(MemberBean family) {
+    public long save(FamilyBean family) {
         return liteOrm.save(family);
     }
 
@@ -158,14 +194,14 @@ public class FamilyDBHelper {
         final String myBirthday = myInfo.getBirthday();
         final String myFatherId = myInfo.getFatherId();
         final String myMotherId = myInfo.getMotherId();
+        final int mSort = myInfo.getSort();
         final String parentId;
         if (!TextUtils.isEmpty(myFatherId)) {
             parentId = myFatherId;
         } else {
             parentId = myMotherId;
         }
-
-        final List<FamilyBean> brotherList = findChildrenByParentId(parentId, myId, myBirthday, isLittle);
+        final List<FamilyBean> brotherList = findChildrenByParentId(parentId, myId, mSort, isLittle);
         setSpouse(brotherList);
         setChildren(brotherList);
         return brotherList;

@@ -62,38 +62,44 @@ public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupIt
 
         switch (position) {
             case AddFamilyViewGroup.ITEM_BROTHER:
-                intent.putExtra("itemName", "兄弟");
+                intent.putExtra("itemName", "兄弟姐妹");
                 intent.putExtra("itemID", "5");
+                intent.putExtra("sex",1);
                 getContext().startActivity(intent);
                 dismiss();
                 break;
             case AddFamilyViewGroup.ITEM_SPOUSE:
                 intent.putExtra("itemName", "配偶");
                 intent.putExtra("itemID", "3");
+                intent.putExtra("sex",2);
                 getContext().startActivity(intent);
                 dismiss();
                 break;
             case AddFamilyViewGroup.ITEM_MOTHER:
                 intent.putExtra("itemName", "妈妈");
                 intent.putExtra("itemID", "2");
+                intent.putExtra("sex",2);
                 getContext().startActivity(intent);
                 dismiss();
                 break;
             case AddFamilyViewGroup.ITEM_FATHER:
                 intent.putExtra("itemName", "爸爸");
                 intent.putExtra("itemID", "1");
+                intent.putExtra("sex",1);
                 getContext().startActivity(intent);
                 dismiss();
                 break;
             case AddFamilyViewGroup.ITEM_SON:
                 intent.putExtra("itemName", "儿子");
                 intent.putExtra("itemID", "4");
+                intent.putExtra("sex",1);
                 getContext().startActivity(intent);
                 dismiss();
                 break;
             case AddFamilyViewGroup.ITEM_DAUGHTER:
                 intent.putExtra("itemName", "女儿");
                 intent.putExtra("itemID", "4");
+                intent.putExtra("sex",2);
                 getContext().startActivity(intent);
                 dismiss();
                 break;

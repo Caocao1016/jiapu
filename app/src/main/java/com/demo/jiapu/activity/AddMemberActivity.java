@@ -76,6 +76,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     private Intent intent;
     private FamilyBean familyBean;
     private int type;
+    private int sex;
 
     @Override
     protected AddMemberPresenter createPresenter() {
@@ -96,6 +97,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     public void init() {
         intent = getIntent();
         type = intent.getIntExtra("type", 0);
+        sex = intent.getIntExtra("sex", 1);
         familyBean = (FamilyBean) intent.getSerializableExtra("bean");
         super.init();
     }
@@ -113,7 +115,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
         dieStatusView.setOnClickCheckedListener(this);
         String str = StringUtil.isEmpty(familyBean.getNickname()) ? familyBean.getSurname() + familyBean.getNames() : familyBean.getNickname();
         addWhoTextView.setText("添加" + str + "的" + intent.getStringExtra("itemName"));
-
+        sexView.setChecked(sex != 1);
         if (type == 2) {
             Glide.with(this).load(familyBean.getMemberImg()).into(avatarView);
             addWhoTextView.setText(familyBean.getNickname());
@@ -173,7 +175,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
         }
     }
 
-    @OnClick({R.id.bt_add_family, R.id.mev_add_family_birthday,R.id.mev_add_family_die_time})
+    @OnClick({R.id.bt_add_family, R.id.mev_add_family_birthday, R.id.mev_add_family_die_time})
     public void onClick(View v) {
         if (v.getId() == R.id.bt_add_family) {
             if (1 == type) {
@@ -240,12 +242,13 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
             createDialog(1);
         }
     }
+
     private void createDialog(int type) {
         SelectPhotoDialog selectPhotoDialog = new SelectPhotoDialog(this);
         selectPhotoDialog.setOnClickListener(date -> {
-            if (type == 0){
+            if (type == 0) {
                 birthdayView.setText(date);
-            }else {
+            } else {
                 dieTimeView.setText(date);
             }
         });

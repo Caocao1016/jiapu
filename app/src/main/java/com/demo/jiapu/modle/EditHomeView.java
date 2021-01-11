@@ -6,7 +6,7 @@ import com.demo.jiapu.bean.FamilyBean;
 import java.util.List;
 
 
-public interface HomeLeftView {
+public interface EditHomeView {
 
     void onSuccess(List<FamilyBean> response);
 

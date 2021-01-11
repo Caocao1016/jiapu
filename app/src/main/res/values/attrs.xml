@@ -146,7 +146,7 @@
     </declare-styleable>
 
     <declare-styleable name="FamilyTreeView">
-        <attr name="dbName" format="string" />
+        <attr name="canClick" format="boolean" />
     </declare-styleable>
 
 </resources>

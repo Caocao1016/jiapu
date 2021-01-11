@@ -5,12 +5,12 @@ import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.entity.SelGrjpRequest;
-import com.demo.jiapu.modle.HomeLeftView;
+import com.demo.jiapu.modle.EditHomeView;
 
 import java.util.List;
 
-public class HomeLeftPresenter extends BasePresenter<HomeLeftView> {
-    public HomeLeftPresenter(HomeLeftView view) {
+public class EditHomePresenter extends BasePresenter<EditHomeView> {
+    public EditHomePresenter(EditHomeView view) {
         super(view);
     }
 
@@ -19,7 +19,7 @@ public class HomeLeftPresenter extends BasePresenter<HomeLeftView> {
 
         request.userId = "5";
 
-        addSubscription(mApiService.selGrjp(request.params()), new SubscriberCallBack<List<FamilyBean>>() {
+        addSubscription(mApiService.test(request.params()), new SubscriberCallBack<List<FamilyBean>>() {
 
             @Override
             protected void onSuccess(List<FamilyBean> response) {

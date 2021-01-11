@@ -17,6 +17,7 @@ import com.demo.jiapu.widget.FamilyTreeView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import butterknife.BindView;
 
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity implements OnFamilyLongClickListe
 
     @Override
     protected void initView() {
-
+        
     }
 
     @Override

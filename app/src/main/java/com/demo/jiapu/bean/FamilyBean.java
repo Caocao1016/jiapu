@@ -1,7 +1,10 @@
 package com.demo.jiapu.bean;
 
+import com.google.gson.annotations.SerializedName;
 import com.litesuits.orm.db.annotation.Ignore;
+import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
+import com.litesuits.orm.db.enums.AssignType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,11 +12,18 @@ import java.util.List;
 public class FamilyBean implements Serializable {
 
 
+    @PrimaryKey(AssignType.BY_MYSELF)
+    @SerializedName("id")
     private String memberId;//人员ID
+    @SerializedName("avatar")
     private String memberImg;//头像
+    @SerializedName("father_id")
     private String fatherId;//父亲ID
+    @SerializedName("mother_id")
     private String motherId;//母亲ID
+    @SerializedName("spouse_id")
     private String spouseId;//配偶ID
+    @SerializedName("birthdate")
     private String birthday;//生日
 
     private String sex;//性别：1男，2女

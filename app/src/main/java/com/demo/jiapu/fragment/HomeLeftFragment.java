@@ -3,7 +3,6 @@ package com.demo.jiapu.fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -13,9 +12,7 @@ import com.demo.jiapu.R;
 
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.base.CommonLazyFragment;
-import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.bean.MemberBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.entity.evbus.AddMemberEventbus;
@@ -35,6 +32,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     private static final String MY_ID = "601";
 
     private MenuDialog menuDialog;
+    private FamilyDBHelper dbHelper;
 
     FamilyTreeView ftvTree;
 
@@ -65,12 +63,14 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     protected void initView() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
 
+
     }
 
     @Override
     protected void initData() {
 //        String json = test.test;
 //        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
+        dbHelper = FamilyDBHelper.getInstance();
         mPresenter.getList();
 
 
@@ -87,7 +87,6 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     public void onFamilyLongClick(FamilyBean family) {
 
         menuDialog = new MenuDialog(getContext(), family);
-
         menuDialog.show();
     }
 
@@ -102,18 +101,14 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     }
 
     @Override
-    public void onSuccess(List<MemberBean> response) {
-        List<MemberBean> mList = new ArrayList<>(response);
-        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(), ftvTree.getDBName());
+    public void onSuccess(List<FamilyBean> response) {
+
         dbHelper.deleteAll();
-        dbHelper.save(mList);
+        dbHelper.save(response);
+
         final FamilyBean my = dbHelper.findFamilyById("1");
-
-        dbHelper.closeDB();
-
         my.setSelect(true);
 
-        ftvTree.setCanClick(true);
         ftvTree.setOnFamilyLongClickListener(this);
         ftvTree.drawFamilyTree(my);
 

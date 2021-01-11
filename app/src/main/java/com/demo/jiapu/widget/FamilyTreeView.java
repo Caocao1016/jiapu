@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
+import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.listener.OnFamilyClickListener;
@@ -66,7 +67,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
     private final MultiTouchGestureDetector mMultiTouchGestureDetector;
 
-    private boolean canClick = false;
+    private boolean canClick;
 
     private static final int AVATAR_MALE = R.drawable.ic_avatar_male;//男性默认头像
     private static final int AVATAR_FEMALE = R.drawable.ic_avatar_female;//女性默认头像
@@ -97,8 +98,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     private int mShowHeightPX;//在屏幕所占的高度
 
     private int mScrollWidth;//移动范围
-    private int mCurrentX;//当前X轴偏移量
-    private int mCurrentY;//当前Y轴偏移量
+
     private int mLastTouchX;//最后一次触摸的X坐标
     private int mLastTouchY;//最后一次触摸的Y坐标
     private int mLastInterceptX;
@@ -144,7 +144,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
     private OverScroller mScroller;
 
-    private String mDBName;
 
     public FamilyTreeView(Context context) {
         this(context, null, 0);
@@ -159,7 +158,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FamilyTreeView);
 
-        mDBName = a.getString(R.styleable.FamilyTreeView_dbName);
+        canClick = a.getBoolean(R.styleable.FamilyTreeView_canClick, false);
         a.recycle();
 
         mScrollWidth = DisplayUtil.dip2px(SCROLL_WIDTH);
@@ -189,8 +188,8 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         mPath = new Path();
         mPath.reset();
+        mDBHelper = FamilyDBHelper.getInstance();
 
-        mDBHelper = new FamilyDBHelper(context, mDBName);
 
         mMyChildrenInfo = new ArrayList<>();
         mMyBrotherInfo = new ArrayList<>();
@@ -221,6 +220,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         initScrollMax();
         invalidate();
     }
+
 
     private void initScrollMax() {
         scrollMaxSpace = (mGenerationTop[0] + mGenerationTop[4] + mSpacePX) / 2;
@@ -282,6 +282,9 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     }
 
     public void initData(FamilyBean family) {
+
+        final List<FamilyBean> ml = mDBHelper.getChildrenAndGrandChildren(family, "");
+
         mMyInfo = family;
         if (mMyInfo != null) {
             mDBHelper.setSpouse(mMyInfo);
@@ -682,7 +685,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         } else {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
         }
-        
+
         if (family.isSelect()) {
             familyView.setSelected(true);
             familyView.setScaleX(1.1f);
@@ -1176,9 +1179,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         return intercerpt;
     }
 
-    public String getDBName() {
-        return mDBName;
-    }
 
 
     public boolean isCanClick() {

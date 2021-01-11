@@ -1,16 +1,12 @@
 package com.demo.jiapu.presenter;
 
-import android.util.Log;
-
 import com.demo.jiapu.api.SubscriberCallBack;
 import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
-import com.demo.jiapu.bean.MemberBean;
 import com.demo.jiapu.entity.JpsjAddRequest;
 import com.demo.jiapu.modle.CreateHomeView;
 
 import java.io.File;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

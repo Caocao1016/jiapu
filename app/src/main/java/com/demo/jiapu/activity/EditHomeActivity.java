@@ -6,16 +6,16 @@ import android.view.View;
 
 import androidx.core.widget.PopupWindowCompat;
 
-import com.alibaba.fastjson.JSONObject;
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
-import com.demo.jiapu.base.BasePresenter;
-import com.demo.jiapu.base.MyApp;
+import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.dialog.TestLeftPopupWindow;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
+import com.demo.jiapu.modle.EditHomeView;
+import com.demo.jiapu.presenter.EditHomePresenter;
 import com.demo.jiapu.widget.FamilyTreeView;
 import com.hjq.bar.TitleBar;
 
@@ -23,17 +23,18 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickListener {
+public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements OnFamilyLongClickListener, EditHomeView {
     private static final String MY_ID = "601";
 
     private MenuDialog menuDialog;
     FamilyTreeView ftvTree;
     @BindView(R.id.tb_title)
     TitleBar tbTitle;
+    private FamilyDBHelper dbHelper;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected EditHomePresenter createPresenter() {
+        return new EditHomePresenter(this);
     }
 
     @Override
@@ -76,6 +77,9 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
 //        ftvTree.setShowBottomSpouse(false);
 //        ftvTree.drawFamilyTree(my);
 //        ftvTree.setOnFamilyLongClickListener(this);
+        dbHelper = FamilyDBHelper.getInstance();
+        mPresenter.getList();
+
     }
 
     @Override
@@ -92,4 +96,24 @@ public class EditHomeActivity extends BaseActivity implements OnFamilyLongClickL
     }
 
 
+    @Override
+    public void onSuccess(List<FamilyBean> response) {
+        dbHelper.deleteAll();
+        dbHelper.save(response);
+
+        final FamilyBean my = dbHelper.findFamilyById("1");
+
+        ftvTree.drawFamilyTree(my);
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
+
+    }
 }
