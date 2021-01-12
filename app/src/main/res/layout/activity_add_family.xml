@@ -213,7 +213,26 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_add_live"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                tools:visibility="visible">
 
+                <com.demo.jiapu.widget.MoreEditView
+                    android:id="@+id/me_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    app:checkSetChecked="false"
+                    app:editText="182********"
+                    app:leftTvText="手机号"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
 
             <com.demo.jiapu.widget.MoreEditView
                 android:id="@+id/mev_add_family_seniority"
@@ -253,36 +272,7 @@
                 app:editText="生辰"
                 app:leftTvText="生辰" />
 
-            <LinearLayout
-                android:id="@+id/ll_add_live"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible"
-                tools:visibility="visible">
 
-                <com.demo.jiapu.widget.MoreEditView
-                    android:id="@+id/me_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    app:checkSetChecked="false"
-                    app:editText="182********"
-                    app:leftTvText="手机号"
-                    tools:visibility="visible" />
-
-                <com.demo.jiapu.widget.MoreEditView
-                    android:id="@+id/me_weixin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    app:checkSetChecked="false"
-                    app:editText="微信昵称"
-                    app:leftTvText="微信昵称"
-                    tools:visibility="visible" />
-            </LinearLayout>
 
 
             <LinearLayout

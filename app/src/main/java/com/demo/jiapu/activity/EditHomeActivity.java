@@ -1,6 +1,7 @@
 package com.demo.jiapu.activity;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
@@ -13,11 +14,14 @@ import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.dialog.TestLeftPopupWindow;
+import com.demo.jiapu.entity.evbus.InitFamilyDataEventbus;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.modle.EditHomeView;
 import com.demo.jiapu.presenter.EditHomePresenter;
 import com.demo.jiapu.widget.FamilyTreeView;
 import com.hjq.bar.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -51,6 +55,8 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     protected void initView() {
 
         ftvTree = findViewById(R.id.tv_ac_f_tree);
+        dbHelper = FamilyDBHelper.getInstance();
+        ftvTree.setOnFamilyLongClickListener(this);
     }
 
     @Override
@@ -65,34 +71,22 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
 
     @Override
     protected void initData() {
-//        String json = test.test;
-//        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
-//
-//        final FamilyDBHelper dbHelper = new FamilyDBHelper(MyApp.getInstance(),ftvTree.getDBName());
-//        dbHelper.save(mList);
-//        final FamilyBean my = dbHelper.findFamilyById(MY_ID);
-//        my.setSelect(true);
-//        dbHelper.closeDB();
-//
-//        ftvTree.setShowBottomSpouse(false);
-//        ftvTree.drawFamilyTree(my);
-//        ftvTree.setOnFamilyLongClickListener(this);
-        dbHelper = FamilyDBHelper.getInstance();
+
         mPresenter.getList();
 
     }
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().post(new InitFamilyDataEventbus());
         super.onDestroy();
-        ftvTree.destroyView();
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void onFamilyLongClick(FamilyBean family) {
-        menuDialog = new MenuDialog(this, family);
-        menuDialog.show();
+    public void onFamilyLongClick(FamilyBean familyBean) {
+
+
     }
 
 
@@ -102,10 +96,10 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
         dbHelper.save(response);
 
         final FamilyBean my = dbHelper.findFamilyById("1");
-
         ftvTree.drawFamilyTree(my);
 
     }
+
 
     @Override
     public void onError() {

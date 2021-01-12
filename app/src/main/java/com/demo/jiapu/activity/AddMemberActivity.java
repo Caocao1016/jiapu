@@ -18,7 +18,7 @@ import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.dialog.SelectPhotoDialog;
 import com.demo.jiapu.entity.AddGrjpRequest;
 import com.demo.jiapu.entity.EditGrjpRequest;
-import com.demo.jiapu.entity.evbus.AddMemberEventbus;
+import com.demo.jiapu.entity.evbus.InitFamilyDataEventbus;
 import com.demo.jiapu.modle.AddMemberView;
 import com.demo.jiapu.presenter.AddMemberPresenter;
 import com.demo.jiapu.util.StringUtil;
@@ -50,8 +50,6 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     EditText namesEditView;
     @BindView(R.id.swv_add_sex)
     SwitchView sexView;
-    @BindView(R.id.me_weixin)
-    MoreEditView weixinView;
     @BindView(R.id.mev_add_family_seniority)
     MoreEditView seniorityView;
     @BindView(R.id.mev_add_family_sort)
@@ -122,7 +120,6 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
             surEditView.setText(familyBean.getSurname());
             namesEditView.setText(familyBean.getNames());
             dieStatusView.setChecked(familyBean.getDie_status() == 2);
-            weixinView.setText(familyBean.getNickname());
             sexView.setChecked(familyBean.getSex().equals("2"));
             seniorityView.setText(String.valueOf(familyBean.getSeniority()));
             sortView.setValue(familyBean.getSort());
@@ -143,7 +140,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     @Override
     public void onSuccess(String response) {
         ToastUtils.s(this, response);
-        EventBus.getDefault().post(new AddMemberEventbus());
+        EventBus.getDefault().post(new InitFamilyDataEventbus());
         finish();
     }
 

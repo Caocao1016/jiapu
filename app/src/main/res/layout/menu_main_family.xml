@@ -56,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_toStartOf="@id/ll_menu_item"
-        android:layout_toLeftOf="@id/ll_menu_item"
         android:visibility="gone"
         tools:visibility="visible"
         android:orientation="vertical">
@@ -71,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="添加"
+            android:textColor="#FFFFFF"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -80,7 +80,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_toEndOf="@id/ll_menu_item"
-        android:layout_toRightOf="@id/ll_menu_item"
         android:visibility="gone"
         tools:visibility="visible"
         android:orientation="vertical">
@@ -95,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="编辑"
+            android:textColor="#FFFFFF"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -109,17 +109,16 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_open"
             android:layout_width="41dp"
             android:layout_height="41dp"
             android:src="@drawable/ic_dialog_open" />
 
         <TextView
-            android:id="@+id/tv_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="打开"
+            android:textColor="#FFFFFF"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -134,17 +133,39 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_home"
             android:layout_width="41dp"
             android:layout_height="41dp"
             android:src="@drawable/ic_dialog_home" />
 
         <TextView
-            android:id="@+id/tv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="主页"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_menu_builder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_menu_item"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:src="@drawable/ic_dialog_create" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="创建者"
+            android:textColor="#FFFFFF"
             android:textSize="15sp" />
     </LinearLayout>
 </RelativeLayout>

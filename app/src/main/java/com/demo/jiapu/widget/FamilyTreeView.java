@@ -648,7 +648,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         familyView.setLeft(left);
         familyView.setTop(top);
 
-        familyView.setTag(family);
 
         final TextView tvName = familyView.findViewById(R.id.tv_ac_f_name);
         tvName.setTextSize(NAME_TEXT_SIZE_SP);
@@ -677,13 +676,17 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         if (family.equals(mMyPGrandParentInfo) || family.isMemberSpouse()) {
             if (!StringUtil.isEmpty(family.getFatherId()) || !StringUtil.isEmpty(family.getMotherId())) {
                 familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
+                family.setOpen(true);
             } else {
                 familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
+                family.setOpen(false);
             }
         } else if (family.isGrandChildrenHaveSon()) {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_OPEN_FEMALE : BACKGROUND_OPEN_MALE);
+            family.setOpen(true);
         } else {
             familyView.setBackgroundResource(SEX_FEMALE.equals(family.getSex()) ? BACKGROUND_FEMALE : BACKGROUND_MALE);
+            family.setOpen(false);
         }
 
         if (family.isSelect()) {
@@ -696,6 +699,9 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         deadView.setImageResource(R.drawable.ic_tag_dead);
         familyView.setOnClickListener(this);
         familyView.setOnLongClickListener(this);
+
+        familyView.setTag(family);
+
         this.addView(familyView);
         return familyView;
     }
@@ -1179,13 +1185,4 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         return intercerpt;
     }
 
-
-
-    public boolean isCanClick() {
-        return canClick;
-    }
-
-    public void setCanClick(boolean canClick) {
-        this.canClick = canClick;
-    }
 }

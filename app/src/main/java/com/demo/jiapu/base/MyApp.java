@@ -4,29 +4,22 @@ package com.demo.jiapu.base;
 public class MyApp extends BaseApp  {
 
 
-    private static MyApp INStANCE;
+    private static MyApp INSTACNE;
 
     public MyApp() {
-        INStANCE = this;
+        INSTACNE = this;
     }
 
     public static MyApp getInstance() {
-        if (INStANCE == null) {
+        if (INSTACNE == null) {
             synchronized (MyApp.class) {
-                if (INStANCE == null) {
-                    INStANCE = new MyApp();
+                if (INSTACNE == null) {
+                    INSTACNE = new MyApp();
                 }
             }
         }
-        return INStANCE;
+        return INSTACNE;
     }
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-
-    }
-
 
 }
 

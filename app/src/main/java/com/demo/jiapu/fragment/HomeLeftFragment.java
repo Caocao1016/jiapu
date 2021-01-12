@@ -3,6 +3,7 @@ package com.demo.jiapu.fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,7 @@ import com.demo.jiapu.base.CommonLazyFragment;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
-import com.demo.jiapu.entity.evbus.AddMemberEventbus;
+import com.demo.jiapu.entity.evbus.InitFamilyDataEventbus;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.modle.HomeLeftView;
@@ -25,7 +26,6 @@ import com.demo.jiapu.widget.FamilyTreeView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> implements OnFamilyLongClickListener, HomeLeftView {
@@ -33,6 +33,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
     private MenuDialog menuDialog;
     private FamilyDBHelper dbHelper;
+    private boolean isAddAndEdit = false;
 
     FamilyTreeView ftvTree;
 
@@ -59,22 +60,23 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
         initData();
     }
 
+
+
     @Override
     protected void initView() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
-
-
+        dbHelper = FamilyDBHelper.getInstance();
+        ftvTree.setOnFamilyLongClickListener(this);
     }
 
     @Override
     protected void initData() {
+
 //        String json = test.test;
 //        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
-        dbHelper = FamilyDBHelper.getInstance();
         mPresenter.getList();
-
-
     }
+
 
     @Override
     public void onDestroy() {
@@ -84,10 +86,21 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void onFamilyLongClick(FamilyBean family) {
+    public void onFamilyLongClick(FamilyBean familyBean) {
+        boolean home = !TextUtils.isEmpty(familyBean.getMemberImg());
+        boolean add = isAddAndEdit;
+        boolean edit = isAddAndEdit;
+        boolean open = familyBean.isOpen();
+        boolean builder = false;
+        if (!isAddAndEdit)
+            builder = familyBean.getUser_id() == familyBean.getTx_userid();
 
-        menuDialog = new MenuDialog(getContext(), family);
-        menuDialog.show();
+        if (home || isAddAndEdit || open || builder) {
+            menuDialog = new MenuDialog(getContext(), familyBean);
+            menuDialog.show();
+
+            menuDialog.setType(home, open, add, edit, builder);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -96,7 +109,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void addMember(AddMemberEventbus event) {
+    public void addMember(InitFamilyDataEventbus event) {
         initData();
     }
 
@@ -109,7 +122,6 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
         final FamilyBean my = dbHelper.findFamilyById("1");
         my.setSelect(true);
 
-        ftvTree.setOnFamilyLongClickListener(this);
         ftvTree.drawFamilyTree(my);
 
     }

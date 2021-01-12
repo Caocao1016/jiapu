@@ -40,7 +40,7 @@ public interface ApiService {
     @GET("Gr_Jp/selGrjp2")
     Observable<BaseResponse<List<FamilyBean>>> selGrjp(@QueryMap Map<String, Object> params);
 
-    @GET("Gr_Jp/selGrjp2")
+    @GET("Gr_Jp/selGrjp")
     Observable<BaseResponse<List<FamilyBean>>> test(@QueryMap Map<String, Object> params);
 
     @POST("Gr_Jp/addGrjp")

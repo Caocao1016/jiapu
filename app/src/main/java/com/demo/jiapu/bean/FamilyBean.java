@@ -60,6 +60,16 @@ public class FamilyBean implements Serializable {
     @Ignore
     private  boolean isGrandChildrenHaveSon = false;//孙子是否有儿子
 
+    @Ignore
+    private boolean isOpen=false;
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
 
     public boolean isGrandChildrenHaveSon() {
         return isGrandChildrenHaveSon;
