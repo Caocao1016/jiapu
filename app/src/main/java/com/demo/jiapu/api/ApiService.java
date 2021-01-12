@@ -37,10 +37,10 @@ public interface ApiService {
     @POST("Jpsj_List/addJpsj")
     Observable<BaseResponse> addJpsj(@QueryMap Map<String, Object> params);
 
-    @GET("Gr_Jp/selGrjp")
+    @GET("Gr_Jp/selGrjp2")
     Observable<BaseResponse<List<FamilyBean>>> selGrjp(@QueryMap Map<String, Object> params);
 
-    @GET("Gr_Jp/selGrjp")
+    @GET("Gr_Jp/selGrjp2")
     Observable<BaseResponse<List<FamilyBean>>> test(@QueryMap Map<String, Object> params);
 
     @POST("Gr_Jp/addGrjp")
