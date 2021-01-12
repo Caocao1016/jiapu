@@ -283,8 +283,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
     public void initData(FamilyBean family) {
 
-        final List<FamilyBean> ml = mDBHelper.getChildrenAndGrandChildren(family, "");
-
         mMyInfo = family;
         if (mMyInfo != null) {
             mDBHelper.setSpouse(mMyInfo);
