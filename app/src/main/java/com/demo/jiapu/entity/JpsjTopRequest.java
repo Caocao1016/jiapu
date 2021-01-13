@@ -2,7 +2,7 @@ package com.demo.jiapu.entity;
 
 import com.demo.jiapu.base.MapParamsRequest;
 
-public class SelSjjpRequest extends MapParamsRequest {
+public class JpsjTopRequest extends MapParamsRequest {
     public long id;
 
     @Override

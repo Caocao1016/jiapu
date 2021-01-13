@@ -12,21 +12,17 @@ import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.db.FamilyDbManger;
 import com.demo.jiapu.dialog.JoinDialog;
-import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.dialog.ReportDialog;
 import com.demo.jiapu.dialog.TestLeftPopupWindow;
-import com.demo.jiapu.entity.SelGrjp2Request;
-import com.demo.jiapu.entity.SelGrjpRequest;
+import com.demo.jiapu.entity.selSjjpRequest;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
+import com.demo.jiapu.modle.AutoMateView;
 import com.demo.jiapu.modle.EditHomeView;
 import com.demo.jiapu.presenter.EditHomePresenter;
-import com.demo.jiapu.util.StringUtil;
 import com.demo.jiapu.widget.FamilyTreeView;
 import com.hjq.bar.TitleBar;
-import com.luck.picture.lib.tools.ToastUtils;
 
 import java.util.List;
 
@@ -58,8 +54,8 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     @Override
     protected void initView() {
 
-        id = getIntent().getLongExtra("id",0L);
-
+//        id = getIntent().getLongExtra("id", 0L);
+        id = 2;
         ftvTree = findViewById(R.id.tv_ac_f_tree);
         ftvTree.setOnFamilyLongClickListener(this);
 
@@ -74,7 +70,9 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
             if (type == 0) {
                 showReportDialog();
             } else {
-                showDialog();
+                Intent intent = new Intent(this, AutoMateActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
             }
         });
 
@@ -95,19 +93,10 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
         reportDialog.show();
     }
 
-    private void showDialog() {
-
-        JoinDialog reportDialog = new JoinDialog(this);
-        reportDialog.setOnClickListener(() -> {
-            //支付接口
-        });
-
-        reportDialog.show();
-    }
 
     @Override
     protected void initData() {
-        SelGrjp2Request request = new SelGrjp2Request();
+        selSjjpRequest request = new selSjjpRequest();
         request.list_id = id;
         mPresenter.getList(request);
     }
@@ -126,7 +115,7 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
         FamilyDbManger dbHelper = new FamilyDbManger(MyApp.getInstance(), "myTree2.db");
         dbHelper.deleteAll();
         dbHelper.save(response);
-        final FamilyBean my = dbHelper.getFamilyById("1");
+        final FamilyBean my = dbHelper.getFamilyById("10");
         ftvTree.drawFamilyTree(dbHelper.getTreeData(my));
         dbHelper.closeDb();
 

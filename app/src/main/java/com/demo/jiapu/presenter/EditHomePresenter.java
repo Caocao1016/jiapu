@@ -4,8 +4,7 @@ import com.demo.jiapu.api.SubscriberCallBack;
 import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.entity.SelGrjp2Request;
-import com.demo.jiapu.entity.SelGrjpRequest;
+import com.demo.jiapu.entity.selSjjpRequest;
 import com.demo.jiapu.modle.EditHomeView;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class EditHomePresenter extends BasePresenter<EditHomeView> {
         super(view);
     }
 
-    public void getList(SelGrjp2Request request) {
+    public void getList(selSjjpRequest request) {
 
         addSubscription(mApiService.selSjjp(request.params()), new SubscriberCallBack<List<FamilyBean>>() {
 

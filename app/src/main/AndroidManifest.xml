@@ -67,11 +67,12 @@
         <activity
             android:name=".activity.CreateHomeActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ViewHomeActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.AutoMateActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ReportActivity"
             android:screenOrientation="portrait" />

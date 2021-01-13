@@ -6,9 +6,13 @@
     android:orientation="vertical">
 
     <com.hjq.bar.TitleBar
-        android:id="@+id/tb_main"
+        android:id="@+id/tb_auto_mate"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:color_title="@color/cl_f333333"
+        app:size_title="18sp"
+        app:title="家谱匹配"/>
 
     <com.demo.jiapu.widget.FamilyTreeView
         android:id="@+id/tv_ac_f_tree"
