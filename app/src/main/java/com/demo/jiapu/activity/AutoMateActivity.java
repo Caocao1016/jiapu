@@ -1,5 +1,8 @@
 package com.demo.jiapu.activity;
 
+import android.view.View;
+import android.widget.LinearLayout;
+
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BaseResponse;
@@ -15,10 +18,15 @@ import com.demo.jiapu.widget.FamilyTreeView;
 
 import java.util.List;
 
+import butterknife.BindView;
+
 public class AutoMateActivity extends BaseActivity<AutoMatePresenter> implements AutoMateView {
 
     private FamilyTreeView ftvTree;
     private long id;
+
+    @BindView(R.id.ll_auto_mate_join)
+    LinearLayout mLlJoin;
 
     @Override
     protected AutoMatePresenter createPresenter() {
@@ -39,6 +47,7 @@ public class AutoMateActivity extends BaseActivity<AutoMatePresenter> implements
     protected void initView() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
         id = getIntent().getLongExtra("id", 0L);
+        mLlJoin.setOnClickListener(v -> showDialog());
 
     }
 
@@ -46,6 +55,7 @@ public class AutoMateActivity extends BaseActivity<AutoMatePresenter> implements
     protected void initData() {
         ZdppRequest request = new ZdppRequest();
         request.list_id = id;
+
         mPresenter.getList(request);
 
     }
@@ -68,6 +78,7 @@ public class AutoMateActivity extends BaseActivity<AutoMatePresenter> implements
         final FamilyBean my = dbHelper.getFamilyById(id);
         ftvTree.drawFamilyTree(dbHelper.getTreeData(my));
         dbHelper.closeDb();
+        mLlJoin.setVisibility(View.VISIBLE);
     }
 
     @Override
