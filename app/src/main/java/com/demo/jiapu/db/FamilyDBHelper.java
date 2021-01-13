@@ -3,7 +3,6 @@ package com.demo.jiapu.db;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.assit.QueryBuilder;
@@ -22,32 +21,15 @@ import java.util.Map;
 
 public class FamilyDBHelper {
 
-    private String dbName = "FamilyTree.db";
     private final boolean DEBUGGABLE = true; // 是否输出log
 
     private static LiteOrm liteOrm;
 
     private boolean mInquirySpouse = true;//是否查询配偶
-    private static FamilyDBHelper INStANCE;
-
-    public static FamilyDBHelper getInstance() {
-        if (INStANCE == null) {
-            synchronized (FamilyDBHelper.class) {
-                if (INStANCE == null) {
-                    INStANCE = new FamilyDBHelper(MyApp.getInstance());
-                }
-            }
-        }
-        return INStANCE;
-    }
 
 
-
-    private FamilyDBHelper(Context context) {
-
-        if (null == liteOrm) {
-            liteOrm = LiteOrm.newSingleInstance(context, dbName);
-        }
+    public FamilyDBHelper(Context context, String dbName) {
+        liteOrm = LiteOrm.newSingleInstance(context, dbName);
         liteOrm.setDebugged(DEBUGGABLE);
 
     }
@@ -164,6 +146,7 @@ public class FamilyDBHelper {
     public void closeDB() {
         if (liteOrm != null) {
             liteOrm.close();
+            liteOrm = null;
         }
     }
 

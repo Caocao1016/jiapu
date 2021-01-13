@@ -24,9 +24,8 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
-import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.db.FamilyDBHelper;
+import com.demo.jiapu.bean.TreeBean;
 import com.demo.jiapu.listener.OnFamilyClickListener;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.util.DisplayUtil;
@@ -139,9 +138,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     private List<Pair<View, View>> mMyFaUncleView;//我的叔伯姑View
     private List<Pair<View, View>> mMyFaUncleChildrenView;//我的叔伯姑的子女View
 
-
-    private FamilyDBHelper mDBHelper;
-
     private OverScroller mScroller;
 
 
@@ -188,7 +184,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
         mPath = new Path();
         mPath.reset();
-        mDBHelper = FamilyDBHelper.getInstance();
 
 
         mMyChildrenInfo = new ArrayList<>();
@@ -213,9 +208,9 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
     }
 
 
-    public void drawFamilyTree(FamilyBean family) {
+    public void drawFamilyTree(TreeBean treeBean) {
         recycleAllView();
-        initData(family);
+        initData(treeBean);
         initView();
         initScrollMax();
         invalidate();
@@ -236,9 +231,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
     public void destroyView() {
         recycleAllView();
-        if (mDBHelper != null) {
-            mDBHelper.closeDB();
-        }
+
     }
 
     private void recycleAllView() {
@@ -281,51 +274,18 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
 
     }
 
-    public void initData(FamilyBean family) {
+    public void initData(TreeBean treeBean) {
 
-        mMyInfo = family;
-        if (mMyInfo != null) {
-            mDBHelper.setSpouse(mMyInfo);
-            family.setSelect(canClick);
-            family.setGrandChildrenHaveSon(false);
-            family.setMemberSpouse(false);
-            mMyChildrenInfo.addAll(mDBHelper.getChildrenAndGrandChildren(mMyInfo, ""));
+        mMyInfo = treeBean.getMy();
+        mMyParentInfo = treeBean.getMyParent();
+        mMyPGrandParentInfo = treeBean.getMyPGrandParent();
+        mMyMGrandParentInfo = treeBean.getMyMGrandParent();
+        mMyChildrenInfo.addAll(treeBean.getMyChild());
+        mMyFaUncleInfo.addAll(treeBean.getMyFaUncle());
+        mMyMoUncleInfo.addAll(treeBean.getMyMaUncle());
+        mMyBrotherInfo.addAll(treeBean.getMyBrother());
+        mMyLittleBrotherInfo.addAll(treeBean.getMyLittleBrother());
 
-            final String fatherId = mMyInfo.getFatherId();
-            final String motherId = mMyInfo.getMotherId();
-            mMyParentInfo = mDBHelper.getCouple(fatherId, motherId);
-            if (mMyParentInfo != null) {
-                final FamilyBean father;
-                final FamilyBean mother;
-                if (SEX_MALE.equals(mMyParentInfo.getSex())) {
-                    father = mMyParentInfo;
-                    mother = mMyParentInfo.getSpouse();
-                } else {
-                    father = mMyParentInfo.getSpouse();
-                    mother = mMyParentInfo;
-                }
-
-                if (father != null) {
-                    final String pGrandFatherId = father.getFatherId();
-                    final String pGrandMotherId = father.getMotherId();
-                    mMyPGrandParentInfo = mDBHelper.getCouple(pGrandFatherId, pGrandMotherId);
-                    if (mMyPGrandParentInfo != null) {
-                        mMyFaUncleInfo.addAll(mDBHelper.getChildrenAndGrandChildren(mMyPGrandParentInfo, fatherId));
-                    }
-                }
-                if (mother != null) {
-                    final String mGrandFatherId = mother.getFatherId();
-                    final String mGrandMotherId = mother.getMotherId();
-                    mMyMGrandParentInfo = mDBHelper.getCouple(mGrandFatherId, mGrandMotherId);
-                    if (mMyMGrandParentInfo != null) {
-                        mMyMoUncleInfo.addAll(mDBHelper.getChildrenAndGrandChildren(mMyMGrandParentInfo, motherId));
-                    }
-                }
-            }
-
-            mMyBrotherInfo.addAll(mDBHelper.getMyBrothers(mMyInfo, false));
-            mMyLittleBrotherInfo.addAll(mDBHelper.getMyBrothers(mMyInfo, true));
-        }
     }
 
     private void initView() {
@@ -802,6 +762,7 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
                           List<FamilyBean> parentInfoList,
                           List<Pair<View, View>> parentViewList,
                           List<Pair<View, View>> childrenViewList) {
+
         int childIndex = 0;
         final int parentCount = parentInfoList.size();
         for (int i = 0; i < parentCount; i++) {
@@ -1000,13 +961,6 @@ public class FamilyTreeView extends ViewGroup implements View.OnClickListener, V
         this.mOnFamilyLongClickListener = onFamilyLongClickListener;
     }
 
-    public void setShowBottomSpouse(boolean showBottomSpouse) {
-        mDBHelper.setInquirySpouse(showBottomSpouse);
-    }
-
-    public boolean isShowBottomSpouse() {
-        return mDBHelper.ismInquirySpouse();
-    }
 
 
     public void setOnFamilyClickListener(OnFamilyClickListener onFamilyClickListener) {

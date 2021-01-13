@@ -1,7 +1,6 @@
 package com.demo.jiapu.activity;
 
 import android.annotation.SuppressLint;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
@@ -10,18 +9,17 @@ import androidx.core.widget.PopupWindowCompat;
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.db.FamilyDBHelper;
+import com.demo.jiapu.db.FamilyDbManger;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.dialog.TestLeftPopupWindow;
-import com.demo.jiapu.entity.evbus.InitFamilyDataEventbus;
+import com.demo.jiapu.entity.SelGrjpRequest;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.modle.EditHomeView;
 import com.demo.jiapu.presenter.EditHomePresenter;
 import com.demo.jiapu.widget.FamilyTreeView;
 import com.hjq.bar.TitleBar;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -34,7 +32,6 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     FamilyTreeView ftvTree;
     @BindView(R.id.tb_title)
     TitleBar tbTitle;
-    private FamilyDBHelper dbHelper;
 
     @Override
     protected EditHomePresenter createPresenter() {
@@ -55,7 +52,6 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     protected void initView() {
 
         ftvTree = findViewById(R.id.tv_ac_f_tree);
-        dbHelper = FamilyDBHelper.getInstance();
         ftvTree.setOnFamilyLongClickListener(this);
     }
 
@@ -71,16 +67,13 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
 
     @Override
     protected void initData() {
+        SelGrjpRequest request = new SelGrjpRequest();
 
-        mPresenter.getList();
+        request.userId = "5";
+        mPresenter.getList(request);
 
     }
 
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().post(new InitFamilyDataEventbus());
-        super.onDestroy();
-    }
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -92,11 +85,12 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
 
     @Override
     public void onSuccess(List<FamilyBean> response) {
+        FamilyDbManger dbHelper = new FamilyDbManger(MyApp.getInstance(), "myTree2.db");
         dbHelper.deleteAll();
         dbHelper.save(response);
-
-        final FamilyBean my = dbHelper.findFamilyById("1");
-        ftvTree.drawFamilyTree(my);
+        final FamilyBean my = dbHelper.getFamilyById("1");
+        ftvTree.drawFamilyTree(dbHelper.getTreeData(my));
+        dbHelper.closeDb();
 
     }
 

@@ -13,9 +13,11 @@ import com.demo.jiapu.R;
 
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.base.CommonLazyFragment;
+import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.db.FamilyDBHelper;
+import com.demo.jiapu.db.FamilyDbManger;
 import com.demo.jiapu.dialog.MenuDialog;
+import com.demo.jiapu.entity.SelGrjpRequest;
 import com.demo.jiapu.entity.evbus.InitFamilyDataEventbus;
 import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
@@ -32,10 +34,10 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
     private static final String MY_ID = "601";
 
     private MenuDialog menuDialog;
-    private FamilyDBHelper dbHelper;
     private boolean isAddAndEdit = false;
 
     FamilyTreeView ftvTree;
+    private FamilyBean drawBean;
 
     @Override
     protected HomeLeftPresenter createPresenter() {
@@ -58,14 +60,17 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
         registerEventBus(this);
         initView();
         initData();
+
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void initView() {
         ftvTree = findViewById(R.id.tv_ac_f_tree);
-        dbHelper = FamilyDBHelper.getInstance();
         ftvTree.setOnFamilyLongClickListener(this);
     }
 
@@ -74,7 +79,9 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
 //        String json = test.test;
 //        List<FamilyBean> mList = JSONObject.parseArray(json, FamilyBean.class);
-        mPresenter.getList();
+        SelGrjpRequest request = new SelGrjpRequest();
+        request.userId = "5";
+        mPresenter.getList(request);
     }
 
 
@@ -105,7 +112,10 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void drawTree(OpenMemberTreeEventbus event) {
-        ftvTree.drawFamilyTree(event.getMember());
+        FamilyDbManger dbHelper = new FamilyDbManger(MyApp.getInstance(), "myTree.db");
+        ;
+        ftvTree.drawFamilyTree(dbHelper.getTreeData(event.getMember()));
+        dbHelper.closeDb();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -115,16 +125,14 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
 
     @Override
     public void onSuccess(List<FamilyBean> response) {
-
+        FamilyDbManger dbHelper = new FamilyDbManger(MyApp.getInstance(), "myTree.db");
         dbHelper.deleteAll();
         dbHelper.save(response);
-
-        final FamilyBean my = dbHelper.findFamilyById("1");
-        my.setSelect(true);
-
-        ftvTree.drawFamilyTree(my);
-
+        final FamilyBean my = dbHelper.getFamilyById("1");
+        ftvTree.drawFamilyTree(dbHelper.getTreeData(my));
+        dbHelper.closeDb();
     }
+
 
     @Override
     public void onError() {

@@ -2,22 +2,14 @@ package com.demo.jiapu.activity;
 
 import android.annotation.SuppressLint;
 
-import com.alibaba.fastjson.JSONObject;
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BasePresenter;
-import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.db.FamilyDBHelper;
 import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.widget.FamilyTreeView;
 
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-import java.util.ListIterator;
 
 import butterknife.BindView;
 

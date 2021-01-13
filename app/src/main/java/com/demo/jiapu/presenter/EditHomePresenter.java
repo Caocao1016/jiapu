@@ -14,12 +14,9 @@ public class EditHomePresenter extends BasePresenter<EditHomeView> {
         super(view);
     }
 
-    public void getList() {
-        SelGrjpRequest request = new SelGrjpRequest();
+    public void getList(SelGrjpRequest request) {
 
-        request.userId = "5";
-
-        addSubscription(mApiService.test(request.params()), new SubscriberCallBack<List<FamilyBean>>() {
+        addSubscription(mApiService.selSjjp(request.params()), new SubscriberCallBack<List<FamilyBean>>() {
 
             @Override
             protected void onSuccess(List<FamilyBean> response) {

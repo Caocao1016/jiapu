@@ -6,11 +6,12 @@ import com.demo.jiapu.bean.FamilyBean;
 import java.util.List;
 
 
-public interface HomeLeftView {
+public interface AutoMateView {
 
-    void onSuccess(List<FamilyBean> response);
+    void onSuccess(int id, List<FamilyBean> response);
 
     void onError();
+
     void onFailure(BaseResponse response);
 
 }

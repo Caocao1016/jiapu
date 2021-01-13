@@ -4,6 +4,7 @@ package com.demo.jiapu.api;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.response.JpsjListResponse;
+import com.demo.jiapu.response.ZdppResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -40,8 +41,11 @@ public interface ApiService {
     @GET("Gr_Jp/selGrjp2")
     Observable<BaseResponse<List<FamilyBean>>> selGrjp(@QueryMap Map<String, Object> params);
 
-    @GET("Gr_Jp/selGrjp")
-    Observable<BaseResponse<List<FamilyBean>>> test(@QueryMap Map<String, Object> params);
+    @GET("sj_jp/selSjjp")
+    Observable<BaseResponse<List<FamilyBean>>> selSjjp(@QueryMap Map<String, Object> params);
+
+    @GET("Jpsj_List/zdPp")
+    Observable<BaseResponse<ZdppResponse>> zdpp(@QueryMap Map<String, Object> params);
 
     @POST("Gr_Jp/addGrjp")
     Observable<BaseResponse> addGrjp(@QueryMap Map<String, Object> params);

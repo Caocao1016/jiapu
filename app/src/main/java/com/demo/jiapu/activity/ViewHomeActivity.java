@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
@@ -86,10 +87,14 @@ public class ViewHomeActivity extends BaseActivity {
 
         //隐藏
         ft.hide(mFragments[mIndex]);
+        ft.setMaxLifecycle(mFragments[mIndex], Lifecycle.State.RESUMED);
         //判断是否添加
         if (!mFragments[index].isAdded()) {
             ft.add(R.id.fl_all, mFragments[index]).show(mFragments[index]);
+            ft.setMaxLifecycle(mFragments[index], Lifecycle.State.STARTED);
+
         } else {
+            ft.setMaxLifecycle(mFragments[index], Lifecycle.State.STARTED);
             ft.show(mFragments[index]);
         }
 
