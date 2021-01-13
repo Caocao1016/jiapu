@@ -31,8 +31,21 @@ public class JoinDialog extends Dialog {
     }
     private void init() {
         contentView.findViewById(R.id.tv_left).setOnClickListener(v -> dismiss());
-        contentView.findViewById(R.id.tv_pay).setOnClickListener(v -> dismiss());
+        contentView.findViewById(R.id.tv_pay).setOnClickListener(v ->
+        {
+            joinListener.setOnClickListener();
+            dismiss();});
 
+    }
+
+    private OnJoinListener joinListener;
+
+    public interface OnJoinListener {
+        void setOnClickListener();
+    }
+
+    public void setOnClickListener(OnJoinListener joinListener) {
+        this.joinListener = joinListener;
     }
 
 }

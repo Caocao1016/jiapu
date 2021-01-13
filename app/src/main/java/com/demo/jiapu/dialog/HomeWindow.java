@@ -1,33 +1,31 @@
 package com.demo.jiapu.dialog;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.demo.jiapu.R;
-import com.demo.jiapu.activity.ReportActivity;
 
-public class TestLeftPopupWindow extends PopupWindow {
+public class HomeWindow extends PopupWindow {
 
-    public TestLeftPopupWindow(Context context) {
+    public HomeWindow(Context context) {
         super(context);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         setOutsideTouchable(true);
         setFocusable(true);
         setBackgroundDrawable(context.getResources().getDrawable(R.drawable.shape_adapter_bg));
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_left_test,
+        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_home,
                 null, false);
 
-        contentView.findViewById(R.id.tvAdd).setOnClickListener(v -> {
+        contentView.findViewById(R.id.tvEdit).setOnClickListener(v -> {
 
             reportListener.setOnClickListener(1);
             dismiss();
         });
-        contentView.findViewById(R.id.tv_report).setOnClickListener(v -> {
+        contentView.findViewById(R.id.tvTop).setOnClickListener(v -> {
             reportListener.setOnClickListener(0);
             dismiss();
         });

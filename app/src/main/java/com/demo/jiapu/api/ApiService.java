@@ -17,26 +17,18 @@ import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
-/**
- * @author ChayChan
- * @description: 网络请求的service
- * @date 2017/6/18  19:28
- */
-
 public interface ApiService {
 
-
-    /**
-     * 用户登陆
-     */
     @GET("Jpsj_List/selList")
     Observable<BaseResponse<JpsjListResponse>> selList(@QueryMap Map<String, Object> params);
 
-    /**
-     * 请求验证码接口
-     */
+    @GET("Jpsj_List/selMylist")
+    Observable<BaseResponse<JpsjListResponse>> selMylist(@QueryMap Map<String, Object> params);
+
     @POST("Jpsj_List/addJpsj")
     Observable<BaseResponse> addJpsj(@QueryMap Map<String, Object> params);
+    @POST("Jpsj_List/editMsg")
+    Observable<BaseResponse<String>> editMsg(@QueryMap Map<String, Object> params);
 
     @GET("Gr_Jp/selGrjp2")
     Observable<BaseResponse<List<FamilyBean>>> selGrjp(@QueryMap Map<String, Object> params);
@@ -53,6 +45,13 @@ public interface ApiService {
 
     @POST("Gr_Jp/editGrjp")
     Observable<BaseResponse> editGrjp(@QueryMap Map<String, Object> params);
+
+
+    @POST("Report/addReport1")
+    Observable<BaseResponse<String>> addReport1(@QueryMap Map<String, Object> params);
+
+    @POST("Jpsj_List/editZhiding")
+    Observable<BaseResponse<String>> editZhiding(@QueryMap Map<String, Object> params);
 
 
     @Multipart

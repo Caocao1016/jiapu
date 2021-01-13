@@ -1,1 +1,1 @@
-include ':app', ':baselibrary',':common-idcard', ':common-motion'
+include ':app', ':baselibrary'

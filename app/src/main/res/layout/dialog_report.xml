@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="色情"
+        android:textColor="@color/cl_f333333"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/cl_B3B3B3" />
+
+    <TextView
+        android:id="@+id/tvTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="政治敏感"
+        android:textColor="@color/cl_f333333"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/cl_B3B3B3" />
+
+    <TextView
+        android:id="@+id/tvThree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="违法暴力 "
+        android:textColor="@color/cl_f333333"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/cl_B3B3B3" />
+
+    <TextView
+        android:id="@+id/tvFour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="恐怖"
+        android:textColor="@color/cl_f333333"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/cl_B3B3B3" />
+
+    <TextView
+        android:id="@+id/tvFive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="自杀自残"
+        android:textColor="@color/cl_f333333"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/cl_B3B3B3" />
+
+</LinearLayout>

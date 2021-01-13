@@ -5,19 +5,23 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.demo.jiapu.R;
 import com.demo.jiapu.api.ApiConstant;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.bean.JpsjListDataBean;
 import com.demo.jiapu.entity.JpsjAddRequest;
+import com.demo.jiapu.entity.JpsjEditRequest;
 import com.demo.jiapu.entity.evbus.CreateHomeEventbus;
 import com.demo.jiapu.modle.CreateHomeView;
 import com.demo.jiapu.presenter.CreateHomePresenter;
 import com.demo.jiapu.util.FileUtil;
 import com.demo.jiapu.util.GlideEngine;
 import com.demo.jiapu.util.RoundImageView;
+import com.hjq.bar.TitleBar;
 import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -42,7 +46,12 @@ public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implem
     RoundImageView roundImageView;
     @BindView(R.id.et_title)
     EditText mTitle;
+    @BindView(R.id.tb_title)
+    TitleBar mTbTitle;    @BindView(R.id.send)
+    TextView mSend;
     private String url;
+    private int type;
+    private JpsjListDataBean jpsjListDataBean;
 
     @Override
     protected CreateHomePresenter createPresenter() {
@@ -61,6 +70,29 @@ public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implem
 
     @Override
     protected void initView() {
+        type = getIntent().getIntExtra("type", 0);
+        jpsjListDataBean = getIntent().getParcelableExtra("bean");
+
+        if (type == 0) {
+            mTbTitle.setTitle("创建家谱世家");
+            mSend.setText("立即支付");
+        } else {
+            mSend.setText("保存");
+            mTbTitle.setTitle("修改家谱世家");
+        }
+
+        if (type == 1 && null == jpsjListDataBean) {
+            finish();
+            return;
+        }
+
+        if (null != jpsjListDataBean) {
+            mTitle.setText(jpsjListDataBean.getTitle());
+            url = jpsjListDataBean.getJp_img();
+            Glide.with(this)
+                    .load(jpsjListDataBean.getJp_img())
+                    .into(roundImageView);
+        }
 
     }
 
@@ -69,7 +101,7 @@ public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implem
 
     }
 
-    @OnClick({R.id.select,R.id.send})
+    @OnClick({R.id.select, R.id.send})
     public void onClick(View view) {
         if (view.getId() == R.id.select) {
             XXPermissions.with(this)
@@ -86,6 +118,9 @@ public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implem
                                     .imageEngine(GlideEngine.createGlideEngine())
                                     .isPreviewImage(true) // 是否可预览图片
                                     .isCompress(true)  // 是否压缩
+                                    .isEnableCrop(true)// 是否裁剪
+                                    .cropImageWideHigh(100, 100)
+                                    .withAspectRatio(1, 1)
                                     .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
                                     .forResult(PictureConfig.CHOOSE_REQUEST);
                         }
@@ -105,20 +140,27 @@ public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implem
     private void create() {
         String title = mTitle.getText().toString();
         if (TextUtils.isEmpty(title)) {
-            ToastUtils.s(this,"请填写家谱名称");
+            ToastUtils.s(this, "请填写家谱名称");
             return;
         }
         if (TextUtils.isEmpty(url)) {
-            ToastUtils.s(this,"请添加家谱图");
+            ToastUtils.s(this, "请添加家谱图");
             return;
         }
 
-        JpsjAddRequest request = new JpsjAddRequest();
-        request.create_time = System.currentTimeMillis();
-        request.title = title;
-        request.jp_img = url;
-
-        mPresenter.addJpsj(request);
+        if (type == 0) {
+            JpsjAddRequest request = new JpsjAddRequest();
+            request.create_time = System.currentTimeMillis();
+            request.title = title;
+            request.jp_img = url;
+            mPresenter.addJpsj(request);
+        } else {
+            JpsjEditRequest mJpsjEditRequest = new JpsjEditRequest();
+            mJpsjEditRequest.title = title;
+            mJpsjEditRequest.jp_img = url;
+            mJpsjEditRequest.id = jpsjListDataBean.getId();
+            mPresenter.editMsg(mJpsjEditRequest);
+        }
     }
 
     @Override
@@ -151,7 +193,7 @@ public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implem
                         // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息
                     }
                     //然后直接上传
-                    putFile(selectList.get(0).getCompressPath());
+                    putFile(selectList.get(0).getCutPath());
                     break;
             }
         }
@@ -165,7 +207,7 @@ public class CreateHomeActivity extends BaseActivity<CreateHomePresenter> implem
             Glide.with(this)
                     .load(R.drawable.ic_add_photo)
                     .into(roundImageView);
-          ToastUtils.s(this,"图片上传失败,请稍后再试");
+            ToastUtils.s(this, "图片上传失败,请稍后再试");
         }
     }
 

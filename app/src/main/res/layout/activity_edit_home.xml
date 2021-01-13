@@ -14,7 +14,6 @@
         app:color_title="@color/cl_f333333"
         app:size_right="16dp"
         app:size_title="18sp"
-        app:title="山西李氏"
         app:title_right="更多" />
 
     <LinearLayout

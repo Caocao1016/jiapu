@@ -3,42 +3,37 @@ package com.demo.jiapu.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.demo.jiapu.R;
 import com.demo.jiapu.activity.CreateHomeActivity;
-import com.demo.jiapu.activity.EditHomeActivity;
-import com.demo.jiapu.adapter.HomeRightAdapter;
-import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.activity.SearchActivity;
+import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.CommonLazyFragment;
-import com.demo.jiapu.bean.JpsjListDataBean;
-import com.demo.jiapu.entity.ListRequest;
-import com.demo.jiapu.entity.evbus.CreateHomeEventbus;
-import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
-import com.demo.jiapu.modle.HomeRigView;
-import com.demo.jiapu.presenter.HomeRigPresenter;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeRightFragment extends CommonLazyFragment<HomeRigPresenter> implements HomeRigView, BaseQuickAdapter.RequestLoadMoreListener {
+public class HomeRightFragment extends CommonLazyFragment {
 
-    @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
-    private HomeRightAdapter mAdapter;
-
-    private boolean mIsLoadMore;
-    private int mPageNo = 1;
+    @BindView(R.id.viewPager)
+    ViewPager mViewPager;
+    @BindView(R.id.rb_left)
+    RadioButton rb_left;
+    @BindView(R.id.rb_right)
+    RadioButton rb_right;
+    @BindView(R.id.rgTools)
+    RadioGroup rg_all;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -46,9 +41,10 @@ public class HomeRightFragment extends CommonLazyFragment<HomeRigPresenter> impl
         initView();
         initData();
     }
+
     @Override
-    protected HomeRigPresenter createPresenter() {
-        return new HomeRigPresenter(this);
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
     @Override
@@ -63,82 +59,72 @@ public class HomeRightFragment extends CommonLazyFragment<HomeRigPresenter> impl
 
     @Override
     protected void initView() {
-        registerEventBus(this);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mAdapter = new HomeRightAdapter(null);
-        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getContext(), EditHomeActivity.class)));
+        rg_all.setOnCheckedChangeListener((radioGroup, i) -> {
+            switch (i) {
+                case R.id.rb_left:
+                    mViewPager.setCurrentItem(0, false);
+                    break;
+                case R.id.rb_right:
+                    mViewPager.setCurrentItem(1, false);
+                    break;
+            }
+        });
 
+        mViewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager(), 0) {
+            @Override
+            public Fragment getItem(int position) {
+                Fragment fragment = null;
+                switch (position) {
+                    case 0:
+                        fragment = new HomeMeFragment();
+                        break;
+                    case 1:
+                        fragment = new HomeCreateFragment();
+                        break;
+                }
+                return fragment;
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        });
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                rg_all.check(rg_all.getChildAt(position).getId());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
+
 
     @Override
     protected void initData() {
-
-        ListRequest listRequest = new ListRequest();
-        listRequest.page = mPageNo;
-        mPresenter.getList(listRequest);
-//        mPresenter.addJpsj();
     }
 
-    @OnClick({R.id.baner})
+
+    @OnClick({R.id.baner, R.id.ll_search})
     public void onClick(View view) {
         if (view.getId() == R.id.baner) {
-
             startActivity(new Intent(getContext(), CreateHomeActivity.class));
+        } else if (view.getId() == R.id.ll_search) {
+            startActivity(new Intent(getContext(), SearchActivity.class));
         }
     }
 
-    @Override
-    public void onSuccess(List<JpsjListDataBean> response) {
-        if (mIsLoadMore) {
-            mIsLoadMore = false;
-            if (response != null && response.size() <= 15 && response.size() > 0) {
-                mAdapter.addData(response);
-                mPageNo++;
-                mAdapter.loadMoreComplete();
-            } else {
-                mAdapter.loadMoreEnd(true);
-            }
-        } else {
-            if (null != response && response.size() > 0) {
-                mPageNo++;
-                mAdapter.setNewData(response);
-            } else {
-                mAdapter.setNewData(null);
-            }
-        }
-    }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void createHome(CreateHomeEventbus event) {
-        mPageNo = 1 ;
-        initData();
-    }
-
-
-    @Override
-    public void onError() {
-
-    }
-
-    @Override
-    public void onFailure(BaseResponse response) {
-
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        mIsLoadMore = true;
-        initData();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterEventBus(this);
-    }
 }

@@ -12,6 +12,7 @@ import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.JpsjListDataBean;
 import com.demo.jiapu.util.RoundImageView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class HomeRightAdapter extends BaseQuickAdapter<JpsjListDataBean, BaseViewHolder> {
@@ -26,9 +27,21 @@ public class HomeRightAdapter extends BaseQuickAdapter<JpsjListDataBean, BaseVie
 
 //        TextView mHead = helper.getView(R.id.number);
         TextView mTitle = helper.getView(R.id.tv_list_title);
+        TextView mNumber = helper.getView(R.id.number);
+        mNumber.setText(setNumber(item.getR_num()));
         mTitle.setText(item.getTitle());
         if (!item.getJp_img().equals(""))
             Glide.with(helper.itemView).load(item.getJp_img()).into((ImageView) helper.getView(R.id.iv_list_image));
+    }
+
+
+    private String setNumber(int num) {
+
+        if (num < 10000) {
+            return String.format("人数：%s", num);
+        } else {
+            return String.format("人数：%sw", (double) num / 10000);
+        }
     }
 }
 

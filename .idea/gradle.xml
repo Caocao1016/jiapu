@@ -13,8 +13,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/baselibrary" />
-            <option value="$PROJECT_DIR$/common-idcard" />
-            <option value="$PROJECT_DIR$/common-motion" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

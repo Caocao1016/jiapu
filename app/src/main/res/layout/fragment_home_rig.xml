@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <com.hjq.bar.TitleBar
@@ -10,6 +11,7 @@
         android:layout_height="0dp" />
 
     <LinearLayout
+        android:id="@+id/ll_search"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
@@ -20,46 +22,86 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
             android:src="@drawable/ic_seach_btn" />
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:hint="可根据姓氏或者姓名搜素"
             android:textColor="#333333"
             android:textSize="13sp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/baner"
+    <com.demo.jiapu.util.RoundRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginLeft="20dp"
-        android:scaleType="fitXY"
-        android:layout_marginRight="20dp"
-        android:src="@drawable/ic_banner" />
+        android:layout_marginRight="20dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="13dp"
-        android:text="我创建的家谱世家"
-        android:textColor="#373737"
-        android:textSize="14sp" />
+        <com.demo.jiapu.util.RoundImageView
+            android:id="@+id/baner"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_banner" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_bg_create"
+            android:paddingLeft="12dp"
+            android:paddingTop="6dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="6dp"
+            android:text="立即创建"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </com.demo.jiapu.util.RoundRelativeLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RadioGroup
+        android:id="@+id/rgTools"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_weight="1" />
+        android:layout_height="28dp"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_left"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_bg_home_tab_select"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingLeft="0dp"
+            android:text="我创建的"
+            android:textColor="@drawable/home_tab_text_color"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/rb_right"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/shape_bg_home_tab_select"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:text="公众家谱"
+            android:textColor="@drawable/home_tab_text_color"
+            android:textSize="13sp" />
+    </RadioGroup>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
