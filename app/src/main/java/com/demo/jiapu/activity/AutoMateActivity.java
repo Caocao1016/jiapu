@@ -10,6 +10,7 @@ import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDbManger;
 import com.demo.jiapu.dialog.JoinDialog;
+import com.demo.jiapu.dialog.LoadingDialog;
 import com.demo.jiapu.entity.SelGrjpRequest;
 import com.demo.jiapu.entity.ZdppRequest;
 import com.demo.jiapu.modle.AutoMateView;
@@ -24,6 +25,7 @@ public class AutoMateActivity extends BaseActivity<AutoMatePresenter> implements
 
     private FamilyTreeView ftvTree;
     private long id;
+    private LoadingDialog loadingDialog;
 
     @BindView(R.id.ll_auto_mate_join)
     LinearLayout mLlJoin;
@@ -55,7 +57,8 @@ public class AutoMateActivity extends BaseActivity<AutoMatePresenter> implements
     protected void initData() {
         ZdppRequest request = new ZdppRequest();
         request.list_id = id;
-
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.show();
         mPresenter.getList(request);
 
     }
@@ -79,15 +82,19 @@ public class AutoMateActivity extends BaseActivity<AutoMatePresenter> implements
         ftvTree.drawFamilyTree(dbHelper.getTreeData(my));
         dbHelper.closeDb();
         mLlJoin.setVisibility(View.VISIBLE);
+        loadingDialog.dismiss();
+
     }
 
     @Override
     public void onError() {
+        loadingDialog.dismiss();
 
     }
 
     @Override
     public void onFailure(BaseResponse response) {
+        loadingDialog.dismiss();
 
     }
 }
