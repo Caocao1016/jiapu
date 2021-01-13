@@ -5,14 +5,14 @@ import com.demo.jiapu.bean.FamilyBean;
 import java.util.List;
 
 public class ZdppResponse {
-    private int id;
+    private String id;
     private List<FamilyBean> data;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

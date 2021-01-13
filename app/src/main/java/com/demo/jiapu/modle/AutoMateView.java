@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AutoMateView {
 
-    void onSuccess(int id, List<FamilyBean> response);
+    void onSuccess(String id, List<FamilyBean> response);
 
     void onError();
 
