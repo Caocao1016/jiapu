@@ -4,13 +4,21 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
 import com.demo.jiapu.R;
+import com.demo.jiapu.api.ApiConstant;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BasePresenter;
+import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.entity.ReportRequest;
+import com.demo.jiapu.modle.ReportView;
+import com.demo.jiapu.presenter.ReportPresenter;
+import com.demo.jiapu.util.FileUtil;
 import com.demo.jiapu.util.GlideEngine;
 import com.demo.jiapu.util.RoundImageView;
+import com.demo.jiapu.util.StringUtil;
 import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -18,22 +26,29 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.ToastUtils;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public  class ReportActivity extends BaseActivity {
+public class ReportActivity extends BaseActivity<ReportPresenter> implements ReportView {
 
 
     private static final String TAG = "ReportActivity";
     @BindView(R.id.select)
     RoundImageView roundImageView;
+    @BindView(R.id.et_text)
+    EditText et_text;
+    private long id;
+    private int type;
+    private String url;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected ReportPresenter createPresenter() {
+        return new ReportPresenter(this);
     }
 
     @Override
@@ -48,7 +63,8 @@ public  class ReportActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        id = getIntent().getLongExtra("id",0L);
+        type = getIntent().getIntExtra("type", 1);
     }
 
     @Override
@@ -56,7 +72,7 @@ public  class ReportActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.select})
+    @OnClick({R.id.select, R.id.send})
     public void onClick(View view) {
         if (view.getId() == R.id.select) {
             XXPermissions.with(this)
@@ -84,6 +100,19 @@ public  class ReportActivity extends BaseActivity {
                         }
                     });
 
+        } else if (view.getId() == R.id.send) {
+
+            if (StringUtil.isEmpty(et_text.getText().toString().trim())) {
+                ToastUtils.s(this, "请您填写您要举报的事项");
+                return;
+            }
+
+            ReportRequest reportRequest = new ReportRequest();
+            reportRequest.content = et_text.getText().toString().trim();
+            reportRequest.jubao_id = id;
+            reportRequest.jubao_type = type;
+            reportRequest.imgs = url;
+            mPresenter.getList(reportRequest);
         }
     }
 
@@ -114,17 +143,46 @@ public  class ReportActivity extends BaseActivity {
                         Log.i(TAG, "宽高: " + media.getWidth() + "x" + media.getHeight());
                         Log.i(TAG, "Size: " + media.getSize());
 
-                        // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息
                     }
-
-                    //此处最大未1张 所以直接获取0
-                    Glide.with(this)
-                            .load( Uri.parse(selectList.get(0).getPath()))
-                            .into(roundImageView);
-                    //然后直接上传
-
+                    putFile(selectList.get(0).getCompressPath());
                     break;
             }
         }
+    }
+
+    private void putFile(String path) {
+        File file = FileUtil.createNewFile(this, path);
+        if (null != file) {
+            mPresenter.sendMsgfile(file);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.ic_add_photo)
+                    .into(roundImageView);
+            ToastUtils.s(this, "图片上传失败,请稍后再试");
+        }
+    }
+
+    @Override
+    public void onSuccess(String response) {
+        ToastUtils.s(this, response);
+        finish();
+    }
+
+    @Override
+    public void onPhotoSuccess(String response) {
+        url = String.format("%s%s", ApiConstant.BASE_PHOTO_URL, response);
+        Glide.with(this)
+                .load(url)
+                .into(roundImageView);
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
+
     }
 }

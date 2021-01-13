@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:color_title="@color/cl_f333333"
-        app:size_title="24sp"
+        app:size_title="20sp"
         app:title="举报" />
 
     <TextView
@@ -34,6 +34,7 @@
         android:padding="12dp">
 
         <EditText
+            android:id="@+id/et_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"

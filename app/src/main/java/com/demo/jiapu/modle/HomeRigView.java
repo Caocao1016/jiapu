@@ -9,6 +9,8 @@ import java.util.List;
 public interface HomeRigView {
 
     void onSuccess(List<JpsjListDataBean> response);
+    void onEditZhidingSuccess(String response);
+    void onHomeSuccess(List<JpsjListDataBean> response);
 
 
     void onError();
