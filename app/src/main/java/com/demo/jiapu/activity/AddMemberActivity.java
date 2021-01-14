@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
 import com.demo.jiapu.base.BaseActivity;
 import com.demo.jiapu.base.BaseResponse;
@@ -75,6 +76,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     private FamilyBean familyBean;
     private int type;
     private int sex;
+    private int typeDelete;
 
     @Override
     protected AddMemberPresenter createPresenter() {
@@ -96,6 +98,7 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
         intent = getIntent();
         type = intent.getIntExtra("type", 0);
         sex = intent.getIntExtra("sex", 1);
+        typeDelete = intent.getIntExtra("typeDelete", 0);
         familyBean = (FamilyBean) intent.getSerializableExtra("bean");
         super.init();
     }
@@ -104,7 +107,6 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
     @Override
     protected void initView() {
 
-        mTitleBar.getRightView().setVisibility(type == 1 ? View.GONE : View.VISIBLE);
 
         button.setText(1 == type ? "添加" : "保存");
         button.setTag(type);
@@ -112,11 +114,19 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
         birthdayView.setFocusable();
         dieStatusView.setOnClickCheckedListener(this);
         String str = StringUtil.isEmpty(familyBean.getNickname()) ? familyBean.getSurname() + familyBean.getNames() : familyBean.getNickname();
-        addWhoTextView.setText("添加" + str + "的" + intent.getStringExtra("itemName"));
         sexView.setChecked(sex != 1);
         if (type == 2) {
-            Glide.with(this).load(familyBean.getMemberImg()).into(avatarView);
-            addWhoTextView.setText(familyBean.getNickname());
+            mTitleBar.getRightView().setVisibility(typeDelete == 1 ? View.GONE : View.VISIBLE);
+            RequestOptions requestOptions = new RequestOptions()
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_head)
+                    .error(R.drawable.ic_head).centerCrop()
+                    .dontAnimate();
+            Glide.with(this)
+                    .load(familyBean.getMemberImg())
+                    .apply(requestOptions)
+                    .into(avatarView);
+            addWhoTextView.setText("编辑" + str);
             surEditView.setText(familyBean.getSurname());
             namesEditView.setText(familyBean.getNames());
             dieStatusView.setChecked(familyBean.getDie_status() == 2);
@@ -128,6 +138,9 @@ public class AddMemberActivity extends BaseActivity<AddMemberPresenter> implemen
             phoneView.setText(familyBean.getPhone());
             dieTimeView.setText(familyBean.getDietime());
             burialSiteView.setText(familyBean.getBurial_site());
+        } else {
+            addWhoTextView.setText("添加" + str + "的" + intent.getStringExtra("itemName"));
+            mTitleBar.getRightView().setVisibility(View.GONE);
         }
 
     }

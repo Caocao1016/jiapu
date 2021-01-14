@@ -37,9 +37,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> implements OnFamilyLongClickListener, HomeLeftView {
-    private String mId = "1";
+    private String mUserId = "5";  //跳转传过来的userID
 
-    private boolean isAddAndEdit = true;
+    private boolean isAddAndEdit = true; //跳转传过来的属性 或者 当前判断是否打开添加和编辑
 
     private FamilyTreeView ftvTree;
 
@@ -155,7 +155,7 @@ public class HomeLeftFragment extends CommonLazyFragment<HomeLeftPresenter> impl
         FamilyDbManger dbHelper = new FamilyDbManger(MyApp.getInstance(), "myTree.db");
         dbHelper.deleteAll();
         dbHelper.save(response);
-        final FamilyBean my = dbHelper.getFamilyById(mId);
+        final FamilyBean my = dbHelper.getFamilyByUserId(mUserId);
         ftvTree.drawFamilyTree(dbHelper.getTreeData(my));
         dbHelper.closeDb();
     }

@@ -14,9 +14,11 @@ import com.demo.jiapu.base.MyApp;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.db.FamilyDbManger;
 import com.demo.jiapu.dialog.JoinDialog;
+import com.demo.jiapu.dialog.MenuDialog;
 import com.demo.jiapu.dialog.ReportDialog;
 import com.demo.jiapu.dialog.TestLeftPopupWindow;
 import com.demo.jiapu.entity.selSjjpRequest;
+import com.demo.jiapu.fragment.HomeLeftFragment;
 import com.demo.jiapu.listener.OnFamilyLongClickListener;
 import com.demo.jiapu.modle.AutoMateView;
 import com.demo.jiapu.modle.EditHomeView;
@@ -25,6 +27,7 @@ import com.demo.jiapu.widget.FamilyTreeView;
 import com.hjq.bar.TitleBar;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -33,7 +36,7 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     FamilyTreeView ftvTree;
     @BindView(R.id.tb_title)
     TitleBar tbTitle;
-    private long id = 2;
+    private long id;
     private int type;
 
 
@@ -55,7 +58,7 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     @Override
     protected void initView() {
 
-//        id = getIntent().getLongExtra("id", 0L);
+        id = getIntent().getLongExtra("id", 0);
         ftvTree = findViewById(R.id.tv_ac_f_tree);
         ftvTree.setOnFamilyLongClickListener(this);
         type = getIntent().getIntExtra("type", 0);
@@ -102,10 +105,23 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     }
 
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public void onFamilyLongClick(FamilyBean familyBean) {
+        if (1 == familyBean.getBj_status()) {
+            MenuDialog menuDialog = new MenuDialog(this, familyBean);
+            menuDialog.setOnClickListener((type, bean) -> {
+                if (R.id.ll_menu_edit == type) {
+                    Intent intent = new Intent(getCurrentActivity(), AddMemberActivity.class);
+                    intent.putExtra("type", 2);
+                    intent.putExtra("typeDelete",1);
+                    intent.putExtra("bean", bean);
+                    startActivity(intent);
+                }
+            });
+            menuDialog.show();
+            menuDialog.setType(false, false, false, true, false);
 
+        }
 
     }
 

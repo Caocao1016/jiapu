@@ -20,6 +20,11 @@ public class FamilyDbManger {
     public FamilyBean getFamilyById(String id) {
         return dbHelper.findFamilyById(id);
     }
+    public FamilyBean getFamilyByUserId(String id) {
+        return dbHelper.findFamilyByUserId(id);
+    }
+
+
 
     public TreeBean getTreeData(FamilyBean my) {
         TreeBean treeBean = new TreeBean();

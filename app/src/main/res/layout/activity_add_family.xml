@@ -47,7 +47,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
                     android:text="添加闷闷母亲"
                     android:textColor="#ff000000"
                     android:textSize="15sp" />

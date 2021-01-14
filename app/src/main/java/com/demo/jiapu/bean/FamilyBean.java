@@ -42,6 +42,16 @@ public class FamilyBean implements Serializable {
     private String native_place;//籍贯
     private String nickname;//微信名
 
+    private int bj_status;
+
+    public int getBj_status() {
+        return bj_status;
+    }
+
+    public void setBj_status(int bj_status) {
+        this.bj_status = bj_status;
+    }
+
     @Ignore
     private String create_time;
 

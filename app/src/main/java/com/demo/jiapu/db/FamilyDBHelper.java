@@ -53,6 +53,17 @@ public class FamilyDBHelper {
         return null;
     }
 
+    public FamilyBean findFamilyByUserId(String uId) {
+        if (!TextUtils.isEmpty(uId)) {
+            List<FamilyBean> families = liteOrm.query(new QueryBuilder<>(FamilyBean.class).where("user_id = ?", uId));
+            if (families.size() > 0) {
+                return families.get(0);
+            }
+        }
+
+        return null;
+    }
+
     public List<FamilyBean> findChildrenByParentId(String parentId, String ignoreChildId) {
         if (!TextUtils.isEmpty(parentId)) {
             return liteOrm.query(new QueryBuilder<>(FamilyBean.class)
