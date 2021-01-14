@@ -36,13 +36,13 @@
             android:textSize="13sp" />
     </LinearLayout>
 
-    <com.demo.jiapu.util.RoundRelativeLayout
+    <com.demo.jiapu.widget.RoundRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
 
-        <com.demo.jiapu.util.RoundImageView
+        <com.demo.jiapu.widget.RoundImageView
             android:id="@+id/baner"
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/shape_bg_create"
             android:paddingLeft="12dp"
             android:paddingTop="6dp"
@@ -63,7 +63,7 @@
             android:text="立即创建"
             android:textColor="@color/white"
             android:textSize="14sp" />
-    </com.demo.jiapu.util.RoundRelativeLayout>
+    </com.demo.jiapu.widget.RoundRelativeLayout>
 
 
     <RadioGroup

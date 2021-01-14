@@ -1,4 +1,4 @@
-package com.demo.jiapu.util;
+package com.demo.jiapu.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;

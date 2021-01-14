@@ -14,9 +14,6 @@ public class MenuAddDialog extends BaseFullScreenDialog implements OnViewGroupIt
 
     private FamilyBean familyBean;
 
-    public MenuAddDialog(Context context) {
-        super(context);
-    }
 
     public MenuAddDialog(Context context, FamilyBean family) {
         super(context);

@@ -2,6 +2,7 @@ package com.demo.jiapu.api;
 
 
 import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.bean.BuilderBean;
 import com.demo.jiapu.bean.FamilyBean;
 import com.demo.jiapu.response.JpsjListResponse;
 import com.demo.jiapu.response.ZdppResponse;
@@ -27,6 +28,7 @@ public interface ApiService {
 
     @POST("Jpsj_List/addJpsj")
     Observable<BaseResponse> addJpsj(@QueryMap Map<String, Object> params);
+
     @POST("Jpsj_List/editMsg")
     Observable<BaseResponse<String>> editMsg(@QueryMap Map<String, Object> params);
 
@@ -52,6 +54,9 @@ public interface ApiService {
 
     @POST("Jpsj_List/editZhiding")
     Observable<BaseResponse<String>> editZhiding(@QueryMap Map<String, Object> params);
+
+    @POST("user/selCjz")
+    Observable<BaseResponse<BuilderBean>> selCjz(@QueryMap Map<String, Object> params);
 
 
     @Multipart

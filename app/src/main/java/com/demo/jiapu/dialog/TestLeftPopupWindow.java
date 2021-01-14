@@ -12,7 +12,7 @@ import com.demo.jiapu.activity.ReportActivity;
 
 public class TestLeftPopupWindow extends PopupWindow {
 
-    public TestLeftPopupWindow(Context context) {
+    public TestLeftPopupWindow(Context context, int type) {
         super(context);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -22,6 +22,10 @@ public class TestLeftPopupWindow extends PopupWindow {
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_left_test,
                 null, false);
 
+        if (type == 1) {
+            contentView.findViewById(R.id.tvAdd).setVisibility(View.GONE);
+            contentView.findViewById(R.id.v_line).setVisibility(View.GONE);
+        }
         contentView.findViewById(R.id.tvAdd).setOnClickListener(v -> {
 
             reportListener.setOnClickListener(1);

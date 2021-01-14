@@ -6,10 +6,10 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
         android:layout_centerInParent="true"
         android:background="@drawable/dialog_builder_bg"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="15dp">
 
 
         <TextView
@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="start"
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
@@ -44,7 +44,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="start"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal">
@@ -59,7 +59,7 @@
                 android:id="@+id/tv_builder_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6666666"
+                android:text="666666611111"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

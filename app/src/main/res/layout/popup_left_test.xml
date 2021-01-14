@@ -4,14 +4,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="right"
     android:gravity="center_vertical"
-    android:padding="20dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp">
 
     <LinearLayout
         android:id="@+id/tvAdd"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -28,21 +28,24 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/v_line"
         android:layout_width="140dp"
         android:layout_height="1px"
         android:layout_marginTop="20dp"
-        android:background="@color/cl_f333333"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:background="@color/cl_f333333" />
+
     <LinearLayout
         android:id="@+id/tv_report"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="14dp"
             android:src="@drawable/ic_report" />
+
         <TextView
 
             android:layout_width="wrap_content"

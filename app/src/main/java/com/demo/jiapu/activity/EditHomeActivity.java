@@ -29,12 +29,13 @@ import java.util.List;
 import butterknife.BindView;
 
 public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements OnFamilyLongClickListener, EditHomeView {
-    private static final String MY_ID = "601";
 
     FamilyTreeView ftvTree;
     @BindView(R.id.tb_title)
     TitleBar tbTitle;
-    private long id;
+    private long id = 2;
+    private int type;
+
 
     @Override
     protected EditHomePresenter createPresenter() {
@@ -55,17 +56,16 @@ public class EditHomeActivity extends BaseActivity<EditHomePresenter> implements
     protected void initView() {
 
 //        id = getIntent().getLongExtra("id", 0L);
-        id = 2;
         ftvTree = findViewById(R.id.tv_ac_f_tree);
         ftvTree.setOnFamilyLongClickListener(this);
-
+        type = getIntent().getIntExtra("type", 0);
         tbTitle.setTitle(getIntent().getStringExtra("name"));
     }
 
     @Override
     public void onRightClick(View v) {
         super.onRightClick(v);
-        TestLeftPopupWindow mWindow = new TestLeftPopupWindow(this);
+        TestLeftPopupWindow mWindow = new TestLeftPopupWindow(this, type);
         mWindow.setOnClickListener(type -> {
             if (type == 0) {
                 showReportDialog();

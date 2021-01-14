@@ -3,6 +3,7 @@ package com.demo.jiapu.presenter;
 import com.demo.jiapu.api.SubscriberCallBack;
 import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
+import com.demo.jiapu.bean.JpsjListDataBean;
 import com.demo.jiapu.entity.ListRequest;
 import com.demo.jiapu.entity.JpsjTopRequest;
 import com.demo.jiapu.modle.HomeRigView;
@@ -57,10 +58,11 @@ public class HomeRigPresenter extends BasePresenter<HomeRigView> {
         });
     }
 
-    public void editZhiding(long id) {
+    public void editZhiding(long id, int zhiding) {
 
         JpsjTopRequest mListRequest = new JpsjTopRequest();
         mListRequest.id = id;
+        mListRequest.zhiding = zhiding;
         addSubscription(mApiService.editZhiding(mListRequest.params()), new SubscriberCallBack<String>() {
 
             @Override

@@ -85,7 +85,8 @@ public class HomeMeFragment extends CommonLazyFragment<HomeRigPresenter> impleme
             JpsjListDataBean item = mAdapter.getItem(position);
             Intent intent = new Intent(getContext(), EditHomeActivity.class);
             intent.putExtra("id", item.getId());
-            intent.putExtra("name",item.getTitle());
+            intent.putExtra("name", item.getTitle());
+            intent.putExtra("type", 1);
             startActivity(intent);
         });
 
@@ -99,18 +100,18 @@ public class HomeMeFragment extends CommonLazyFragment<HomeRigPresenter> impleme
 
     private void showWindow(View view, int position) {
         JpsjListDataBean item = mAdapter.getItem(position);
-        HomeWindow homeWindow = new HomeWindow(getContext());
+        HomeWindow homeWindow = new HomeWindow(getContext(), item.getZhi_ding());
         homeWindow.setOnClickListener(type -> {
             if (type == 1) {
                 Intent intent = new Intent(getContext(), CreateHomeActivity.class);
                 intent.putExtra("type", 1);
-                intent.putExtra("bean",item);
+                intent.putExtra("bean", item);
                 startActivity(intent);
             } else {
-                mPresenter.editZhiding(item.getId());
+                mPresenter.editZhiding(item.getId(), item.getZhi_ding() == 0 ? 1 : 0);
             }
         });
-        PopupWindowCompat.showAsDropDown(homeWindow, view, 0, 0, Gravity.CENTER);
+        PopupWindowCompat.showAsDropDown(homeWindow, view, 0, -view.getMeasuredHeight(), Gravity.CENTER);
 
     }
 
@@ -128,7 +129,7 @@ public class HomeMeFragment extends CommonLazyFragment<HomeRigPresenter> impleme
 
     @Override
     public void onEditZhidingSuccess(String response) {
-        ToastUtils.s(getContext(),response);
+        ToastUtils.s(getContext(), response);
         mPageNo = 1;
         initData();
     }

@@ -1,7 +1,6 @@
 package com.demo.jiapu.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -10,14 +9,13 @@ import com.bumptech.glide.Glide;
 import com.demo.jiapu.R;
 import com.demo.jiapu.api.ApiConstant;
 import com.demo.jiapu.base.BaseActivity;
-import com.demo.jiapu.base.BasePresenter;
 import com.demo.jiapu.base.BaseResponse;
 import com.demo.jiapu.entity.ReportRequest;
 import com.demo.jiapu.modle.ReportView;
 import com.demo.jiapu.presenter.ReportPresenter;
 import com.demo.jiapu.util.FileUtil;
 import com.demo.jiapu.util.GlideEngine;
-import com.demo.jiapu.util.RoundImageView;
+import com.demo.jiapu.widget.RoundImageView;
 import com.demo.jiapu.util.StringUtil;
 import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;

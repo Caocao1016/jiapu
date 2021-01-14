@@ -1,8 +1,6 @@
 package com.demo.jiapu.dialog;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,53 +10,26 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demo.jiapu.R;
-import com.demo.jiapu.activity.AddMemberActivity;
 import com.demo.jiapu.bean.FamilyBean;
-import com.demo.jiapu.entity.evbus.OpenMemberTreeEventbus;
 import com.demo.jiapu.util.StringUtil;
-
-import org.greenrobot.eventbus.EventBus;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class MenuDialog extends BaseFullScreenDialog {
 
-    @BindView(R.id.tv_menu_name)
     TextView textView;
-    @BindView(R.id.iv_menu_avatar)
     ImageView imageView;
-    @BindView(R.id.ll_menu_open)
     LinearLayout mLlMenuOpen;
-    @BindView(R.id.ll_menu_home)
     LinearLayout mLlMenuHome;
-    @BindView(R.id.ll_menu_builder)
     LinearLayout mLlMenuBuilder;
-    @BindView(R.id.ll_menu_edit)
     LinearLayout mLlMenuEdit;
-    @BindView(R.id.ll_menu_add)
     LinearLayout mLlMenuAdd;
 
     private FamilyBean familyBean;
 
     private static final int AVATAR_MALE = R.drawable.ic_avatar_male;//男性默认头像
     private static final int AVATAR_FEMALE = R.drawable.ic_avatar_female;//女性默认头像
-    public static final int ITEM_ADD = 1;
-    public static final int ITEM_EDIT = 2;
-    public static final int ITEM_OPEN = 3;
-    public static final int ITEM_HOME = 4;
-    public static final int ITEM_BUILDER = 5;
 
-
-    private static final String SEX_MALE = "1";//1为男性
     private static final String SEX_FEMALE = "2";//2为女性
-    private Unbinder bind;
 
-    public MenuDialog(Context context) {
-        super(context);
-    }
 
     public MenuDialog(Context context, FamilyBean familyBean) {
         super(context);
@@ -72,12 +43,11 @@ public class MenuDialog extends BaseFullScreenDialog {
 
     @Override
     public void init() {
-        bind = ButterKnife.bind(this);
-
+        textView = findViewById(R.id.tv_menu_name);
         if (StringUtil.isEmpty(familyBean.getNickname()))
             textView.setText(familyBean.getSurname() + familyBean.getNames());
         else textView.setText(familyBean.getNickname());
-
+        imageView = findViewById(R.id.iv_menu_avatar);
         RequestOptions requestOptions = new RequestOptions()
                 .circleCrop()
                 .placeholder(SEX_FEMALE.equals(familyBean.getSex()) ? AVATAR_FEMALE : AVATAR_MALE)
@@ -88,57 +58,37 @@ public class MenuDialog extends BaseFullScreenDialog {
                 .apply(requestOptions)
                 .into(imageView);
 
+        findViewById(R.id.rl_all).setOnClickListener(v -> dismiss());
+
+        mLlMenuOpen = findViewById(R.id.ll_menu_open);
+        mLlMenuOpen.setOnClickListener(v -> {
+            reportListener.setOnClickListener(v.getId(), familyBean);
+            dismiss();
+        });
+        mLlMenuHome = findViewById(R.id.ll_menu_home);
+        mLlMenuHome.setOnClickListener(v -> {
+            reportListener.setOnClickListener(v.getId(), familyBean);
+            dismiss();
+        });
+        mLlMenuBuilder = findViewById(R.id.ll_menu_builder);
+        mLlMenuBuilder.setOnClickListener(v -> {
+            reportListener.setOnClickListener(v.getId(), familyBean);
+            dismiss();
+        });
+        mLlMenuEdit = findViewById(R.id.ll_menu_edit);
+        mLlMenuEdit.setOnClickListener(v -> {
+            reportListener.setOnClickListener(v.getId(), familyBean);
+            dismiss();
+        });
+        mLlMenuAdd = findViewById(R.id.ll_menu_add);
+        mLlMenuAdd.setOnClickListener(v -> {
+            reportListener.setOnClickListener(v.getId(), familyBean);
+            dismiss();
+        });
+
 
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @OnClick({R.id.rl_menu_my, R.id.ll_menu_open, R.id.ll_menu_home, R.id.ll_menu_add,
-            R.id.ll_menu_edit, R.id.rl_all, R.id.ll_menu_builder})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ll_menu_add:
-                MenuAddDialog dialog = new MenuAddDialog(getContext(), familyBean);
-                dialog.show();
-                dismiss();
-                break;
-
-            case R.id.ll_menu_edit:
-                Intent intent = new Intent(getContext(), AddMemberActivity.class);
-                intent.putExtra("type", 2);
-                intent.putExtra("bean", familyBean);
-                getContext().startActivity(intent);
-                dismiss();
-                break;
-
-            case R.id.ll_menu_home:
-
-
-                dismiss();
-                break;
-            case R.id.ll_menu_open:
-//
-                EventBus.getDefault().post(new OpenMemberTreeEventbus(familyBean));
-                dismiss();
-                break;
-            case R.id.ll_menu_builder:
-                BuilderDialog dialog1 = new BuilderDialog(getContext());
-                dialog1.show();
-                dismiss();
-                break;
-            case R.id.rl_menu_my:
-                break;
-            case R.id.rl_all:
-                dismiss();
-                break;
-        }
-
-    }
-
-    @Override
-    public void dismiss() {
-        super.dismiss();
-        bind.unbind();
-    }
 
     public void setType(boolean home, boolean open, boolean add, boolean edit, boolean builder) {
         mLlMenuHome.setVisibility(home ? View.VISIBLE : View.GONE);
@@ -173,5 +123,15 @@ public class MenuDialog extends BaseFullScreenDialog {
         mLlMenuBuilder.setVisibility(builder ? View.VISIBLE : View.GONE);
 
 
+    }
+
+    private OnReportListener reportListener;
+
+    public interface OnReportListener {
+        void setOnClickListener(int type, FamilyBean familyBean);
+    }
+
+    public void setOnClickListener(OnReportListener reportListener) {
+        this.reportListener = reportListener;
     }
 }

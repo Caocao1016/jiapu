@@ -14,12 +14,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_list_image"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_banner" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_list_image"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_banner" />
+            <ImageView
+                android:id="@+id/iv_list_zhiding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_zhiding"
+                android:visibility="gone"/>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_list_title"
@@ -28,10 +41,10 @@
             android:layout_marginLeft="14dp"
             android:layout_marginTop="7dp"
             android:singleLine="true"
-            android:textStyle="bold"
             android:text="山西李氏家谱大全欢迎您"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/number"

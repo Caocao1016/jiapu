@@ -20,7 +20,7 @@ import com.demo.jiapu.modle.CreateHomeView;
 import com.demo.jiapu.presenter.CreateHomePresenter;
 import com.demo.jiapu.util.FileUtil;
 import com.demo.jiapu.util.GlideEngine;
-import com.demo.jiapu.util.RoundImageView;
+import com.demo.jiapu.widget.RoundImageView;
 import com.hjq.bar.TitleBar;
 import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;

@@ -70,7 +70,7 @@
             android:textSize="14sp" />
 
 
-            <com.demo.jiapu.util.RoundImageView
+            <com.demo.jiapu.widget.RoundImageView
                 android:id="@+id/select"
                 android:layout_width="90dp"
                 android:layout_height="90dp"

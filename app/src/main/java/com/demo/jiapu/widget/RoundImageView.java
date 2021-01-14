@@ -1,4 +1,4 @@
-package com.demo.jiapu.util;
+package com.demo.jiapu.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.demo.jiapu.util.DisplayUtil;
 
 public class RoundImageView extends ImageView {
 
